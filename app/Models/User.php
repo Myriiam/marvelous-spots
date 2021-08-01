@@ -71,4 +71,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Guide::class);
         //OR return $this->hasOne('App\Models\Guide');
     }
+
+    /**
+     * Get the spoken languages of a user - relationship
+     */
+    public function languages()
+    {
+        return $this->hasMany(Language::class);
+        //OR return $this->hasMany('App\Models\Language');
+    }
 }

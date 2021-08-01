@@ -26,6 +26,17 @@ class GuideSeeder extends Seeder
                 'pause'=>false,
                 'since_when'=>'2021-07-05 20:55:50'
             ],
+            [
+                'user_id'=>5,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>10.5,
+                'pause'=>false,
+                'since_when'=>'2021-07-01 19:30:50'
+            ],
            
         ];
 
