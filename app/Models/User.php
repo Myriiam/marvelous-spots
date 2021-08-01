@@ -17,10 +17,31 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
         'email',
         'password',
+        'birthdate',
+        'gender',
+        'country',
+        'city',
+        'picture',
+        'about_me',
     ];
+
+      /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+    
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that should be hidden for arrays.
