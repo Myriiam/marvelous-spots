@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'firstname',
         'lastname',
+        'role',
         'email',
         'password',
         'birthdate',
@@ -61,4 +62,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the guide's infos when a user is a guide (role) - relationship
+     */
+    public function guide()
+    {
+        return $this->hasOne(Guide::class);
+        //OR return $this->hasOne('App\Models\Guide');
+    }
 }

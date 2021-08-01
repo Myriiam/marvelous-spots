@@ -25,9 +25,39 @@ class UserSeeder extends Seeder
         //Define data
         $users = [
             [
-                'firstname'=>'Goerge',
+                'firstname'=>'Myriam',
+                'lastname'=>'Kadi',
+                'role'=>'Administrator',
+                'email'=>'myriam@epfc.com',
+                'email_verified_at' => '2021-03-10 20:32:15',
+                'password'=>'epfcepfc',
+                'birthdate'=>'1992-01-30',
+                'gender'=>'Female',
+                'country'=>'Belgium',
+                'city'=>'Brussels',
+                'picture'=>'uploads/profile/women.png',
+                'about_me'=>'Hi there, nice to meet you !',
+            ],
+            [
+                'firstname'=>'Maja',
+                'lastname'=>'Spelling',
+                'role'=>'Guide',
+                'email'=>'just.maja@epfc.com',
+                'email_verified_at' => '2021-05-05 10:55:50',
+                'password'=>'epfcepfc',
+                'birthdate'=>'1992-03-25',
+                'gender'=>'Female',
+                'country'=>'England',
+                'city'=>'London',
+                'picture'=>'uploads/profile/women.png',
+                'about_me'=>'Hi ! I\'m a very passionate traveller. 
+                            Join me to discover the secrets of London and Let\'s have some fun in the most uncommon places.',
+            ],
+            [
+                'firstname'=>'Georges',
                 'lastname'=>'De La Jungle',
-                'email'=>'epfc@epfc.com',
+                'role'=>'Traveler',
+                'email'=>'georges@epfc.com',
                 'email_verified_at' => '2021-07-31 23:57:02',
                 'password'=>'epfcepfc',
                 'birthdate'=>'1995-10-12',
@@ -40,6 +70,7 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Amélie',
                 'lastname'=>'Poulard',
+                'role'=>'Traveler',
                 'email'=>'amelie@epfc.com',
                 'email_verified_at'=>'2021-08-01 00:00:23',
                 'password'=>'epfcepfc',
@@ -56,8 +87,9 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Ron',
                 'lastname'=>'Weasley',
+                'role'=>'Guide',
                 'email'=>'ronald@epfc.com',
-                'email_verified_at'=>'2021-08-01 00:02:28',
+                'email_verified_at'=>'2021-06-01 00:02:28',
                 'password'=>'epfcepfc',
                 'birthdate'=>'1990-12-1',
                 'gender'=>'Male',
@@ -71,8 +103,9 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Hilda',
                 'lastname'=>'Stenberg',
+                'role'=>'Guide',
                 'email'=>'hilda@epfc.com',
-                'email_verified_at'=>'2021-08-01 00:04:35',
+                'email_verified_at'=>'2021-05-22 00:04:35',
                 'password'=>'epfcepfc',
                 'birthdate'=>'1990-12-12',
                 'gender'=>'Female',
@@ -85,6 +118,7 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Maria',
                 'lastname'=>'Eduardo',
+                'role'=>'Traveler',
                 'email'=>'mariaEd@epfc.com',
                 'email_verified_at'=>'2021-07-01 18:56:23',
                 'password'=>'epfcepfc',
@@ -99,6 +133,7 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Peter',
                 'lastname'=>'Darling',
+                'role'=>'Traveler',
                 'email'=>'p.darling@epfc.com',
                 'email_verified_at'=>'2021-07-02 18:00:00',
                 'password'=>'epfcepfc',
@@ -113,8 +148,9 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Arun',
                 'lastname'=>'Mahmod',
+                'role'=>'Guide',
                 'email'=>'arun@epfc.com',
-                'email_verified_at'=>'2021-06-29 14:15:03',
+                'email_verified_at'=>'2021-06-05 14:15:03',
                 'password'=>'epfcepfc',
                 'birthdate'=>'1988-01-02',
                 'gender'=>'Male',
@@ -127,6 +163,7 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Maya',
                 'lastname'=>'Sorensen',
+                'role'=>'Traveler',
                 'email'=>'maya02@epfc.com',
                 'email_verified_at'=>'2021-06-29 10:32:13',
                 'password'=>'epfcepfc',
@@ -141,11 +178,12 @@ class UserSeeder extends Seeder
             [
                 'firstname'=>'Roberto',
                 'lastname'=>'Ricci',
+                'role'=>'Guide',
                 'email'=>'ricciR@epfc.com',
-                'email_verified_at'=>'2021-07-06 20:25:00',
+                'email_verified_at'=>'2021-05-30 20:25:00',
                 'password'=>'epfcepfc',
                 'birthdate'=>'1999-03-16',
-                'gender'=>'Female',
+                'gender'=>'Male',
                 'country'=>'Italy',
                 'city'=>'Florence',
                 'picture'=>'uploads/profile/women.png',
@@ -154,8 +192,24 @@ class UserSeeder extends Seeder
                              Come back in time with me, you won\'t regret it!',
             ],
             [
+                'firstname'=>'Raphaelo',
+                'lastname'=>'Nutella',
+                'role'=>'Guide',
+                'email'=>'tucciR@epfc.com',
+                'email_verified_at'=>'2021-04-28 19:55:10',
+                'password'=>'epfcepfc',
+                'birthdate'=>'1989-10-17',
+                'gender'=>'Male',
+                'country'=>'Italy',
+                'city'=>'Florence',
+                'picture'=>'uploads/profile/women.png',
+                'about_me'=>'Hello ! I\'m Rapahelo and I love pizza! But who doesn\'t ?
+                             I\'m a designer and I\'d like to show you the most beautiful and affordable clothes stores, unique pieces in unique places! ',
+            ],
+            [
                 'firstname'=>'Nadia',
                 'lastname'=>'Gonzales',
+                'role'=>'Traveler',
                 'email'=>'nadiaR@epfc.com',
                 'email_verified_at'=>'2021-06-30 22:44:23',
                 'password'=>'epfcepfc',
@@ -167,8 +221,25 @@ class UserSeeder extends Seeder
                 'about_me'=>'Hello !',
             ],
             [
+                'firstname'=>'Nora',
+                'lastname'=>'Jones',
+                'role'=>'Guide',
+                'email'=>'nora@epfc.com',
+                'email_verified_at'=>'2021-06-26 22:26:09',
+                'password'=>'epfcepfc',
+                'birthdate'=>'1995-02-14',
+                'gender'=>'Female',
+                'country'=>'Belgium',
+                'city'=>'Brussels',
+                'picture'=>'uploads/profile/women.png',
+                'about_me'=>'Hello There, I am Rachida, young student in Computer Science in Brussels. I\'ll take you where the fun is guaranteed! 
+                Between virtual reality and climbing in the heart of the city, you will have the choice! 
+                I know the places where you can eat well without paying much ! It\'s up to you!',
+            ],
+            [
                 'firstname'=>'Rachida',
                 'lastname'=>'Salama',
+                'role'=>'Moderator',
                 'email'=>'rachida@epfc.com',
                 'email_verified_at'=>'2021-07-10 21:50:25',
                 'password'=>'epfcepfc',
@@ -177,17 +248,16 @@ class UserSeeder extends Seeder
                 'country'=>'Belgium',
                 'city'=>'Brussels',
                 'picture'=>'uploads/profile/women.png',
-                'about_me'=>'Hello ! I am Rachida, young student in Computer Science in Brussels. I\'ll take you where the fun is guaranteed! 
-                            Between virtual reality and climbing in the heart of the city, you will have the choice! 
-                            I know the places where you can eat well without paying much ! It\'s up to you!',
+                'about_me'=>'Hello !',
             ],
         ];
 
         //Insert data in the table
-        foreach ($users as $data) {     
+        foreach ($users as $data) {  
             DB::table('users')->insert([
                 'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
+                'role' => $data['role'],
                 'email' => $data['email'],  
                 'email_verified_at' => $data['email_verified_at'],
                 'password' => Hash::make($data['password']), 
