@@ -10,9 +10,19 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/navbar.js') }}" defer></script>
     </head>
     <body class="antialiased">
-    @include('layouts.navigation')
-    <x-btn-auth></x-btn-auth>
+        <!-- Navigation -->
+        @include('partials.navbar')
+        <!-- Page Heading -->
+        <header>
+        </header>
+        <!-- Page Content -->
+        <main>
+
+        </main>
+        <!-- Footer -->
+        @include('partials.footer')
     </body>
 </html>

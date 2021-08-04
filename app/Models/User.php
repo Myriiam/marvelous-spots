@@ -17,10 +17,32 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
+        'role',
         'email',
         'password',
+        'birthdate',
+        'gender',
+        'country',
+        'city',
+        'picture',
+        'about_me',
     ];
+
+      /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+    
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that should be hidden for arrays.
@@ -40,4 +62,22 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the guide's infos when a user is a guide (role) - relationship
+     */
+    public function guide()
+    {
+        return $this->hasOne(Guide::class);
+        //OR return $this->hasOne('App\Models\Guide');
+    }
+
+    /**
+     * Get the spoken languages of a user - relationship
+     */
+    public function languages()
+    {
+        return $this->hasMany(Language::class);
+        //OR return $this->hasMany('App\Models\Language');
+    }
 }

@@ -1,33 +1,62 @@
-<nav x-data="{ open: false }" class="bg-gradient-to-r from-first via-middle to-last">
+<nav x-data="{ open: false }" class="bg-gradient-to-b from-first via-middle to-last fixed inset-x-0">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-center h-16">
             <div class="flex">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto text-gray-600" />
-                    </a>
-                </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Home') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('About us') }}
+                    </x-nav-link>
+                    @if(Auth::user())
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Resources') }}
+                    </x-nav-link>
+                     <!-- Logo -->
+                     <div class="flex-shrink-0 flex items-center">
+                        <a href="{{ route('dashboard') }}">
+                            <x-application-logo class="block h-10 w-auto text-gray-600" />
+                        </a>
+                    </div>
+                    @else
+                       <!-- Logo -->
+                       <div class="flex-shrink-0 flex items-center">
+                            <a href="{{ route('dashboard') }}">
+                                <x-application-logo class="block h-10 w-auto text-gray-600" />
+                            </a>
+                        </div>
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Resources') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Contact') }}
                     </x-nav-link>
+                    @if(Auth::user())
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('My profile') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <img src="images/article.png" class="h-8 w-9">
+                        </x-nav-link>  
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <img src="images/message.png" class="h-8 w-9">
+                        </x-nav-link>  
+                    @endif
                 </div>
             </div>
 
             @if(Auth::user())
                 <!-- Settings Dropdown -->
-                <div class="hidden sm:flex sm:items-center sm:ml-6">
+               <!-- <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                <div>{{ Auth::user()->name }}</div>
+                                <div>{{ Auth::user()->firstname }}</div>
 
                                 <div class="ml-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -38,7 +67,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Authentication -->
+                             
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
@@ -50,7 +79,8 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
-                </div>
+                </div>-->
+                <x-btn-auth></x-btn-auth>
             @endif
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -68,20 +98,34 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Home') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('About us') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Resources') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Contact') }}
+            </x-responsive-nav-link>
+            @if(Auth::user())
+                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('My profile') }}
+                </x-responsive-nav-link>
+                <!-- mettres les icones pour articles et messages mais cmt et sous quelle forme-->
+            @endif
         </div>
 
         @if(Auth::user())
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->firstname }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
