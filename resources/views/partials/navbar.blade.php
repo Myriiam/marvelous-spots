@@ -51,7 +51,7 @@
             @auth
                 <!--<a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>-->
                 <form method="POST" action="{{ route('logout') }}">
-                    <button type="sumbit" class="inline-block leading-none lg:mt-0 px-4 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                    <button type="sumbit" class="inline-block leading-none lg:mt-0 px-7 py-2 lg:px-4 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                         Log out
                     </button>
                     @csrf
