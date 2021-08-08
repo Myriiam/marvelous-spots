@@ -39,7 +39,6 @@
                         <div class="mb-6 grid grid-cols-1">
                         @auth
                             @if (auth()->user()->id === $user->id)
-                                <a href="#" class="hover:text-sun">My articles</a>
                                 <a href="#" class="hover:text-sun">My favorites</a>
                                 <a href="#" class="hover:text-sun">My bookings</a>
                                 @if ($user->role === 'Guide')
@@ -88,13 +87,18 @@
             </div>
             <div class="bg-green-400 col-span-8 sm:col-span-9 md:col-span-8 lg:col-span-9">
                 <div class="text-justify text-base flex-grow mx-16 my-16 lg:mr-28 lg:ml-24">
-                    <p class="text-xl text-gray-dark font-bold ml-6 mb-2">Personal Data<span class="text-red-600">*</span></p>
-                    <p class="text-lg">Lastname: {{ $user->lastname }}</p>
-                    @if ($birthdate != null)
-                    <p class="text-lg">Birthdate: {{ $birthdate }}</p>
-                    @else 
-                    <p>Erreur</p>
-                    @endif
+                    @auth
+                        @if (auth()->user()->id === $user->id)
+                            <p class="text-xl text-gray-dark font-bold ml-6 mb-2">Personal Data<span class="text-red-600">*</span></p>
+                            <p class="text-lg">Lastname: {{ $user->lastname }}</p>
+                            @if ($birthdate != null)
+                            <p class="text-lg">Birthdate: {{ $birthdate }}</p>
+                            @else 
+                            <p>Erreur</p>
+                            @endif
+                            <p class="text-red-600 mt-3"><span class="font-bold">*</span>will not be displayed</p>
+                        @endif
+                    @endauth
                     <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">About me</p>
                     <p class="text-lg mb-2">{{ $user->about_me }}</p>
                     @if ($user->role === 'Guide')
@@ -111,7 +115,6 @@
                         sinon écrire No comments for this guide ! (ça veut dire qu'il n'a pas encore été sollicité par des voyageurs 
                         car comment obligatoire après la visite-->
                     @endif
-                    <p class="text-red-600"><span class="font-bold">*</span>will not be displayed</p>
                 </div>
                 <div class="mb-6 md:flex text-center md:justify-evenly">
                 @auth
