@@ -36,9 +36,9 @@ class Language extends Model
      /**
      * Get the user linked to a language - relationship
      */
-    public function user()
+    public function guide()
     {
-        return $this->belongsTo(User::class);
-        //OR return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(Guide::class);
+        //OR return $this->belongsTo('App\Models\Guide');
     }
 }

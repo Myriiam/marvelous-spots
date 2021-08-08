@@ -16,7 +16,7 @@
             </div>
             <div class="px-5 py-2 grid grid-cols-1 gap-3.5 md:gap-0 lg:gap-0 text-center mb-10 lg:mb-0">
                 <p class="text-2xl lg:text-lg font-semibold text-gray-darker">Informations</p>
-                <a href="#" class="text-xl lg:text-base text-white hover:text-sun">Join the community</a>
+                <a href="{{ route('register') }}" class="text-xl lg:text-base text-white hover:text-sun">Join the community</a>
                 <a href="#" class="text-xl lg:text-base text-white hover:text-sun">FAQ</a>
                 <a href="#" class="text-xl lg:text-base text-white hover:text-sun">Partners</a>
                 <a href="#" class="text-xl lg:text-base text-white hover:text-sun">General terms and conditions</a>
@@ -58,16 +58,16 @@
                 </form>
                 <div class="flex flex-row justify-center pt-12">
                     <a href="https://www.instagram.com/likealocalguide" class="transform hover:scale-110 motion-reduce:transform-none">
-                       <img class="h-16 w-16" src="images/instagram.png" alt="instagram icon">
+                       <img class="h-16 w-16" src="{{ asset('images/instagram.png') }}" alt="instagram icon">
                     </a>
                     <a href="https://www.facebook.com/likealocalguide" class="transform hover:scale-110 motion-reduce:transform-none">
-                        <img class="h-16 w-16" src="images/facebook.png" alt="facebook icon">
+                        <img class="h-16 w-16" src="{{ asset('images/facebook.png') }}" alt="facebook icon">
                     </a>
                     <a href="https://www.pinterest.com/likealocalguide" class="transform hover:scale-110 motion-reduce:transform-none">
-                        <img class="h-16 w-16" src="images/pinterest.png" alt="pinterest icon">
+                        <img class="h-16 w-16" src="{{ asset('images/pinterest.png') }}" alt="pinterest icon">
                     </a>
                     <a href="https://twitter.com/likealocal" class="transform hover:scale-110 motion-reduce:transform-none">
-                        <img class="h-16 w-16" src="images/twitter.png" alt="twitter icon">
+                        <img class="h-16 w-16" src="{{ asset('images/twitter.png') }}" alt="twitter icon">
                     </a>
                 </div>
             </div>
