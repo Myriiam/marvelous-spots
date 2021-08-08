@@ -21,9 +21,15 @@ module.exports = {
                 'gray-dark': '#4F4F4F',
                 'gray-light': '#C4C4C4',
                 'gray-lighter': '#E5E5E5',
-                'fushia': 'E60E64',
+                'yellow-gold': 'EBC00D',
                 'my-orange': '#333333',
                 'my-orange-light': '#F58E2F',
+            },
+            backgroundImage: {
+                'header-profile': "url('/imgages/images/header-profile.jpg')",
+            },
+            backdropBlur: {
+                xs: '2px',
             },
         },
     },

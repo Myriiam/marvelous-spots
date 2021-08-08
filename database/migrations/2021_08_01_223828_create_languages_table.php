@@ -16,9 +16,9 @@ class CreateLanguagesTable extends Migration
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
             $table->string('language', 60);
-            $table->foreignId('user_id')->unsigned();
+            $table->foreignId('guide_id')->unsigned();
 
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->foreign('guide_id')->references('id')->on('guides')
             ->onDelete('restrict')->onUpdate('cascade');
         });
     }

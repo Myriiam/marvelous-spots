@@ -49,4 +49,13 @@ class Guide extends Model
         //OR return $this->belongsTo('App\Models\User');
     }
 
+     /**
+     * Get the spoken languages of a guide - relationship
+     */
+    public function languages()
+    {
+        return $this->hasMany(Language::class);
+        //OR return $this->hasMany('App\Models\Language');
+    }
+
 }

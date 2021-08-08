@@ -6,7 +6,7 @@
         <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Hamburger</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
     </button>
   </div>
-  <div id='menu' class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block">
+  <div id='menu' class="w-full h-screen flex-grow lg:flex lg:items-center sm:h-auto lg:w-auto hidden lg:block">
     @auth
     <div class="text-xl lg:text-base text-white text-center pl-7 lg:flex-grow ">
     @else
@@ -33,14 +33,14 @@
             Contact
         </a>
         @auth
-            <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
+            <a href="{{ route('profile', auth()->user()->id) }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
                 My profile
             </a>
             <a href="#responsive-header" class="py-4 lg:py-0 lg:mb-2.5 inline-block mr-8 mr-16 lg:mr-8 transform hover:scale-110 motion-reduce:transform-none">
-                <img src="images/article.png" class="lg:h-8 lg:w-9 h-10 w-11">
+                <img src="{{ asset('images/article.png') }}" class="lg:h-8 lg:w-9 h-10 w-11">
             </a>
             <a href="#responsive-header" class="py-4 lg:py-0 lg:mb-2.5 inline-block mr-5 lg:mr-0 transform hover:scale-110 motion-reduce:transform-none">
-                <img src="images/message.png" class="lg:h-8 lg:w-9 h-10 w-11">
+                <img src="{{ asset('images/message.png') }}" class="lg:h-8 lg:w-9 h-10 w-11">
             </a>
         @endauth
     </div>

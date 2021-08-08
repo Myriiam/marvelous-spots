@@ -17,63 +17,59 @@ class LanguageSeeder extends Seeder
         $languages = [
             [
                 'language'=>"French",
-                'user_id'=>2,
+                'guide_id'=>1,
             ],
             [
                 'language'=>"English",
-                'user_id'=>2,
+                'guide_id'=>1,
             ],
             [
                 'language'=>"English",
-                'user_id'=>3,
-            ],
-            [
-                'language'=>"Spanish",
-                'user_id'=>3,
+                'guide_id'=>2,
             ],
             [
                 'language'=>"English",
-                'user_id'=>5,
+                'guide_id'=>3,
             ],
             [
                 'language'=>"English",
-                'user_id'=>6,
-            ],
-            [
-                'language'=>"English",
-                'user_id'=>9,
+                'guide_id'=>4,
             ],
             [
                 'language'=>"Arabic",
-                'user_id'=>9,
-            ],
-            [
-                'language'=>"English",
-                'user_id'=>11,
-            ],
-            [
-                'language'=>"Italian",
-                'user_id'=>11,
-            ],
-            [
-                'language'=>"English",
-                'user_id'=>12,
-            ],
-            [
-                'language'=>"Italian",
-                'user_id'=>12,
-            ],
-            [
-                'language'=>"English",
-                'user_id'=>14,
+                'guide_id'=>4,
             ],
             [
                 'language'=>"French",
-                'user_id'=>14,
+                'guide_id'=>4,
+            ],
+            [
+                'language'=>"English",
+                'guide_id'=>5,
+            ],
+            [
+                'language'=>"Italian",
+                'guide_id'=>5,
+            ],
+            [
+                'language'=>"English",
+                'guide_id'=>6,
+            ],
+            [
+                'language'=>"Italian",
+                'guide_id'=>6,
+            ],
+            [
+                'language'=>"English",
+                'guide_id'=>7,
+            ],
+            [
+                'language'=>"French",
+                'guide_id'=>7,
             ],
             [
                 'language'=>"Spanish",
-                'user_id'=>14,
+                'guide_id'=>7,
             ],
         ];
 
@@ -82,7 +78,7 @@ class LanguageSeeder extends Seeder
 
             DB::table('languages')->insert([
                 'language' => $data['language'],
-                'user_id' => $data['user_id'],
+                'guide_id' => $data['guide_id'],
             ]);
         }
     }
