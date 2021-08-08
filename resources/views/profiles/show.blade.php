@@ -23,7 +23,7 @@
                         <p class="text-xl text-center font-bold border-4 rounded text-red-600 border-red-600 font-extrabold text-lg">PAUSE</p>
                     </div>
                 @endif
-                <div class="sm:mb-5 transform translate-y-0 md:-translate-y-24 text-center border-2 border-gray-darker mx-24 sm:mx-32 md:mx-3 lg:mx-5 xl:mx-8 2xl:mx-11">
+                <div class="rounded-lg sm:mb-5 transform translate-y-0 md:-translate-y-24 text-center border-2 border-gray-darker mx-24 sm:mx-32 md:mx-3 lg:mx-5 xl:mx-8 2xl:mx-11">
                     <div class="mb-5 mt-6">
                         <div class="flex justify-center">
                             <img class="w-7 h-7 " src="{{ asset('images/check.png') }}" alt="verified email icon">
@@ -31,8 +31,7 @@
                         </div>
                         <p>Gender: {{ $user->gender }}</p>
                         <p>Social-media:</p>
-                        <p>Member since- created_at</p>
-                        <!-- pour le guide uniquement -->
+                        <p>Member since {{ $user->created_at }}</p>
                         @if ($user->role === 'Guide')
                             <p>Guide since- date chmt rôle</p>
                         @endif
@@ -44,7 +43,6 @@
                                 <a href="#" class="hover:text-sun">My favorites</a>
                                 <a href="#" class="hover:text-sun">My bookings</a>
                                 @if ($user->role === 'Guide')
-                                    <!-- pour le guide uniquement -->
                                     <a href="#" class="hover:text-sun">My offers</a>
                                 @endif
                             @endif
@@ -65,13 +63,22 @@
                 </div>
                 <div class="grid grid-cols-1 text-center auto-cols-auto transform translate-y-0 md:-translate-y-28">
                     @auth
-                        <a href="#" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
-                            Contact me
-                        </a>
                         @if ($user->role === 'Guide')
-                            <a href="#" class="mx-28 md:mx-8 my-2 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-first border-first rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
-                                Book a visit
-                            </a>
+                            @if ($user->guide->pause === 1)
+                                <a href="#" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last bg-opacity-50 border-2 text-white text-opacity-75 border-last border-opacity-25 rounded-lg focus:ring-1 cursor-not-allowed">
+                                    Contact me
+                                </a>
+                                <a href="#" class="mx-28 md:mx-8 my-2 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white text-opacity-75 bg-first bg-opacity-50 border-first border-opacity-25 rounded-lg focus:ring-1 cursor-not-allowed">
+                                    Book a visit
+                                </a>
+                            @else 
+                                <a href="#" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                    Contact me
+                                </a>
+                                <a href="#" class="mx-28 md:mx-8 my-2 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-first border-first rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                    Book a visit
+                                </a>
+                            @endif
                         @endif
                     @endauth
                     <a href="#" class="mx-28 md:mx-8 mb-6 mt-3 w-42 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-yellow-500 border-yellow-500 rounded-lg focus:ring-2 focus:ring-last cursor-pointer hover:shadow-lg hover:text-last">

@@ -19,26 +19,26 @@
                 <input type="file" name="picture" id="pictureProfile" class="lg:text-base text-gray-dark rounded-lg mt-3">
             </div>        
             <div>
-                <label for="firstname">Firstname</label> <!-- UPLOAD --> <!-- require - pas de champs vide -->
+                <label for="firstname">Firstname</label> <!-- require - pas de champs vide -->
                 <input type="text" id="firstname" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->firstname }}" disabled>
             </div>        
             <div>
-                <label for="lastname">Lastname</label> <!-- UPLOAD --> <!-- require - pas de champs vide -->
+                <label for="lastname">Lastname</label> <!-- require - pas de champs vide -->
                 <input type="text" id="lastname" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->lastname }}" disabled>
             </div>        
             <div>
-                <label for="email">Email</label> <!-- UPLOAD --> <!-- require - pas de champs vide -->
+                <label for="email">Email</label> <!-- require - pas de champs vide -->
                 <input type="email" id="email" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->email }}" disabled>
             </div>        
             <div>
-                <label for="birthdate">Birthdate</label> <!-- UPLOAD --> <!-- require - pas de champs vide -->
+                <label for="birthdate">Birthdate</label> <!-- require - pas de champs vide -->
                 <input type="text" id="birthdate" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $birthdate }}" disabled>
             </div>       
             <!--MODIFIER SON MOT DE PASSE : fonctionnalité à ajouter ici en plus du form login-->
             <div>
                 <label for="country">Country where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="country" id="country" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
-                    <option value="{{ $user->country ? $user->country : '' }}">{{ $user->country ? $user->country : 'select a country' }}</option>
+                    <option value="{{ $user->country ? $user->country : 'select a country' }}">{{ $user->country ? $user->country : 'select a country' }}</option>
                     <option value="France">France</option>
                     <option value="Italy">Italy</option>
                     <option value="England">England</option>
@@ -58,6 +58,7 @@
                     <option value="Milan">Milan</option>
                     <option value="Florence">Florence</option>
                     <option value="Manchester">Manchester</option>
+                    <option value="London">London</option>
                     <option value="Copenhagen">Copenhagen</option>
                     <!-- foreach sur tous les pays si données mais là écrire en dur les pays ? -->
                 </select>
@@ -87,38 +88,42 @@
                     <label for="offering">What can you propose (your offers) ?</label> <!-- require si guide - pas de champs vide -->
                     <textarea name="offering" cols="100" rows="10" class="lg:text-base text-gray-dark rounded-lg mt-3">{{ $user->guide->offering }}</textarea>
                 </div>        
+                <div>
+                    <label for="price">Price (for ex: 12.5 or 11)</label> <!-- require si guide - pas de champs vide -->
+                    <input name="price" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->guide->price }}">
+                </div>        
                 <!--<div>
                     <label for="interests">Your interests</label>  NOT require  SELECT OU CHECKBOX de toutes les sous catégories avec catégories ? ou juste sous catégories ou juste catégories ?
                     faire un foreach sur toutes les catégories/sous catégories
-                    <input id="interests" type="checkbox" value="{{ $user->guide->ctg }}">
+                    <input id="interests" name="interests" type="checkbox" value="{{ $user->guide->ctg }}">
                 </div> -->
             @endif
            <!--  <div>
                <p>Social Media</p>  NOT REQUIRE 
                 <div>
                     <label for="">Instagram</label>
-                    <input type="text" value="#">
+                    <input type="text" name="instagram" value="#">
                 </div>
                 <div>
                     <label for="">Facebook</label>
-                    <input type="text" value="#">
+                    <input type="text" name="facebook" value="#">
                 </div>
                 <div>
                     <label for="">Pinterest</label>
-                    <input type="text" value="#">
+                    <input type="text" name="pinterest" value="#">
                 </div>
                 <div>
                     <label for="">Twitter</label>
-                    <input type="text" value="#">
+                    <input type="text" name="twitter" value="#">
                 </div>
             </div>    -->  
             @if ($user->role === 'Guide') 
                 <div>
                     <p>Pause mode</p>
-                    <label for="no">yes</label> <!-- RADIO --> <!-- FALSE by default -->
-                    <input name="radioYes" id="no" type="radio" value="true">
-                    <label for="yes">no</label>
-                    <input name="radioNo" id="yes" type="radio" value="false" checked>
+                    <label for="no">No</label> <!-- RADIO --> <!-- FALSE by default -->
+                    <input name="pauseChoice" id="no" type="radio" value=0 checked>
+                    <label for="yes">Yes</label>
+                    <input name="pauseChoice" id="yes" type="radio" value=1>
                     
                     <p>It means that you want to suspend your services (for as long as you want). 
                         This way you inform the users that you are not available.</p>

@@ -44,7 +44,7 @@ class UserController extends Controller
         //dd($user->birthdate);
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
         //dd($birthdate);
-        return view('profile.show',[
+        return view('profiles.show',[
             'user' => $user,
             'resource' => 'User Profile',
             'birthdate' => $birthdate,
@@ -84,7 +84,7 @@ class UserController extends Controller
             $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
             //$today = Carbon::today();
 
-            return view('profile.edit',[
+            return view('profiles.edit',[
                 'user' => $user,
                 'resource' => 'Profile editing form',
                 'languages' => $languages,
@@ -105,8 +105,10 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         //$user = auth()->user();
-        $user = User::findOrFail(auth()->id());
+        //$user = User::findOrFail(auth()->id());
         //dd($user);
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
         // Validation
       /* $request->validate([
                                     => 'required|mimes:png,jpg,jpeg,csv,txt,pdf|max:2048'
@@ -125,15 +127,31 @@ class UserController extends Controller
                  mkdir($folder, 0777, true);
             }
             // Upload file
-             $file->move($folder,$filename);   
+             $file->move($folder,$filename);  
+             $user->picture = $folder . $filename; 
         }
 
         //$user = $user->update($request->all());
-        $user->picture = $folder . $filename;
+        
         $user->country = $request->input('country');
         $user->city = $request->input('city');
         $user->about_me = $request->input('about');
-        $user = $user->save();
+        if ($user->role === 'Guide') {
+            $user->guide->languages->language = $request->input('languages');
+            $user->guide->travel_definition = $request->input('definition');
+            $user->guide->offering = $request->input('offering');
+            /*$user->social_media = $request->input('interests');
+            $user->social_media = $request->input('instagram');
+            $user->social_medi = $request->input('facebook');
+            $user->social_media = $request->input('pinterest');
+            $user->social_media = $request->input('twitter');*/
+            //and interests + comments for the guide
+            $user->guide->pause = $request->input('pauseChoice');
+            $user->guide->price = $request->input('price');
+    }   
+        $user->save();
+        $user->guide->save();
+       // $userGuide = $user->guide->save();
         //Session::flash('message', 'Votre profil a été mis à jours !');
         return redirect()->route('profile', auth()->user()->id);
 
