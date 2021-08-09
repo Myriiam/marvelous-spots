@@ -17,8 +17,9 @@ class CreateContactsTable extends Migration
             $table->id();
             $table->foreignId('sender_id')->unsigned();
             $table->foreignId('receiver_id')->unsigned();
+            $table->text('subject');
             $table->text('message');
-            $table->enum('status', ['read','unread']);
+            $table->enum('status', ['read','unread'])->default('unread');
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('users')

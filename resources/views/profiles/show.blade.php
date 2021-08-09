@@ -25,7 +25,7 @@
                     </svg>
                 </div>
                 <div>
-                    <form action="#" method="POST" class="grid grid-cols-1">
+                    <form action="{{ route('contact', $user->id) }}" method="POST" class="grid grid-cols-1">
                         @csrf
                         <input type="text" name="subject" id="subject" placeholder="Subject" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
                         <textarea name="message" id="message" cols="70" rows="10" placeholder="Message" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md"></textarea>
@@ -87,9 +87,9 @@
                 </div>
                 <div class="grid grid-cols-1 text-center auto-cols-auto transform translate-y-0 md:-translate-y-28">
                     @auth
-                        @if ($user->role === 'Guide')
+                        @if (auth()->user()->id !== $user->id && $user->role === 'Guide')
                             @if ($user->guide->pause === 1)
-                                <a href="#modal-contact" id="btn-contact" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last bg-opacity-50 border-2 text-white text-opacity-75 border-last border-opacity-25 rounded-lg focus:ring-1 cursor-not-allowed">
+                                <a href="#" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last bg-opacity-50 border-2 text-white text-opacity-75 border-last border-opacity-25 rounded-lg focus:ring-1 cursor-not-allowed">
                                     Contact me
                                 </a>
                                 <a href="#" class="mx-28 md:mx-8 my-2 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white text-opacity-75 bg-first bg-opacity-50 border-first border-opacity-25 rounded-lg focus:ring-1 cursor-not-allowed">

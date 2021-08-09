@@ -148,13 +148,14 @@ class UserController extends Controller
             //and interests + comments for the guide
             $user->guide->pause = $request->input('pauseChoice');
             $user->guide->price = $request->input('price');
-    }   
+        }   
+
         $user->save();
         $user->guide->save();
        // $userGuide = $user->guide->save();
         //Session::flash('message', 'Votre profil a été mis à jours !');
-        return redirect()->route('profile', auth()->user()->id);
-
+        return redirect()->route('profile', auth()->user()->id)
+                ->with('success', 'your profile has been successfully updated !');
     }
 
     /**
