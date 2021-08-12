@@ -28,7 +28,7 @@ Route::get('/', [App\Http\Controllers\UserController::class, 'welcome'])->name('
 Route::get('/profile/{id}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('profile');
 Route::get('/my-profile/edit', [App\Http\Controllers\UserController::class, 'editProfile'])->middleware(['auth'])->name('edit_my_profile');
 Route::put('/my-profile/save', [App\Http\Controllers\UserController::class, 'updateProfile'])->middleware(['auth'])->name('update_my_profile');
-Route::post('/profile/{id}/contact', [App\Http\Controllers\ContactController::class, 'sendMessage'])->name('contact');
-Route::get('/inbox', [App\Http\Controllers\ContactController::class, 'index'])->name('my_inbox');
-
+Route::post('/profile/{id}/contact', [App\Http\Controllers\ContactController::class, 'sendMessage'])->middleware(['auth'])->name('contact');
+Route::get('/inbox', [App\Http\Controllers\ContactController::class, 'getAllMessages'])->middleware(['auth'])->name('my_inbox');
+Route::post('/status/update/{id}', [App\Http\Controllers\ContactController::class, 'changeStatusMessage'])->middleware(['auth'])->name('status_updated');
 //where('id', '[0-9]+')->

@@ -6,7 +6,7 @@
 @endif-->
 
 @if ($message = Session::get('success'))
-<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative z-20" role="alert"> <p>{{ $message }}</p>
+<div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative z-20" role="alert"> <p>{{ $message }}</p>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <title>Close</title>
@@ -17,7 +17,7 @@
 @endif
 
 @if ($message = Session::get('error'))
-<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"> <p>{{ $message }}</p>
+<div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"> <p>{{ $message }}</p>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <title>Close</title>
@@ -28,7 +28,7 @@
 @endif
 
 @if ($message = Session::get('warning'))
-<div class="bg-orange-100 border border-orange-500 text-orange-700 px-4 py-3 rounded relative" role="alert"> <p>{{ $message }}</p>
+<div id="warning" class="bg-orange-100 border border-orange-500 text-orange-700 px-4 py-3 rounded relative" role="alert"> <p>{{ $message }}</p>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <title>Close</title>
@@ -39,7 +39,7 @@
 @endif
 
 @if ($message = Session::get('info'))
-<div class="bg-teal-100 border border-teal-500 text-teal-900 px-4 py-3 rounded relative" role="alert"> <p>{{ $message }}</p>
+<div id="info" class="bg-teal-100 border border-teal-500 text-teal-900 px-4 py-3 rounded relative" role="alert"> <p>{{ $message }}</p>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
         <svg class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <title>Close</title>
