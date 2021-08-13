@@ -14,10 +14,14 @@
     </x-slot>
     <main class="bg-pink-200">
         <!-- Contact Modal -->
-        <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 hidden justify-center items-center">
+        @if (count($errors) > 0) 
+            <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 flex justify-center items-center">
+        @else 
+            <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 hidden justify-center items-center">
+        @endif
             <div class="bg-white rounded-lg py-3 px-4">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xl font-bold text-last mx-5">Contact Mrs/Ms...</h3>
+                    <h3 class="text-xl font-bold text-last mx-5">Contact {{ $user->firstname }}</h3>
                     <svg id="close-modal" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" 
                         d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
@@ -28,7 +32,9 @@
                     <form action="{{ route('contact', $user->id) }}" method="POST" class="grid grid-cols-1">
                         @csrf
                         <input type="text" name="subject" id="subject" placeholder="Subject" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
+                        <span class="text-red-600">@error('subject') {{ $message }} @enderror</span>
                         <textarea name="message" id="message" cols="70" rows="10" placeholder="Message" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md"></textarea>
+                        <span class="text-red-600">@error('message') {{ $message }} @enderror</span>
                         <div class="flex justify-center">
                             <button type="submit" class="mx-8 mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Submit

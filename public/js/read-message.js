@@ -13,7 +13,7 @@ const openAndCloseMessage = () => {
 openMessage.addEventListener('click', openAndCloseMessage);
 closeContent.addEventListener('click', openAndCloseMessage);*/
 
-    const openMessage = document.querySelectorAll("div[data-id]");
+    const openMessage = document.querySelectorAll("a[data-id]");
     const contentMessage = document.querySelectorAll("div[data-class]");
    //console.log(openMessage);
    

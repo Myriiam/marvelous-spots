@@ -17,6 +17,7 @@
             <div>
                 <label for="pictureProfile">Picture</label> <!-- UPLOAD --> <!-- require - pas de champs vide -->
                 <input type="file" name="picture" id="pictureProfile" class="lg:text-base text-gray-dark rounded-lg mt-3">
+                <span class="text-red-600">@error('picture') {{ $message }} @enderror</span>
             </div>        
             <div>
                 <label for="firstname">Firstname</label> <!-- require - pas de champs vide -->
@@ -51,6 +52,7 @@
                 <label for="city">City where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="city" id="city" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
                     <option value="{{ $user->city ? $user->city : '' }}">{{ $user->city ? $user->city : 'select a city' }}</option>
+                    <option value="{{ $user->city ? $user->city : '' }}">{{ $user->city ? $user->city : 'select a city' }}</option>
                     <option value="Paris">Paris</option>
                     <option value="Nice">Nice</option>
                     <option value="Brussels">Brussels</option>
@@ -67,35 +69,42 @@
                 <div>
                     <label for="languages">The languages you speak</label> <!-- SELECT MULTI--> <!-- require - pas de champs vide -->
                     <select id="languages" name="languages[]" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3" multiple>
+                        <option value="">Select language(s)</option>
                         <option value="English"{{ $user->guide->language == 'English' ? 'selected' : '' }}>English</option>
                         <option value="French"{{ $user->guide->language == 'French' ? 'selected' : '' }}>French</option>
                         <option value="Arabic"{{ $user->guide->language == 'Arabic' ? 'selected' : '' }}>Arabic</option>
                         <option value="Italian"{{ $user->guide->language == 'Italian' ? 'selected' : '' }}>Italian</option>
                         <option value="Spanish"{{ $user->guide->language == 'Spanish' ? 'selected' : '' }}>Spanish</option>
                     </select>
+                    <span class="text-red-600">@error('languages') {{ $message }} @enderror</span> <!-- je met l'erreur ou sinon pas de option select language(s) mais alors la langue par défaut EN et la personne ajoute ou non 1 autre langue mais min 1 langue à choisir dans le select, l'anglais y sera selectionné par défaut !-->
                 </div>   
             @endif
             <div>
-                <label for="about">About you</label> <!-- require si guide - pas de champs vide -->
+                <label for="about">About you</label> <!-- require si guide - pas de champs vide  ?-->
                 <textarea id="about" name="about" cols="100" rows="10" class="lg:text-base text-gray-dark rounded-lg mt-3">{{ $user->about_me }}</textarea>
+                <span class="text-red-600">@error('about') {{ $message }} @enderror</span>
             </div>    
             @if ($user->role === 'Guide')
                 <div>
-                    <label for="definition">Your definition of travel</label> <!-- require si guide - pas de champs vide -->
+                    <label for="definition">Your definition of travel</label> <!-- require si guide - pas de champs vide ? -->
                     <textarea name="definition" cols="100" rows="10" class="lg:text-base text-gray-dark rounded-lg mt-3">{{ $user->guide->travel_definition }}</textarea> 
+                    <span class="text-red-600">@error('definition') {{ $message }} @enderror</span>
                 </div>        
                 <div>
-                    <label for="offering">What can you propose (your offers) ?</label> <!-- require si guide - pas de champs vide -->
+                    <label for="offering">What can you propose (your offers) ?</label> <!-- require si guide - pas de champs vide ? -->
                     <textarea name="offering" cols="100" rows="10" class="lg:text-base text-gray-dark rounded-lg mt-3">{{ $user->guide->offering }}</textarea>
+                    <span class="text-red-600">@error('offering') {{ $message }} @enderror</span>
                 </div>        
                 <div>
-                    <label for="price">Price (for ex: 12.5 or 11)</label> <!-- require si guide - pas de champs vide -->
+                    <label for="price">Price (for ex: 12.5 or 11)</label> <!-- require si guide - pas de champs vide ? -->
                     <input name="price" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->guide->price }}">
+                    <span class="text-red-600">@error('price') {{ $message }} @enderror</span>
                 </div>        
                 <!--<div>
                     <label for="interests">Your interests</label>  NOT require  SELECT OU CHECKBOX de toutes les sous catégories avec catégories ? ou juste sous catégories ou juste catégories ?
                     faire un foreach sur toutes les catégories/sous catégories
                     <input id="interests" name="interests" type="checkbox" value="{{ $user->guide->ctg }}">
+                     <span class="text-red-600">@error('interests') {{ $message }} @enderror</span>
                 </div> -->
             @endif
            <!--  <div>
@@ -124,7 +133,7 @@
                     <input name="pauseChoice" id="no" type="radio" value=0 checked>
                     <label for="yes">Yes</label>
                     <input name="pauseChoice" id="yes" type="radio" value=1>
-                    
+                    <span class="text-red-600">@error('pauseChoice') {{ $message }} @enderror</span> <!--indiquer slmt oui ou non car on pourrait modifier dans le html meme si dans la table c'est un boolean -->
                     <p>It means that you want to suspend your services (for as long as you want). 
                         This way you inform the users that you are not available.</p>
                 </div> 

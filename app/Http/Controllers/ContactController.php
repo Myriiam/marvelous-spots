@@ -58,8 +58,13 @@ class ContactController extends Controller
      */
     public function sendMessage(Request $request, $id)
     {
-        $sender_id = auth()->user()->id;
+        // Validation ???
+        $request->validate([
+            'subject' => 'required|string|min:10|max:40',
+            'message' => 'required|string|min:20',
+        ]);
 
+        $sender_id = auth()->user()->id;
         $receiver_id = $id;
         $receiver_firstname = User::find($id)->firstname;
         $subject = $request->input('subject');
@@ -88,7 +93,7 @@ class ContactController extends Controller
     {
        //$user_id = auth()->user()->id;
         $contact = Contact::find($id);
-        //dd($contact->id);
+
        if ($contact->status === 'unread') {
             $contact->update([
                 'status' => 'read',
@@ -136,9 +141,22 @@ class ContactController extends Controller
             'message' => $message
         ]);
 
-       /* Session::flash('message', 'Your message has been sent successfully !');
-        return redirect()->route('profile', $id);*/
         return redirect()->route('profile', $id)
         ->with('success', 'Your message has been sent successfully to ' .$receiver_firstname. ' !');
+    }
+
+     /**
+     * Delete the specified message (sent or received).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteMessage($id)
+    {
+        $contact = Contact::find($id);
+        $contact->delete();
+
+        return redirect()->route('my_inbox')
+            ->with('success','The message has been successfully deleted !');
     }
 }
