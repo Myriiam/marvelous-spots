@@ -75,8 +75,7 @@ class UserController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-        //dd(auth()->user()->id);
-        //dd($id);
+       
      //  if (auth()->user()->id == $id) {
            //$user = User::find($id);
             $languages = Language::all(); 
@@ -104,15 +103,24 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        //$user = auth()->user();
         //$user = User::findOrFail(auth()->id());
-        //dd($user);
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-        // Validation
-      /* $request->validate([
-                                    => 'required|mimes:png,jpg,jpeg,csv,txt,pdf|max:2048'
-        ]);*/
+       
+         // Validation
+         $request->validate([
+            'picture' => 'mimes:png,jpg,jpeg|max:2048', //require lorsque l'utilisateur s'enregistre/après s'il ne veut rien uploader c ok !
+            /*'country' => 'required',  
+            'city' => 'required',
+            'languages' => 'required',  VERIFIER VALIDATION POUR SELECT 'required|not_in:0' */
+            'about' => 'required|string|min:20', //require pour un guide
+            'definition' => 'string|min:20',       
+            'offering' => 'string|min:20',
+            'price' => 'digits_between:1,4',
+            //'interests' => '', VOIR COMMENT FAIRE POUR LES SOUS-CATEGORIES (CHECKBOX, not require ?)
+            //'pour chaque réseau sociaux' => '', VOIR COMMENT FAIRE POUR LES RESEAUX SOCIAUX (INPUT, not require, string, min et max)
+            'pauseChoice' => 'required|in:0,1', //ou in:Yes,No ?
+        ]);
 
         if($request->hasFile('picture')) {
             $file = $request->file('picture');
@@ -148,13 +156,16 @@ class UserController extends Controller
             //and interests + comments for the guide
             $user->guide->pause = $request->input('pauseChoice');
             $user->guide->price = $request->input('price');
-    }   
+        }   
+
         $user->save();
-        $user->guide->save();
+        if ($user->role === 'Guide') {
+            $user->guide->save();
+        }
        // $userGuide = $user->guide->save();
         //Session::flash('message', 'Votre profil a été mis à jours !');
-        return redirect()->route('profile', auth()->user()->id);
-
+        return redirect()->route('profile', auth()->user()->id)
+                ->with('success', 'your profile has been successfully updated !');
     }
 
     /**

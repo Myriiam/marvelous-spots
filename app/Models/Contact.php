@@ -40,7 +40,7 @@ class Contact extends Model
      */
     public function user()
     {
-        return $this->hasOne(User::class);
-        //OR return $this->hasOne('App\Models\User');
+        return $this->belongsTo(User::class, 'sender_id', 'user_id');
+        //OR return $this->belongsTo('App\Models\User');
     }
 }

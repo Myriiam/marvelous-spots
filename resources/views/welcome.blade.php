@@ -25,6 +25,7 @@
         </header>
         <!-- Page Content -->
         <main>
+            @include('partials.flash-message')
             <div class="swiper-container w-50">
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper">

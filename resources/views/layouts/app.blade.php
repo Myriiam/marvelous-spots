@@ -18,12 +18,16 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/navbar.js') }}" defer></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
+        <script src="{{ asset('js/modal-contact.js') }}" defer></script>
+        <script src="{{ asset('js/read-message.js') }}" defer></script>
+       
         
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             <!-- Navigation -->
             @include('partials.navbar')
+            @include('partials.flash-message')
             <!-- Page Heading -->
             <header class="bg-white shadow">
                 <div class="w-full">

@@ -12,7 +12,7 @@
     @else
     <div class="text-xl lg:text-base text-white text-center pl-7 lg:flex-grow lg:pl-20">
     @endauth
-        <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
+        <a href="{{ route('welcome') }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
             Home
         </a>
         <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
@@ -22,7 +22,7 @@
             Blog
         </a>
         <!-- Logo -->
-        <a href="{{ route('dashboard') }}" class="lg:inline-block lg:mt-0 hidden lg:block mr-8">
+        <a href="{{ route('welcome') }}" class="lg:inline-block lg:mt-0 hidden lg:block mr-8">
             <img class="w-20" src="{{ asset('images/logo.png') }}" alt="logo de Marvelous Spots">    
         </a>
         <!-- -->
@@ -39,7 +39,7 @@
             <a href="#responsive-header" class="py-4 lg:py-0 lg:mb-2.5 inline-block mr-8 mr-16 lg:mr-8 transform hover:scale-110 motion-reduce:transform-none">
                 <img src="{{ asset('images/article.png') }}" class="lg:h-8 lg:w-9 h-10 w-11">
             </a>
-            <a href="#responsive-header" class="py-4 lg:py-0 lg:mb-2.5 inline-block mr-5 lg:mr-0 transform hover:scale-110 motion-reduce:transform-none">
+            <a href="{{ route('my_inbox') }}" class="py-4 lg:py-0 lg:mb-2.5 inline-block mr-5 lg:mr-0 transform hover:scale-110 motion-reduce:transform-none">
                 <img src="{{ asset('images/message.png') }}" class="lg:h-8 lg:w-9 h-10 w-11">
             </a>
         @endauth

@@ -13,10 +13,41 @@
             </div>
     </x-slot>
     <main class="bg-pink-200">
+        <!-- Contact Modal -->
+        @if (count($errors) > 0) 
+            <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 flex justify-center items-center">
+        @else 
+            <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 hidden justify-center items-center">
+        @endif
+            <div class="bg-white rounded-lg py-3 px-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-last mx-5">Contact {{ $user->firstname }}</h3>
+                    <svg id="close-modal" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" 
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+                        clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div>
+                    <form action="{{ route('contact', $user->id) }}" method="POST" class="grid grid-cols-1">
+                        @csrf
+                        <input type="text" name="subject" id="subject" placeholder="Subject" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
+                        <span class="text-red-600">@error('subject') {{ $message }} @enderror</span>
+                        <textarea name="message" id="message" cols="70" rows="10" placeholder="Message" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md"></textarea>
+                        <span class="text-red-600">@error('message') {{ $message }} @enderror</span>
+                        <div class="flex justify-center">
+                            <button type="submit" class="mx-8 mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-12">
             <div class="bg-red-400 col-span-4 sm:col-span-3 md:col-span-4 lg:col-span-3">
                 <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-2/5 flex-shrink items-center z-10 transform -translate-y-0 md:-translate-y-24 md:w-4/5 lg:w-9/12">
-                    <img class="object-cover" src="{{ asset($user->picture) }}" title="header for profile pages">
+                    <img class="object-cover" src="{{ asset($user->picture) }}" alt="picture of the user">
                 </div>
                 @if ($user->role === 'Guide' && ($user->guide->pause === 1))
                     <div class="transform -translate-y-0 md:-translate-y-24">
@@ -62,7 +93,7 @@
                 </div>
                 <div class="grid grid-cols-1 text-center auto-cols-auto transform translate-y-0 md:-translate-y-28">
                     @auth
-                        @if ($user->role === 'Guide')
+                        @if (auth()->user()->id !== $user->id && $user->role === 'Guide')
                             @if ($user->guide->pause === 1)
                                 <a href="#" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last bg-opacity-50 border-2 text-white text-opacity-75 border-last border-opacity-25 rounded-lg focus:ring-1 cursor-not-allowed">
                                     Contact me
@@ -71,9 +102,8 @@
                                     Book a visit
                                 </a>
                             @else 
-                                <a href="#" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                <a href="#modal-contact" id="btn-contact" class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                     Contact me
-                                </a>
                                 <a href="#" class="mx-28 md:mx-8 my-2 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-first border-first rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                     Book a visit
                                 </a>
