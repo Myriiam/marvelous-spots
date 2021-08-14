@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class ContactController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all the messages received and send by a user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +58,7 @@ class ContactController extends Controller
      */
     public function sendMessage(Request $request, $id)
     {
-        // Validation ???
+        // Validation 
         $request->validate([
             'subject' => 'required|string|min:10|max:50',
             'message' => 'required|string|min:20',

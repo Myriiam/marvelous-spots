@@ -111,9 +111,6 @@
                             @if (auth()->user()->id === $user->id)
                                 <a href="#" class="hover:text-sun">My favorites</a>
                                 <a href="{{ route('my_bookings') }}" class="hover:text-sun">My bookings</a>
-                                @if ($user->role === 'Guide')
-                                    <a href="#" class="hover:text-sun">My offers</a>
-                                @endif
                             @endif
                         @endauth
                         @if ($user->role === 'Guide')

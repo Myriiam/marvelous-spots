@@ -130,7 +130,17 @@ class BookingController extends Controller
     {
         //change the status pending to paiement in the status_demand 
         //and the status null to (accepted)->waiting for paiement in the status_offer
-        
+         $booking = Booking::find($id);
+        //dd($booking);
+         if ($booking->status_demand === 'pending') {
+            $booking->update([
+                  'status_demand' => 'paiement',
+                  'status_offer' => 'waiting for paiement',
+              ]);
+  
+          return redirect()->route('my_bookings')
+          ->with('success', 'Your positive reply has been sent to the recipient !');
+         } 
     }
 
     /**
@@ -143,9 +153,20 @@ class BookingController extends Controller
     {
         //change the status pending to rejected in the status_demand
         //and the status null to refused in the status_offer
+        $booking = Booking::find($id);
+        //dd($booking);
+         if ($booking->status_demand === 'pending') {
+            $booking->update([
+                  'status_demand' => 'rejected',
+                  'status_offer' => 'refused',
+              ]);
+  
+          return redirect()->route('my_bookings')
+          ->with('success', 'Your negative reply has been sent to the recipient !');
+         } 
     }
 
-      /**
+    /**
      * Pay the booking once user and guide are agree on the terms
      *
      * @param  \Illuminate\Http\Request  $request

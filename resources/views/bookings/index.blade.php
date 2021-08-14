@@ -45,18 +45,29 @@
                     @foreach ($offersGuide as $offerGuide)
                         <!--if ($sentMessage->id === auth()->user()->id)-->
                             <li>{{ $offerGuide->message }} -  FROM: {{ $offerGuide->firstname }} 
-                                <form action="{{ route('accept_offer', $offerGuide->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-green-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
-                                        Accept
-                                    </button>
-                                </form>
-                                <form action="{{ route('refuse_offer', $offerGuide->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-red-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
-                                        Refuse
-                                    </button>
-                                </form>
+                                @if ($offerGuide->status_demand === 'pending')
+                                    <form action="{{ route('accept_offer', $offerGuide->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-green-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                            Accept
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('refuse_offer', $offerGuide->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-red-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                            Refuse
+                                        </button>
+                                    </form>
+                                @elseif ($offerGuide->status_offer === 'waiting for paiement')
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} waiting for paiement</span></p>
+                                @elseif ($offerGuide->status_offer === 'booked')
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} booked</span></p>
+                                @elseif ($offerGuide->status_offer === 'refused')
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} refused</span></p>
+                                    <!-- ADD The elseif when the visit_end is over, the the status become => visit completed -->
+                                @else
+                                    <p>No offers</p>
+                                @endif
                             </li>
                         <!--else
                             <p>No message</p>
@@ -65,45 +76,50 @@
                 </ul>
                 <hr class="border-2 border-gray-dark">
             @endif
-            <h2 class="font-extrabold text-3xl text-gray-darker">My bookings</h2>
-            <ul> 
-                @foreach ($reservationsUser as $reservationUser)
-                    <li>
-                        <div class="pb-20">
-                            <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-50 cursor-pointer">Booking TO: {{ $reservationUser->firstname }}</a>
-                            @if (auth()->user()->id === $user->id)
-                                <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $reservationUser->status_demand }}</span></p>
-                                <form action="#" method="#" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-red-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">Delete</button>
-                                </form>
-                            @endif
-                            <div data-class="#" class="hidden justify-center">
-                                <div class="grid grid-cols-1 px-5 py-5">
-                                    <div class="flex justify-between mb-10">
-                                        <p>A booking from ... send 25/06/2021(date)</p>
-                                        <div class="flex">
-                                            <svg data-href="close-content" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" 
-                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
-                                                clip-rule="evenodd"/>
-                                            </svg>
+            @if (auth()->user()->id === $user->id)
+                <h2 class="font-extrabold text-3xl text-gray-darker">My bookings</h2>
+                <ul> 
+                    @foreach ($reservationsUser as $reservationUser)
+                        <li>
+                            <div class="pb-20">
+                                <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-50 cursor-pointer">Booking TO: {{ $reservationUser->firstname }}</a>
+                                @if ($reservationUser->status_demand === 'paiement')
+                                    <form action="#" method="#" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-blue-700 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                            Paiement{{ $reservationUser->status_demand }}
+                                        </button>
+                                    </form>
+                                @else 
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $reservationUser->status_demand }}</span></p>
+                                @endif
+                                <div data-class="#" class="hidden justify-center">
+                                    <div class="grid grid-cols-1 px-5 py-5">
+                                        <div class="flex justify-between mb-10">
+                                            <p>A booking from ... send 25/06/2021(date)</p>
+                                            <div class="flex">
+                                                <svg data-href="close-content" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" 
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+                                                    clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="flex justify-between mb-4">
-                                        <p>{{ $reservationUser->message }}</p>
-                                        <div>
-                                            <a href="#" class="ml-4 text-xl lg:text-base px-4 py-1 leading-none border rounded bg-last text-white border-last hover:bg-opacity-75 hover:text-sun mt-4 lg:mt-0">
-                                                Answer
-                                            </a>
-                                        </div>  
+                                        <div class="flex justify-between mb-4">
+                                            <p>{{ $reservationUser->message }}</p>
+                                            <div>
+                                                <a href="#" class="ml-4 text-xl lg:text-base px-4 py-1 leading-none border rounded bg-last text-white border-last hover:bg-opacity-75 hover:text-sun mt-4 lg:mt-0">
+                                                    Answer
+                                                </a>
+                                            </div>  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </li> 
-                @endforeach
-            </ul>
+                        </li> 
+                    @endforeach
+                </ul>
+            @endif
         @endauth
     </main>
 </x-app-layout>
