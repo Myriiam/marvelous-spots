@@ -60,7 +60,7 @@ class ContactController extends Controller
     {
         // Validation ???
         $request->validate([
-            'subject' => 'required|string|min:10|max:40',
+            'subject' => 'required|string|min:10|max:50',
             'message' => 'required|string|min:20',
         ]);
 

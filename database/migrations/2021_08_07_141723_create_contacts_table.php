@@ -14,13 +14,13 @@ class CreateContactsTable extends Migration
     public function up()
     {
         Schema::create('contacts', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(1);
             $table->foreignId('sender_id')->unsigned();
             $table->foreignId('receiver_id')->unsigned();
             $table->text('subject');
             $table->text('message');
             $table->enum('status', ['read','unread'])->default('unread');
-            $table->timestamps();
+            $table->timestamp('date');
 
             $table->foreign('sender_id')->references('id')->on('users')
             ->onDelete('restrict')->onUpdate('cascade');
