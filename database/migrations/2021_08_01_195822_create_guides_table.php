@@ -14,7 +14,7 @@ class CreateGuidesTable extends Migration
     public function up()
     {
         Schema::create('guides', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(1);
             $table->foreignId('user_id')->unsigned();
             $table->text('motivation');
             $table->text('travel_definition');

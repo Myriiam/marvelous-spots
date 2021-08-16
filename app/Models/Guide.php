@@ -58,4 +58,13 @@ class Guide extends Model
         //OR return $this->hasMany('App\Models\Language');
     }
 
+     /**
+     * Get the booking of the guide (his offer from) - relationship
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+        //OR return $this->hasMany('App\Models\Booking');
+    }
+
 }

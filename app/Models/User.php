@@ -80,4 +80,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Contact::class);
         //OR return $this->hasMany('App\Models\Contact');
     }
+
+    /**
+     * Get the booking of the user (his demand to) - relationship
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+        //OR return $this->hasMany('App\Models\Booking');
+    }
 }

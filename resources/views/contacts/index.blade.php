@@ -72,11 +72,13 @@
                                     @if ($receivedMessage->status === 'unread')
                                         <form action="{{ route('status_updated', $receivedMessage->id) }}" method="POST" class="inline-block">
                                             @csrf
+                                            @method('PUT')   
                                             <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-first hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">Mark as read</button>
                                         </form>
                                     @else 
                                         <form action="{{ route('status_updated', $receivedMessage->id) }}" method="POST" class="inline-block">
                                             @csrf
+                                            @method('PUT')
                                             <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-first hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">Mark as unread</button>
                                         </form>
                                     @endif

@@ -19,6 +19,7 @@ class Contact extends Model
         'receiver_id',
         'message',
         'status',
+        'date',
     ];
 
       /**
@@ -26,7 +27,7 @@ class Contact extends Model
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = false;
     
     /**
      * The table associated with the model.
