@@ -44,7 +44,7 @@ class Booking extends Model
     protected $table = 'bookings';
 
     /**
-     * Get the user's booking (when he book a guide) - relationship = demand to
+     * Get the user of this/these booking(s) (when he book a guide) - relationship = demand to
      */
     public function user()
     {
@@ -53,7 +53,7 @@ class Booking extends Model
     }
 
     /**
-     * Get the guide's booking (when he receive an offer from an other user traveler or guide) - relationship = offer from
+     * Get the guide of this/these booking(s) (when he receive an offer from an other user traveler or guide) - relationship = offer from
      */
     public function guide()
     {
