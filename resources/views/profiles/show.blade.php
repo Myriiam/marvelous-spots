@@ -13,7 +13,7 @@
             </div>
     </x-slot>
     <main class="bg-pink-200">
-        <!-- Contact Modal -->
+        <!-- Modal Contact -->
         @if ($errors->has('subject') || $errors->has('message'))
             <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 flex justify-center items-center">
         @else 
@@ -73,7 +73,6 @@
                         <span class="text-red-600">@error('nb_person') {{ $message }} @enderror</span>
                         <textarea name="message_booking" id="message_booking" cols="70" rows="10" placeholder="Message" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md"></textarea>
                         <span class="text-red-600">@error('message_booking') {{ $message }} @enderror</span>
-                        <p>Total price : </p>
                         <div class="flex justify-center">
                             <button type="submit" class="mx-8 mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Submit
