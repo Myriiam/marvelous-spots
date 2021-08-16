@@ -10,74 +10,72 @@ use Illuminate\Support\Facades\DB;
 class BookingController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Book a visit with a guide.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function bookVisit(Request $request, $id)
-    {
+    {   
+        $user_id = auth()->user()->id; //connected user (who make the booking)
+       // $user = User::find($id); //user
+        $guide_id = $id;
+        //dates when the guide is booked (the guide receive an offer)
+        $booking_dates_guide = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
+        ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.visit_date', 
+        'bookings.total_price','bookings.status_demand', 'bookings.status_offer')
+        ->where(['bookings.guide_id'=>$guide_id])
+        ->whereIn('bookings.status_demand', ['paiement', 'booked', 'pending'])
+        ->get();
+
+        //dates when the guide has booked another guide (the guide make a demand)
+        $booking_dates_user = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
+        ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.visit_date', 
+        'bookings.total_price','bookings.status_demand', 'bookings.status_offer')
+        ->where(['bookings.user_id'=>$guide_id])
+        ->whereIn('bookings.status_demand', ['paiement', 'booked', 'pending'])
+        ->get();
+        
+        $notAvailablesDatesGuide = [];
+        $notAvailablesDatesUser = [];
+      
+        foreach ($booking_dates_guide as $booking_date_guide) {
+            array_push($notAvailablesDatesGuide, $booking_date_guide->visit_date);
+        }
+
+        foreach ($booking_dates_user as $booking_date_user) {
+            array_push($notAvailablesDatesUser, $booking_date_user->visit_date);
+        }
+        
+        $allNotAvailableDates = array_merge($notAvailablesDatesGuide, $notAvailablesDatesUser);
+
          // Validation 
          $request->validate([
-            'visit_start' => 'required|date|after:tomorrow',
-            'visit_end' => 'required|date|after:visit_start',
+            'visit_date' => 'required|date|notIn:' . implode(',', $allNotAvailableDates),
             'nb_person' => 'required|numeric|min:1|max:10',
             'message_booking' => 'required|string|min:20',
         ]);
 
-        $user_id = auth()->user()->id;
-        $guide_id = $id;
-        $user_firstname = User::find($user_id)->firstname;
-
-        $visit_start = $request->input('visit_start');
-        $visit_end = $request->input('visit_end');
+        $price_guide = User::find($id)->guide->price;
+        $guide_firstname = User::find($id)->firstname;
+        $visit_date = $request->input('visit_date');
+        $nb_hours = $request->input('nb_hours');
         $nb_person = $request->input('nb_person');
         $message_booking = $request->input('message_booking');
-        //$booked_at = $request->input('booked_at');
-       //$total_price = $request->input('total_price'); //nb_person * price/h
-      
-        DB::table('bookings')->insert([
-            'user_id' => $user_id,
-            'guide_id' => $guide_id,
-            'visit_start' => $visit_start,
-            'visit_end' => $visit_end, 
-            'nb_person' => $nb_person, 
-            'message' => $message_booking,
-        ]);
+        $total_price = $nb_person * $price_guide * $nb_hours;
+        
+            DB::table('bookings')->insert([
+                'user_id' => $user_id,
+                'guide_id' => $guide_id,
+                'visit_date' => $visit_date, 
+                'nb_hours' => $nb_hours, 
+                'nb_person' => $nb_person, 
+                'message' => $message_booking,
+                'total_price' => $total_price,
+            ]);
 
-        return redirect()->route('profile', $id)  //Faire plus tard une redirection vers "mes réservations -> mes demandes"
-        ->with('success', 'Your reservation has been registered, we are waiting for the answer from your guide :' .$user_firstname);
+            return redirect()->route('profile', $id)  //Faire plus tard une redirection vers "mes réservations -> mes demandes"
+            ->with('success', 'Your reservation has been registered, we are waiting for the answer from your guide : ' . $guide_firstname);
     }
 
     /**
@@ -97,7 +95,7 @@ class BookingController extends Controller
          //et guide_id = personne à qui on fait la demande
           $reservationsUser = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
           ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
-           'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_start', 'bookings.visit_end', 'bookings.total_price',
+           'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price',
            'bookings.status_demand', 'bookings.status_offer')
           ->where(['bookings.user_id'=>$user_id])
           ->get();
@@ -106,7 +104,7 @@ class BookingController extends Controller
           //Offres reçues par un guide d'un user (taveler or guide)
           $offersGuide = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.user_id')
           ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
-           'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_start', 'bookings.visit_end', 'bookings.total_price', 
+           'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price', 
            'bookings.status_demand', 'bookings.status_offer')
           ->where(['bookings.guide_id'=>$user_id])
           ->get();
@@ -137,7 +135,7 @@ class BookingController extends Controller
                   'status_demand' => 'paiement',
                   'status_offer' => 'waiting for paiement',
               ]);
-  
+              
           return redirect()->route('my_bookings')
           ->with('success', 'Your positive reply has been sent to the recipient !');
          } 
@@ -164,21 +162,5 @@ class BookingController extends Controller
           return redirect()->route('my_bookings')
           ->with('success', 'Your negative reply has been sent to the recipient !');
          } 
-    }
-
-    /**
-     * Pay the booking once user and guide are agree on the terms
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function paiement(Request $request, $id)
-    {
-        //change the status paiement to booked in the status_demand
-        //and the status waiting for paiement to booked in the status_offer
-
-        //if the date of the end of the visit has passed, then the status for both => visit completed 
-        //and redirection to the review of the guide when connecting (just 1 and only 1 review after a visit) !
     }
 }

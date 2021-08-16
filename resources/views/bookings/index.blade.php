@@ -84,11 +84,21 @@
                             <div class="pb-20">
                                 <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-50 cursor-pointer">Booking TO: {{ $reservationUser->firstname }}</a>
                                 @if ($reservationUser->status_demand === 'paiement')
-                                    <form action="#" method="#" class="inline-block">
+                                    <form action="{{ route('stripe_payment', $reservationUser->id) }}" method="POST" class="inline-block">
                                         @csrf
-                                        <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-blue-700 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                        <!--<button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-blue-700 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
                                             Paiement{{ $reservationUser->status_demand }}
-                                        </button>
+                                        </button>-->
+                                        <script
+                                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="{{ env('STRIPE_KEY') }}"
+                                            data-amount="{{ $reservationUser->total_price * 100}}"
+                                            data-name="Payment"
+                                            data-description="You want to book a visit with {{ $reservationUser->firstname }}"
+                                            data-image="{{ asset('images/logo.png') }}"
+                                            data-locale="auto"
+                                            data-currency="eur">
+                                        </script>
                                     </form>
                                 @else 
                                     <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $reservationUser->status_demand }}</span></p>
@@ -122,4 +132,7 @@
             @endif
         @endauth
     </main>
+    <!-- scripts -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
 </x-app-layout>

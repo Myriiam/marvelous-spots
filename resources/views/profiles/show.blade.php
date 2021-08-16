@@ -45,7 +45,7 @@
             </div>
         </div>
         <!-- Modal Booking -->
-        @if ($errors->has('visit_start') || $errors->has('visit_end') || $errors->has('nb_person') || $errors->has('message_booking'))
+        @if ($errors->has('visit_date') || $errors->has('nb_hours') || $errors->has('nb_person') || $errors->has('message_booking'))
             <div id="modal-booking" class="bg-black bg-opacity-50 absolute inset-0 z-50 flex justify-center items-center">
         @else 
             <div id="modal-booking" class="bg-black bg-opacity-50 absolute inset-0 z-50 hidden justify-center items-center">
@@ -62,14 +62,14 @@
                 <div>
                     <form action="{{ route('book_visit', $user->id) }}" method="POST" class="grid grid-cols-1">
                         @csrf
-                        <label for="visit_start">Start of the visit</label>
-                        <input type="datetime-local" name="visit_start" id="start" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
-                        <span class="text-red-600">@error('visit_start') {{ $message }} @enderror</span>
-                        <label for="visit_end">End of the visit</label>
-                        <input type="datetime-local" name="visit_end" id="end" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
-                        <span class="text-red-600">@error('visit_end') {{ $message }} @enderror</span>
+                        <label for="visit_date">The date of the visit</label>
+                        <input type="date" name="visit_date" id="day" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
+                        <span class="text-red-600">@error('visit_date') {{ $message }} @enderror</span>
+                        <label for="nb_hours">Duration of the visit (hours)</label>
+                        <input type="number" name="nb_hours" id="hours" min="1" max="12" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md">
+                        <span class="text-red-600">@error('nb_hours') {{ $message }} @enderror</span>
                         <label for="nb_person">Number of person</label>
-                        <input type="number" name="nb_person" id="nb" min="1" max="10" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md">
+                        <input type="number" name="nb_person" id="person" min="1" max="10" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md">
                         <span class="text-red-600">@error('nb_person') {{ $message }} @enderror</span>
                         <textarea name="message_booking" id="message_booking" cols="70" rows="10" placeholder="Message" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md"></textarea>
                         <span class="text-red-600">@error('message_booking') {{ $message }} @enderror</span>

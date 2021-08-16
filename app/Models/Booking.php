@@ -18,14 +18,15 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'guide_id',
-        'visit_start',
-        'visit_end',
+        'visit_date',
+        'nb_hours',
         'nb_person',
         'message',
         'booked_at', //created_at
         'total_price',
         'status_demand',
         'status_offer',
+        'payed_at',
     ];
 
       /**
