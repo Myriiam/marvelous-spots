@@ -51,10 +51,10 @@ class BookingController extends Controller
 
          // Validation 
          $request->validate([
-            'visit_date' => 'required|date|notIn:' . implode(',', $allNotAvailableDates),
+            'visit_date' => 'required|date|not_in:' . implode(',', $allNotAvailableDates),
             'nb_person' => 'required|numeric|min:1|max:10',
             'message_booking' => 'required|string|min:20',
-        ]);
+        ], ['visit_date.not_in' => "The guide isn't available that day, choose another date"]);
 
         $price_guide = User::find($id)->guide->price;
         $guide_firstname = User::find($id)->firstname;
