@@ -60,4 +60,13 @@ class Article extends Model
         //OR return $this->belongsTo('App\Models\Picture');
     }
 
+    /**
+     * Get the category/categories of the article - relationship 
+     */
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+        //OR return $this->belongsTo('App\Models\Category');
+    }
+
 }
