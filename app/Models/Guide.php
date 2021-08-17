@@ -67,4 +67,12 @@ class Guide extends Model
         //OR return $this->hasMany('App\Models\Booking');
     }
 
+     /**
+     * Get the category(ies) of the guide - relationship 
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+        //OR return $this->belongsToMany('App\Models\Category');
+    }
 }

@@ -34,11 +34,20 @@ class Category extends Model
     protected $table = 'categories';
 
     /**
-     * Get the user of the article(s) - relationship 
+     * Get the article(s) of this/these category(ies) - relationship 
      */
-    public function user()
+    public function articles()
     {
-        return $this->belongsTo(User::class);
-        //OR return $this->belongsTo('App\Models\User');
+        return $this->belongsToMany(Article::class);
+        //OR return $this->belongsToMany('App\Models\Article');
+    }
+
+    /**
+     * Get the guide(s) of this/these category(ies) - relationship 
+     */
+    public function guides()
+    {
+        return $this->belongsToMany(Guide::class);
+        //OR return $this->belongsToMany('App\Models\Guide');
     }
 }

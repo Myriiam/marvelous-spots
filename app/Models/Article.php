@@ -65,8 +65,8 @@ class Article extends Model
      */
     public function categories()
     {
-        return $this->hasMany(Category::class);
-        //OR return $this->belongsTo('App\Models\Category');
+        return $this->belongsToMany(Category::class);
+        //OR return $this->belongsToMany('App\Models\Category');
     }
 
 }
