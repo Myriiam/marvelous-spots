@@ -44,6 +44,11 @@ Route::post('/my-bookings/{id}/refuse-offer', [App\Http\Controllers\BookingContr
 //Paiement - Stripe
 //Route::get('/my-bookings/{id}/stripe-payment/form', [App\Http\Controllers\StripeController::class, 'handleGet'])->name('stripe.form');
 Route::post('/my-bookings/{id}/stripe-payment', [App\Http\Controllers\StripeController::class, 'paymentStripe'])->name('stripe_payment');
-//Route::post('/{id}/paiement', [App\Http\Controllers\BookingController::class, 'paiement'])->middleware(['auth'])->name('paiement');
+//Article
+Route::get('/add-article-form', [App\Http\Controllers\ArticleController::class, 'createArticle'])->middleware(['auth'])->name('add_article_form');
+Route::post('/add-article', [App\Http\Controllers\ArticleController::class, 'storeArticle'])->middleware(['auth'])->name('add_article');
+Route::put('/{id}/edit-article', [App\Http\Controllers\ArticleController::class, 'editArticle'])->middleware(['auth'])->name('edit_article');
+Route::post('/{id}/save-article', [App\Http\Controllers\ArticleController::class, 'saveArticle'])->middleware(['auth'])->name('save_article');
+
 
 //where('id', '[0-9]+')->
