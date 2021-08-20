@@ -24,7 +24,7 @@
                             <option value="{{ $category->id }}">{{ $category->name }}</option> 
                     @endforeach
                     </select>
-                    <span class="text-red-600">@error('categories[]') {{ $message }} @enderror</span>
+                    <span class="text-red-600">@error('categories') {{ $message }} @enderror</span>
                 </div>       
                 <div class="flex">
                     <div>
@@ -56,7 +56,7 @@
                 <div>
                     <label for="pictures">Add pictures</label> 
                     <input type="file" name="pictures[]" id="pictures" multiple class="lg:text-base text-gray-dark rounded-lg mt-3">
-                    <span class="text-red-600">@error('pictures[]') {{ $message }} @enderror</span>
+                    <span class="text-red-600">@error('pictures') {{ $message }} @enderror</span>
                 </div>
                 <div>
                     <div>

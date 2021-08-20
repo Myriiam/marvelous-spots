@@ -47,6 +47,8 @@ Route::post('/my-bookings/{id}/stripe-payment', [App\Http\Controllers\StripeCont
 //Article
 Route::get('/add-article-form', [App\Http\Controllers\ArticleController::class, 'createArticle'])->middleware(['auth'])->name('add_article_form');
 Route::post('/add-article', [App\Http\Controllers\ArticleController::class, 'storeArticle'])->middleware(['auth'])->name('add_article');
+Route::get('/{id}/my-articles', [App\Http\Controllers\ArticleController::class, 'getAllMyArticles'])->middleware(['auth'])->name('my_articles');
+Route::get('/show-article/{id}', [App\Http\Controllers\ArticleController::class, 'showArticle'])->name('show_article');
 Route::put('/{id}/edit-article', [App\Http\Controllers\ArticleController::class, 'editArticle'])->middleware(['auth'])->name('edit_article');
 Route::post('/{id}/save-article', [App\Http\Controllers\ArticleController::class, 'saveArticle'])->middleware(['auth'])->name('save_article');
 

@@ -16,8 +16,8 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id()->startingValue(1);
             $table->foreignId('user_id')->unsigned();
-            $table->string('title', 30);
-            $table->string('subtitle', 35);
+            $table->string('title', 60);
+            $table->string('subtitle', 60);
             $table->text('description');
             $table->string('phone_place', 15)->nullable();
             $table->string('website_place', 20)->nullable();
