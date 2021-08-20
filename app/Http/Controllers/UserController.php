@@ -106,7 +106,7 @@ class UserController extends Controller
         //$user = User::findOrFail(auth()->id());
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-       
+       //dd($request);
          // Validation
          $request->validate([
             'picture' => 'mimes:png,jpg,jpeg|max:2048', //require lorsque l'utilisateur s'enregistre/après s'il ne veut rien uploader c ok !

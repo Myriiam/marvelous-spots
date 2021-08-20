@@ -39,30 +39,11 @@
             <div>
                 <label for="country">Country where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="country" id="country" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
-                   <!-- <option value="{{ $user->country ? $user->country : 'select a country' }}">{{ $user->country ? $user->country : 'select a country' }}</option>
-                    <option value="France">France</option>
-                    <option value="Italy">Italy</option>
-                    <option value="England">England</option>
-                    <option value="Sweden">Sweden</option>
-                    <option value="Denmark">Denmark</option>-->
-                    <!-- foreach sur tous les pays si données mais là écrire en dur les pays ? -->
                 </select>
             </div>        
             <div>
                 <label for="city">City where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="city" id="city" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
-                   <!-- <option value="{{ $user->city ? $user->city : '' }}">{{ $user->city ? $user->city : 'select a city' }}</option>
-                    <option value="{{ $user->city ? $user->city : '' }}">{{ $user->city ? $user->city : 'select a city' }}</option>
-                    <option value="Paris">Paris</option>
-                    <option value="Nice">Nice</option>
-                    <option value="Brussels">Brussels</option>
-                    <option value="Roma">Roma</option>
-                    <option value="Milan">Milan</option>
-                    <option value="Florence">Florence</option>
-                    <option value="Manchester">Manchester</option>
-                    <option value="London">London</option>
-                    <option value="Copenhagen">Copenhagen</option>-->
-                    <!-- foreach sur tous les pays si données mais là écrire en dur les pays ? -->
                 </select>
             </div> 
             @if ($user->role === 'Guide')
@@ -141,5 +122,5 @@
             <button type="submit" value="submit" class="mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">Save</button>
         </form>
     </main>
-    <script src="{{ asset('js/city-country.js') }}" defer></script>
+    <script src="{{ asset('js/country-city.js') }}" defer></script>
 </x-app-layout>
