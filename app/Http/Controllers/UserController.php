@@ -90,9 +90,6 @@ class UserController extends Controller
                 'birthdate' => $birthdate,
             ]);
     //    }
-
-     //   $users = User::all();
-      //  return redirect()->route('welcome', ['users' => $users]);
     }
 
     /**
@@ -169,7 +166,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the user permanently.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

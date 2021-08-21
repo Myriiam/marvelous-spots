@@ -7,6 +7,8 @@ use App\Models\Article;
 use App\Models\Booking;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class ArticleController extends Controller
 {
@@ -177,14 +179,34 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified article.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editArticle($id)
     {
-        //
+        $article = Article::find($id);
+        $pictures = $article->pictures;
+        $selectedCat = [];
+        foreach ($article->categories as $categoriesOfArticle) {
+            array_push($selectedCat, $categoriesOfArticle->id);
+        }
+        
+        $user_id = $article->user_id;
+        $author = User::find($user_id);
+        $categories = Category::all();
+        //dd($author);
+            return view('articles.edit',[
+                'article' => $article,
+                'author' => $author, 
+                'pictures' => $pictures,
+                'categoriesOfArticle' => $categoriesOfArticle,
+                'categories' => $categories,
+                'selectedCat' => $selectedCat,
+                'resource' => 'Article editing form',
+            ]);
+    //    }
     }
 
     /**
@@ -194,19 +216,91 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateArticle(Request $request, $id)
     {
-        //
-    }
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $article = Article::find($id);
+    
+       // Validation 
+   /*    $request->validate([
+        'title' => 'required|string|min:15|max:60',
+        'subtitle' => 'required|string|min:15|max:60',
+        'description' => 'required|string|min:80',
+        //'latitude' => '',
+        //'longitude' => '',
+        'pictures' => 'required|min:2|max:6',
+       // 'pictures.*' => 'array|mimes:png,jpg,jpeg',
+        'website' => 'nullable|string|max:20',
+        'phone' => 'nullable|string|max:15',
+        'address' => 'required|string|max:60',
+        'categories' => 'required|exists:categories,id|min:1',
+       // 'categories.*' => 'required|exists:categories,id',
+        ], ['pictures.min' => 'At least 2 pictures are required', 'pictures.max' => 'You can upload 6 pictures maximum',
+        'categories.min' => 'You must choose 1 category at least']);*/
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        //Get the value of requests
+
+       // $latitude = $request->input('latitude');
+       // $longitude = $request->input('longitude');
+       $title = $request->input('title');
+       $subtitle = $request->input('subtitle');
+       $description = $request->input('description');
+       $website = $request->input('website');
+       $phone = $request->input('phone');
+       $address = $request->input('address');
+
+       //Save new value in the database
+
+        $article->user_id = $user_id;
+        // 'latitude' => $latitude,
+        // 'longitude' => $longitude,
+        $article->title = $title;
+        $article->subtitle = $subtitle;
+        $article->description = $description;
+        $article->phone_place = $phone;
+        $article->website_place = $website;
+        $article->address = $address;
+        $article->save();
+
+        //To add and link categories to the article
+        //$article->categories()->updateExistingPivot($article->id, $request->categories);
+        $article->categories()->sync($request->categories);
+
+        //Files pictures to add in the user's folder
+        //Files pictures to add dans le dossier du user
+        if($request->hasFile('pictures')) {
+            $files = $request->file('pictures');
+            $allowedfileExtension  =['jpg','png','jpeg'];
+
+            foreach ($files as $file) {
+               // $filename = time().'_'.$file->getClientOriginalName();
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
+
+                 // File upload location
+                if ($check) {
+                    $location = 'storage/app/public/uploads/users'; // /articles/img mais à changer dans le create et vérifier s'il y a des fichiers tout court si oui, tous les supprimer et mettre les nouveaux.
+                    $folder = $location .'/'. $user->id .'/';
+
+                    if(!file_exists($folder) && !is_dir($folder)){
+                        mkdir($folder, 0777, true);
+                    }
+                    // Upload file
+                    $path = $folder . $filename;
+                    if (File::exists($path)) {
+                        File::delete($path);
+                    }
+                    $file->move($folder,$filename);  
+                    $article->pictures()->create([
+                        'path' => $folder . $filename,
+                    ]);
+                } 
+            }
+        }
+
+        return redirect()->route('show_article', $article->id)
+                ->with('success', 'your article has been successfully updated !');
     }
 }

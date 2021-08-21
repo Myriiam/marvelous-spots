@@ -18,12 +18,12 @@
                 <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-1/5">
                     <img class="object-cover" src="{{ asset($author->picture) }}" alt="picture of the user"/>
                 </div>
-                <div class="text-center">
+                <div class="text-center flex">
                     <p class="text-2xl text-gray-darker font-extrabold">{{ $author->firstname }}</p>
                     <p class="text-lg text-first font-bold">{{ $author->role }}</p>
-                    <button class="mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                    <a href="{{ route('edit_article', $article->id) }}" class="flex-shrink-0 w-36 mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                         Edit article
-                    </button>
+                    </a>
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
                         </path>
@@ -35,13 +35,14 @@
                 </div>
             </div>
             <div class="bg-green-400 pb-11">
-                <div class="mt-6 w-2/5 mx-16 text-center text-gray-darker font-extrabold">
+                <div class="mt-6 w-3/5 mx-16 text-center text-gray-darker font-extrabold">
                     <p class="text-3xl">{{ $article->title }}</p>
-                    <p class="text-2xl">{{ $article->subtitle }}</p>
+                    <p class="text-2xl mt-6">{{ $article->subtitle }}</p>
                 </div>
                 <div class="mt-6 w-2/5 mx-16">
                     <p class="text-gray-darker font-extrabold">{{ __('Why do the locals love this place? What do you like about it?') }}</p>
                     <p class="text-gray-dark font-semibold">{{ $article->description }}</p>
+                    <p class="mt-5 text-gray-darker">Posted {{ $article->created_at->format('d/m/Y') }}</p>
                 </div>
                 <div class="flex flex-row justify-evenly pt-10">
                     @foreach ($pictures as $picture)
