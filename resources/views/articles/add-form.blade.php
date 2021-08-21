@@ -16,7 +16,7 @@
             <h3 class="font-extrabold text-center text-3xl text-last">Share what you like about {{ $user->city }}. <br>What is your favorite spot?</h3>
         <form method="POST" action="{{ route('add_article') }}" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')   
+                @method('POST')   
                 <div>
                     <label for="categories">Choose related categories</label> <!-- require -->
                     <select name="categories[]" id="categories" multiple class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">

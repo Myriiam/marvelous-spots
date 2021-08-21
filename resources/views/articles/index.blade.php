@@ -13,15 +13,25 @@
             </div>
     </x-slot>
     <main class="bg-pink-200">
+        <ul>
+            <h2 class="font-extrabold text-3xl text-gray-darker">My published articles</h2>
+            @foreach ($articles as $article)
+                @if ($article->status === 'published')
+                    <li><a href="{{ route('show_article', $article->id) }}">{{ $article->title }} - {{ $article->created_at }}</a></li>   
+                @endif
+            @endforeach
+        </ul>
         @auth
-                <h2 class="font-extrabold text-3xl text-gray-darker">In review</h2>
+            @if(auth()->user()->id === $user->id)
+                <h2 class="font-extrabold text-3xl text-gray-darker">My articles under review</h2>
                 <ul>
                     @foreach ($articles as $article)
-                       
-                            <li><a href="{{ route('show_article', $article->id) }}">{{ $article->title }} - {{ $article->created_at }}</a></li>
-                        
+                        @if ($article->status === 'under_review')
+                            <li><a href="{{ route('show_article', $article->id) }}">{{ $article->title }} - {{ $article->created_at }}</a></li>   
+                        @endif 
                     @endforeach
                 </ul>
+            @endif
         @endauth
     </main>
 </x-app-layout>

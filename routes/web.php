@@ -42,15 +42,15 @@ Route::get('/my-bookings', [App\Http\Controllers\BookingController::class, 'getA
 Route::post('/my-bookings/{id}/accept-offer', [App\Http\Controllers\BookingController::class, 'acceptOffer'])->middleware(['auth'])->name('accept_offer');
 Route::post('/my-bookings/{id}/refuse-offer', [App\Http\Controllers\BookingController::class, 'refuseOffer'])->middleware(['auth'])->name('refuse_offer');
 //Paiement - Stripe
-//Route::get('/my-bookings/{id}/stripe-payment/form', [App\Http\Controllers\StripeController::class, 'handleGet'])->name('stripe.form');
 Route::post('/my-bookings/{id}/stripe-payment', [App\Http\Controllers\StripeController::class, 'paymentStripe'])->name('stripe_payment');
 //Article
 Route::get('/add-article-form', [App\Http\Controllers\ArticleController::class, 'createArticle'])->middleware(['auth'])->name('add_article_form');
 Route::post('/add-article', [App\Http\Controllers\ArticleController::class, 'storeArticle'])->middleware(['auth'])->name('add_article');
-Route::get('/{id}/my-articles', [App\Http\Controllers\ArticleController::class, 'getAllMyArticles'])->middleware(['auth'])->name('my_articles');//pas de auth ici non plus
+Route::get('/{id}/my-articles', [App\Http\Controllers\ArticleController::class, 'getAllMyArticles'])->name('my_articles');
 Route::get('/show-article/{id}', [App\Http\Controllers\ArticleController::class, 'showArticle'])->name('show_article');
 Route::get('/{id}/edit-article', [App\Http\Controllers\ArticleController::class, 'editArticle'])->middleware(['auth'])->name('edit_article');
 Route::put('/{id}/save-article', [App\Http\Controllers\ArticleController::class, 'updateArticle'])->middleware(['auth'])->name('save_article');
-
+//Comment
+Route::post('/{id}/comment-article', [App\Http\Controllers\ArticleController::class, 'sendComment'])->middleware(['auth'])->name('comment_article');
 
 //where('id', '[0-9]+')->

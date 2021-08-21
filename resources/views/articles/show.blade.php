@@ -49,6 +49,9 @@
                        <img class="w-44 h-44" src="{{ asset($picture->path) }}" alt="pictures of the article"/>
                     @endforeach
                 </div>
+                <div>
+                    <!-- Leave a comment : view + input (textarea + btn sendComment)-->
+                </div>
             </div>
             <div class="bg-yellow-400">
                 <div>

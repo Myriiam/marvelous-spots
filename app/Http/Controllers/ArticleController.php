@@ -68,6 +68,7 @@ class ArticleController extends Controller
 
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
+
         $article = new Article();
        // $latitude = $request->input('latitude');
        // $longitude = $request->input('longitude');
@@ -109,7 +110,7 @@ class ArticleController extends Controller
                  // File upload location
                 if ($check) {
                     $location = 'storage/app/public/uploads/users';
-                    $folder = $location .'/'. $user->id .'/';
+                    $folder = $location .'/'. $user->id .'/articles/img/';
 
                     if(!file_exists($folder) && !is_dir($folder)){
                         mkdir($folder, 0777, true);
@@ -122,15 +123,28 @@ class ArticleController extends Controller
                 } 
             }
         }
+     
+        $articles = $user->articles;
+        $nbPublishedArticles =  $articles->where('status','=','published')->count();
+       
+        if ($nbPublishedArticles >= 3) {
+            $article->update([
+                'status' => 'published',
+            ]);
 
-        //Il faudra après rediriger vers la page show de l'article (affichage de l'article en détails)
-        return redirect()->route('welcome') 
-        ->with('success', '
-        Your first article has been created!
-        We will analyze it to make sure that it meets the requirements. 
-        Please note that it is not yet public but will be as soon as your article has been approved! 
-        This restriction will no longer apply once you have posted more than 3 approved articles! 
-        ');
+            return redirect()->route('show_article', $article->id) 
+                ->with('success', '
+                Your article has been created and published successfully. 
+                ');
+        } else {
+            return redirect()->route('show_article', $article->id) 
+                ->with('success', '
+                Your article has been created!
+                We will analyze it to make sure that it meets the requirements. 
+                Please note that it is not yet public but will be as soon as your article has been approved! 
+                This restriction will no longer apply once you have posted more than 3 approved articles! 
+                ');
+        }
     }
 
     /**
@@ -141,17 +155,17 @@ class ArticleController extends Controller
      */
     public function getAllMyArticles($id)
     {
-        $user_id = auth()->user()->id;
+       //$user_id = auth()->user()->id;
         $user = User::find($id);
         $articles = $user->articles;
-        //dd($articles);
+      
         return view('articles.index',[
             'articles' => $articles,
             'user' => $user,
             'resource' => 'My Articles',
         ]);
-
     }
+
     /**
      * Display the specified article.
      *
@@ -175,7 +189,6 @@ class ArticleController extends Controller
             'pictures' => $pictures,
             'categories' => $categories,
         ]);
-
     }
 
     /**
@@ -197,16 +210,16 @@ class ArticleController extends Controller
         $author = User::find($user_id);
         $categories = Category::all();
         //dd($author);
-            return view('articles.edit',[
-                'article' => $article,
-                'author' => $author, 
-                'pictures' => $pictures,
-                'categoriesOfArticle' => $categoriesOfArticle,
-                'categories' => $categories,
-                'selectedCat' => $selectedCat,
-                'resource' => 'Article editing form',
-            ]);
-    //    }
+
+        return view('articles.edit',[
+            'article' => $article,
+            'author' => $author, 
+            'pictures' => $pictures,
+            'categoriesOfArticle' => $categoriesOfArticle,
+            'categories' => $categories,
+            'selectedCat' => $selectedCat,
+            'resource' => 'Article editing form',
+        ]);
     }
 
     /**
@@ -250,7 +263,7 @@ class ArticleController extends Controller
        $phone = $request->input('phone');
        $address = $request->input('address');
 
-       //Save new value in the database
+        //Save new value in the database
 
         $article->user_id = $user_id;
         // 'latitude' => $latitude,
@@ -282,25 +295,51 @@ class ArticleController extends Controller
                  // File upload location
                 if ($check) {
                     $location = 'storage/app/public/uploads/users'; // /articles/img mais à changer dans le create et vérifier s'il y a des fichiers tout court si oui, tous les supprimer et mettre les nouveaux.
-                    $folder = $location .'/'. $user->id .'/';
+                    $folder = $location .'/'. $user->id .'/articles/img/';
 
                     if(!file_exists($folder) && !is_dir($folder)){
                         mkdir($folder, 0777, true);
                     }
-                    // Upload file
-                    $path = $folder . $filename;
-                    if (File::exists($path)) {
-                        File::delete($path);
+                    // clean the folder/ delete all files and replace them by the new ones
+                    if (!empty($folder)) {
+                        File::cleanDirectory($folder);
                     }
+                    // Upload file
+                    $file->move($folder,$filename);  
+                    //dd($article->pictures->path);
+                    //$article->pictures->path = $filename;
+                    //$article->pictures->path = $folder . $filename;
                     $file->move($folder,$filename);  
                     $article->pictures()->create([
                         'path' => $folder . $filename,
                     ]);
+
                 } 
             }
         }
 
         return redirect()->route('show_article', $article->id)
                 ->with('success', 'your article has been successfully updated !');
+    }
+
+     /**
+     * Comment a specific article.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sendComment($id)
+    {
+        $article = Article::find($id);
+       
+        $user_id = $article->user_id;
+        $author = User::find($user_id);
+
+        return view('articles.show',[
+            'article' => $article,
+            'author' => $author, 
+            'resource' => 'Article',
+            
+        ]);
     }
 }
