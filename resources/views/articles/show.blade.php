@@ -21,9 +21,13 @@
                 <div class="text-center flex">
                     <p class="text-2xl text-gray-darker font-extrabold">{{ $author->firstname }}</p>
                     <p class="text-lg text-first font-bold">{{ $author->role }}</p>
-                    <a href="{{ route('edit_article', $article->id) }}" class="flex-shrink-0 w-36 mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
-                        Edit article
-                    </a>
+                    @auth
+                        @if(auth()->user()->id === $author->id)
+                            <a href="{{ route('edit_article', $article->id) }}" class="flex-shrink-0 w-36 mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-last border-2 text-white border-last rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                Edit article
+                            </a>
+                        @endif
+                    @endauth
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
                         </path>
@@ -50,7 +54,34 @@
                     @endforeach
                 </div>
                 <div>
-                    <!-- Leave a comment : view + input (textarea + btn sendComment)-->
+                    <!-- Leave a comment : view + input (textarea + btn sendComment) mettre un btn voir plus ou un scroll sur la div-->
+                    @auth
+                        @if(auth()->user()->id !== $author->id)
+                            <p class="text-gray-dark font-bold text-2xl">Leave a comment</p>
+                            <form class="mx-40" action="{{ route('comment_article', $article->id) }}" method="POST">
+                                @csrf
+                                @method('POST') 
+                                <textarea name="comment" id="comment" cols="70" rows="6" class="lg:text-base text-gray-dark rounded-lg mt-3">
+                                    Here your comment...
+                                </textarea>
+                                <button type="submit" value="submit" class="grid grid-cols-1 mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-white border-last bg-last rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                    Send
+                                </button>
+                            </form>
+                            <hr class="border border-gray-dark">
+                        @endif
+                    @endauth
+                    <p class="text-gray-dark font-bold text-2xl">Comments</p>
+                    @foreach($comments as $comment)
+                        <div class="my-5 border border-gray-dark rounded-md bg-gray-200 w-4/5 mx-24 py-6 px-6">
+                            <div><img class="w-10 h-10 object-cover" src="{{ asset($comment->picture) }}" alt="the photo of the comment's author">
+                            </div>
+
+                            <a href="{{ route('profile', $comment->id) }}" class="text-last font-bold text-lg">{{ $comment->firstname }}</a> 
+                            <p>{{ $comment->comment }}</p>
+                            <p class="text-first font-bold text-right">{{ $comment->created_at }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <div class="bg-yellow-400">

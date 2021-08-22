@@ -7,6 +7,8 @@ use App\Models\Article;
 use App\Models\Booking;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\ArticleComment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 
@@ -177,10 +179,17 @@ class ArticleController extends Controller
         $article = Article::find($id);
         $pictures = $article->pictures;
         $categories = $article->categories;
-        //dd($categories);
-        //dd($pictures);
         $user_id = $article->user_id;
-        $author = User::find($user_id);
+        $author = User::find($user_id); //author of the article
+
+        //Get all comments etc of the article
+        //$comments = DB::table('article_comments')->where(['article_id'=>$id])->get();
+        $comments = DB::table('article_comments')->join('users', 'users.id', '=', 'article_comments.user_id')
+          ->select('users.firstname', 'users.id','users.picture', 'article_comments.comment', 'article_comments.article_id',
+           'article_comments.created_at')
+          ->where(['article_comments.article_id'=>$id])
+          ->get();
+        //dd($comments);
 
         return view('articles.show',[
             'article' => $article,
@@ -188,6 +197,7 @@ class ArticleController extends Controller
             'resource' => 'Article',
             'pictures' => $pictures,
             'categories' => $categories,
+            'comments' => $comments,
         ]);
     }
 
@@ -328,18 +338,22 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function sendComment($id)
+    public function sendComment(Request $request, $id)
     {
         $article = Article::find($id);
-       
-        $user_id = $article->user_id;
-        $author = User::find($user_id);
+        $articleId = $article->id; //Id of the article
+        $authorId = $article->user_id; //id of the author of the article
+        $authorFirstname = User::find($authorId); //author of the article
+        $userId = auth()->user()->id; //Id of the authenticated user
+        $user = User::find($userId); //authenticated user
 
-        return view('articles.show',[
-            'article' => $article,
-            'author' => $author, 
-            'resource' => 'Article',
-            
+        ArticleComment::create([
+            'comment' => $request->input('comment'),
+             'user_id' => $userId, 
+             'article_id' => $articleId,
         ]);
+
+        return redirect()->route('show_article', $articleId)
+        ->with('success', 'Your comment has been successfully registered !');
     }
 }

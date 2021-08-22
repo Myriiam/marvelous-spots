@@ -57,7 +57,7 @@ class Article extends Model
     public function pictures()
     {
         return $this->hasMany(Picture::class);
-        //OR return $this->belongsTo('App\Models\Picture');
+        //OR return $this->hasMany('App\Models\Picture');
     }
 
     /**
@@ -68,5 +68,13 @@ class Article extends Model
         return $this->belongsToMany(Category::class);
         //OR return $this->belongsToMany('App\Models\Category');
     }
-
+    
+    /**
+     * Get the comment(s) of the article - relationship 
+     */
+    public function comments()
+    {
+        return $this->hasMany(ArticleComment::class);
+        //OR return $this->hasMany('App\Models\ArticleComment');
+    }
 }
