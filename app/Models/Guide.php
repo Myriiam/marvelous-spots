@@ -75,4 +75,13 @@ class Guide extends Model
         return $this->belongsToMany(Category::class);
         //OR return $this->belongsToMany('App\Models\Category');
     }
+
+    /**
+     * Get the favorites(likes) of the guide - relationship
+     */
+    public function likes()
+    {
+        return $this->hasMany(FavoriteGuide::class);
+        //OR return $this->hasMany('App\Models\FavoriteGuide');
+    }
 }

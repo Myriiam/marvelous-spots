@@ -107,4 +107,22 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ArticleComment::class);
         //OR return $this->hasMany('App\Models\ArticleComment');
     }
+
+    /**
+     * Get the favorites(likes) article of the user - relationship
+     */
+    public function favorites()
+    {
+        return $this->hasMany(ArticleFavorite::class);
+        //OR return $this->hasMany('App\Models\ArticleFavorite');
+    }
+
+    /**
+     * Get the favorites(likes) guide of the user - relationship
+     */
+    public function likes()
+    {
+        return $this->hasMany(FavoriteGuide::class);
+        //OR return $this->hasMany('App\Models\FavoriteGuide');
+    }
 }

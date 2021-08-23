@@ -19,7 +19,7 @@
                     <img class="object-cover" src="{{ asset($author->picture) }}" alt="picture of the user"/>
                 </div>
                 <div class="text-center flex">
-                    <p class="text-2xl text-gray-darker font-extrabold">{{ $author->firstname }}</p>
+                    <a href="{{ route('profile', $author->id) }}" class="text-2xl text-gray-darker font-extrabold">{{ $author->firstname }}</a>
                     <p class="text-lg text-first font-bold">{{ $author->role }}</p>
                     @auth
                         @if(auth()->user()->id === $author->id)
@@ -27,15 +27,34 @@
                                 Edit article
                             </a>
                         @endif
+                        @if(auth()->user()->id !== $author->id)
+                            @if(is_null($liked))
+                                <form action="{{ route('like_article', $article->id) }}" method="POST">
+                                @csrf
+                                @method('POST')  
+                                    <button type="submit">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                                            </path>
+                                        </svg>
+                                        <p>{{ $nbLikes }}</p>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('dislike_article', $liked->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                    <button type="submit">
+                                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd">
+                                            </path>
+                                        </svg>
+                                        <p>{{ $nbLikes }}</p>
+                                    </button>
+                                </form>
+                            @endif
+                        @endif
                     @endauth
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                        </path>
-                    </svg>
-                    <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd">
-                        </path>
-                    </svg>
                 </div>
             </div>
             <div class="bg-green-400 pb-11">
@@ -71,7 +90,7 @@
                             <hr class="border border-gray-dark">
                         @endif
                     @endauth
-                    <p class="text-gray-dark font-bold text-2xl">Comments</p>
+                    <p class="text-gray-dark font-bold text-2xl"> {{ $nbComments }} Comments</p>
                     @foreach($comments as $comment)
                         <div class="my-5 border border-gray-dark rounded-md bg-gray-200 w-4/5 mx-24 py-6 px-6">
                             <div><img class="w-10 h-10 object-cover" src="{{ asset($comment->picture) }}" alt="the photo of the comment's author">

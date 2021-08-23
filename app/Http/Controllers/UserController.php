@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Guide;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -40,14 +42,26 @@ class UserController extends Controller
     public function showProfile($id)
     {
         $user = User::find($id);
-        //dd($user);
-        //dd($user->birthdate);
+        //dd($user->id); //2
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
-        //dd($birthdate);
+        $userAuth= auth()->user()->id; //Id of the authenticated user 
+        $guideId = $user->guide->id;
+      // dd($guideId);//1
+        
+         //To know if the authenticated user has already or not mark the guide as favorite
+         $likedGuide = DB::table('favorite_guides')->join('users', 'users.id', '=', 'favorite_guides.user_id')
+         ->select('users.firstname', 'favorite_guides.id')
+         ->where(['favorite_guides.guide_id'=>$guideId])
+         ->where(['favorite_guides.user_id'=>$userAuth])
+         ->first();
+        // dd($likedGuide);
+
         return view('profiles.show',[
             'user' => $user,
             'resource' => 'User Profile',
             'birthdate' => $birthdate,
+            'likedGuide' => $likedGuide,
+            'guideId' => $guideId,
         ]);
     }
 
