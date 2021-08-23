@@ -25,7 +25,8 @@ class FavoriteController extends Controller
         $nbLikesAboutAuthUser = $user->guide->likes; //Les likes reçus par le user auth
         $favoritesGuidesOfAuthUser = $user->likes;  //les guides favoris du user auth
         $favoritesArticlesOfAuthUser = $user->favorites;  //les guides favoris du user auth
-
+        
+        //Double join needed here
         //Find details about the favorites guides of the auth user
        /* $favoritesGuidesOfAuthUser = DB::table('favorite_guides')->join('guide', 'guide.id', '=', 'article_comments.guide_id')
         ->select('users.firstname', 'users.id','users.picture', 'article_comments.comment', 'article_comments.article_id',

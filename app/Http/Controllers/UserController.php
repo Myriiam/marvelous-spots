@@ -99,8 +99,7 @@ class UserController extends Controller
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
         $languages = Language::all();
-        $categories = Category::all(); 
-        //dd($user);
+        $categories = Category::all();
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
         //$today = Carbon::today();
         $selectedCat = [];
@@ -139,7 +138,7 @@ class UserController extends Controller
             'definition' => 'string|min:20',       
             'offering' => 'string|min:20',
             'price' => 'digits_between:1,4',
-            //'interests' => '', VOIR COMMENT FAIRE POUR LES SOUS-CATEGORIES (CHECKBOX, not require ?)
+            'categories' => 'required|exists:categories,id|min:1',
             //'pour chaque réseau sociaux' => '', VOIR COMMENT FAIRE POUR LES RESEAUX SOCIAUX (INPUT, not require, string, min et max)
             'pauseChoice' => 'required|in:0,1', //ou in:Yes,No ?
         ]);
@@ -170,12 +169,11 @@ class UserController extends Controller
             $user->guide->languages->language = $request->input('languages');
             $user->guide->travel_definition = $request->input('definition');
             $user->guide->offering = $request->input('offering');
-            /*$user->social_media = $request->input('interests');
+            /*
             $user->social_media = $request->input('instagram');
             $user->social_medi = $request->input('facebook');
             $user->social_media = $request->input('pinterest');
             $user->social_media = $request->input('twitter');*/
-            //and interests + comments for the guide
             $user->guide->pause = $request->input('pauseChoice');
             $user->guide->price = $request->input('price');
             $user->guide->categories()->sync($request->categories);   //To add and link categories to the article
@@ -185,8 +183,7 @@ class UserController extends Controller
         if ($user->role === 'Guide') {
             $user->guide->save();
         }
-       // $userGuide = $user->guide->save();
-        //Session::flash('message', 'Votre profil a été mis à jours !');
+       
         return redirect()->route('profile', auth()->user()->id)
                 ->with('success', 'your profile has been successfully updated !');
     }

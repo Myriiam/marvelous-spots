@@ -113,7 +113,6 @@
                             @endif
                         @endauth
                         @if ($user->role === 'Guide')
-                            <!-- langues parlées par le guide -->
                             <p>I speak :</p>
                             <ul>
                                 @foreach ($user->guide->languages as $languages)               
@@ -201,7 +200,7 @@
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">What I can propose you ?</p>
                         <p class="text-lg mb-2">{{ $user->guide->offering }}</p>
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">Comments</p>
-                        <!-- if ($user->guide->category->subcategory existe/non null alors les afficher)
+                        <!-- COMMENT GUIDE/REVIEW
                         <p class="text-lg mb-2">Afficher les commentaires addressés au guide (review)</p>
                         sinon écrire No comments for this guide ! (ça veut dire qu'il n'a pas encore été sollicité par des voyageurs 
                         car comment obligatoire après la visite-->

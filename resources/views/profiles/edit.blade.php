@@ -124,6 +124,9 @@
             @endif
             <button type="submit" value="submit" class="mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">Save</button>
         </form>
+        <a href="{{ route('profile', $user->id) }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white border-first bg-first rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+            Back
+        </a>
     </main>
     <script src="{{ asset('js/country-city.js') }}" defer></script>
 </x-app-layout>
