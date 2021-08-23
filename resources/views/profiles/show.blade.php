@@ -108,7 +108,7 @@
                         <div class="mb-6 grid grid-cols-1">
                         @auth
                             @if (auth()->user()->id === $user->id)
-                                <a href="#" class="hover:text-sun">My favorites</a>
+                                <a href="{{ route('my_favorite', auth()->user()->id) }}" class="hover:text-sun">My favorites</a>
                                 <a href="{{ route('my_bookings') }}" class="hover:text-sun">My bookings</a>
                             @endif
                         @endauth
@@ -190,9 +190,12 @@
                     <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">About me</p>
                     <p class="text-lg mb-2">{{ $user->about_me }}</p>
                     @if ($user->role === 'Guide')
-                        <!-- if ($user->guide->category->subcategory existe/non null alors les afficher)
-                        <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My interest</p>
-                        <p class="text-lg mb-2">Afficher les catégories (sous-catégories</p>-->
+                        @if (isset($categories))
+                            <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My interest</p>
+                            @foreach ($categories as $categorie)
+                                <p class="text-lg mb-2 text-first font-bold">{{ $categorie->name }}</p>   
+                            @endforeach
+                        @endif
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My definition of travel</p>
                         <p class="text-lg mb-2">{{ $user->guide->travel_definition }}</p>
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">What I can propose you ?</p>

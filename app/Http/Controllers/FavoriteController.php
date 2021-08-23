@@ -18,9 +18,33 @@ class FavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllMyFavorite()
+    public function getAllMyFavorite($id)
     {
         //Article
+        $user = User::find($id);
+        $nbLikesAboutAuthUser = $user->guide->likes; //Les likes reçus par le user auth
+        $favoritesGuidesOfAuthUser = $user->likes;  //les guides favoris du user auth
+        $favoritesArticlesOfAuthUser = $user->favorites;  //les guides favoris du user auth
+
+        //Find details about the favorites guides of the auth user
+       /* $favoritesGuidesOfAuthUser = DB::table('favorite_guides')->join('guide', 'guide.id', '=', 'article_comments.guide_id')
+        ->select('users.firstname', 'users.id','users.picture', 'article_comments.comment', 'article_comments.article_id',
+         'article_comments.created_at')
+        ->where(['article_comments.article_id'=>$id])
+        ->get();*/
+
+        //For articles
+       /* $favoritesGuidesOfAuthUser = DB::table('favorite_guides')->join('guide', 'guide.id', '=', 'article_comments.guide_id')
+        ->select('users.firstname', 'users.id','users.picture', 'article_comments.comment', 'article_comments.article_id',
+         'article_comments.created_at')
+        ->where(['article_comments.article_id'=>$id])
+        ->get();*/
+
+        return view('favorites.index',[
+            'user' => $user,
+            'favoritesGuidesOfAuthUser' => $favoritesGuidesOfAuthUser,
+            'favoritesArticlesOfAuthUser' => $favoritesArticlesOfAuthUser,
+        ]);
 
     }
 

@@ -67,6 +67,15 @@
             </div>    
             @if ($user->role === 'Guide')
                 <div>
+                    <label for="categories">What's your interests ?</label> <!-- multiple -->
+                    <select name="categories[]" id="categories" multiple class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
+                    @foreach ($categories as $category)   
+                            <option value="{{ $category->id }}" {{ in_array($category->id, $selectedCat) ? "selected" : "" }}>{{ $category->name }}</option> 
+                    @endforeach
+                    </select>
+                    <span class="text-red-600">@error('categories') {{ $message }} @enderror</span>
+                </div>  
+                <div>
                     <label for="definition">Your definition of travel</label> <!-- require si guide - pas de champs vide ? -->
                     <textarea name="definition" cols="100" rows="10" class="lg:text-base text-gray-dark rounded-lg mt-3">{{ $user->guide->travel_definition }}</textarea> 
                     <span class="text-red-600">@error('definition') {{ $message }} @enderror</span>
@@ -81,12 +90,6 @@
                     <input name="price" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->guide->price }}">
                     <span class="text-red-600">@error('price') {{ $message }} @enderror</span>
                 </div>        
-                <!--<div>
-                    <label for="interests">Your interests</label>  NOT require  SELECT OU CHECKBOX de toutes les sous catégories avec catégories ? ou juste sous catégories ou juste catégories ?
-                    faire un foreach sur toutes les catégories/sous catégories
-                    <input id="interests" name="interests" type="checkbox" value="{{ $user->guide->ctg }}">
-                     <span class="text-red-600">@error('interests') {{ $message }} @enderror</span>
-                </div> -->
             @endif
            <!--  <div>
                <p>Social Media</p>  NOT REQUIRE 
