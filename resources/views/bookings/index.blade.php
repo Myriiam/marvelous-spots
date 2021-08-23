@@ -74,7 +74,7 @@
                         endif-->
                     @endforeach
                 </ul>
-                <hr class="border-2 border-gray-dark">
+                <hr class="border border-gray-dark">
             @endif
             @if (auth()->user()->id === $user->id)
                 <h2 class="font-extrabold text-3xl text-gray-darker">My bookings</h2>

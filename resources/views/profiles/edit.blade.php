@@ -39,30 +39,11 @@
             <div>
                 <label for="country">Country where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="country" id="country" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
-                    <option value="{{ $user->country ? $user->country : 'select a country' }}">{{ $user->country ? $user->country : 'select a country' }}</option>
-                    <option value="France">France</option>
-                    <option value="Italy">Italy</option>
-                    <option value="England">England</option>
-                    <option value="Sweden">Sweden</option>
-                    <option value="Denmark">Denmark</option>
-                    <!-- foreach sur tous les pays si données mais là écrire en dur les pays ? -->
                 </select>
             </div>        
             <div>
                 <label for="city">City where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="city" id="city" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
-                    <option value="{{ $user->city ? $user->city : '' }}">{{ $user->city ? $user->city : 'select a city' }}</option>
-                    <option value="{{ $user->city ? $user->city : '' }}">{{ $user->city ? $user->city : 'select a city' }}</option>
-                    <option value="Paris">Paris</option>
-                    <option value="Nice">Nice</option>
-                    <option value="Brussels">Brussels</option>
-                    <option value="Roma">Roma</option>
-                    <option value="Milan">Milan</option>
-                    <option value="Florence">Florence</option>
-                    <option value="Manchester">Manchester</option>
-                    <option value="London">London</option>
-                    <option value="Copenhagen">Copenhagen</option>
-                    <!-- foreach sur tous les pays si données mais là écrire en dur les pays ? -->
                 </select>
             </div> 
             @if ($user->role === 'Guide')
@@ -86,6 +67,15 @@
             </div>    
             @if ($user->role === 'Guide')
                 <div>
+                    <label for="categories">What's your interests ?</label> <!-- multiple -->
+                    <select name="categories[]" id="categories" multiple class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
+                    @foreach ($categories as $category)   
+                            <option value="{{ $category->id }}" {{ in_array($category->id, $selectedCat) ? "selected" : "" }}>{{ $category->name }}</option> 
+                    @endforeach
+                    </select>
+                    <span class="text-red-600">@error('categories') {{ $message }} @enderror</span>
+                </div>  
+                <div>
                     <label for="definition">Your definition of travel</label> <!-- require si guide - pas de champs vide ? -->
                     <textarea name="definition" cols="100" rows="10" class="lg:text-base text-gray-dark rounded-lg mt-3">{{ $user->guide->travel_definition }}</textarea> 
                     <span class="text-red-600">@error('definition') {{ $message }} @enderror</span>
@@ -100,12 +90,6 @@
                     <input name="price" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->guide->price }}">
                     <span class="text-red-600">@error('price') {{ $message }} @enderror</span>
                 </div>        
-                <!--<div>
-                    <label for="interests">Your interests</label>  NOT require  SELECT OU CHECKBOX de toutes les sous catégories avec catégories ? ou juste sous catégories ou juste catégories ?
-                    faire un foreach sur toutes les catégories/sous catégories
-                    <input id="interests" name="interests" type="checkbox" value="{{ $user->guide->ctg }}">
-                     <span class="text-red-600">@error('interests') {{ $message }} @enderror</span>
-                </div> -->
             @endif
            <!--  <div>
                <p>Social Media</p>  NOT REQUIRE 
@@ -140,5 +124,9 @@
             @endif
             <button type="submit" value="submit" class="mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">Save</button>
         </form>
+        <a href="{{ route('profile', $user->id) }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white border-first bg-first rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+            Back
+        </a>
     </main>
+    <script src="{{ asset('js/country-city.js') }}" defer></script>
 </x-app-layout>

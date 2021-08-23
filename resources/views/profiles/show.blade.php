@@ -108,12 +108,11 @@
                         <div class="mb-6 grid grid-cols-1">
                         @auth
                             @if (auth()->user()->id === $user->id)
-                                <a href="#" class="hover:text-sun">My favorites</a>
+                                <a href="{{ route('my_favorite', auth()->user()->id) }}" class="hover:text-sun">My favorites</a>
                                 <a href="{{ route('my_bookings') }}" class="hover:text-sun">My bookings</a>
                             @endif
                         @endauth
                         @if ($user->role === 'Guide')
-                            <!-- langues parlées par le guide -->
                             <p>I speak :</p>
                             <ul>
                                 @foreach ($user->guide->languages as $languages)               
@@ -143,9 +142,32 @@
                                     Book a visit
                                 </a>
                             @endif
+                            @if(is_null($likedGuide))
+                                <form action="{{ route('like_guide', $user->id) }}" method="POST">
+                                @csrf
+                                @method('POST')  
+                                    <button type="submit">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('dislike_guide', $likedGuide->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                    <button type="submit">
+                                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            @endif
                         @endif
                     @endauth
-                    <a href="#" class="mx-28 md:mx-8 mb-6 mt-3 w-42 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-yellow-500 border-yellow-500 rounded-lg focus:ring-2 focus:ring-last cursor-pointer hover:shadow-lg hover:text-last">
+                    <a href="{{ route('my_articles', $user->id) }}" class="mx-28 md:mx-8 mb-6 mt-3 w-42 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-yellow-500 border-yellow-500 rounded-lg focus:ring-2 focus:ring-last cursor-pointer hover:shadow-lg hover:text-last">
                         My articles
                     </a>
                 </div>
@@ -167,15 +189,18 @@
                     <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">About me</p>
                     <p class="text-lg mb-2">{{ $user->about_me }}</p>
                     @if ($user->role === 'Guide')
-                        <!-- if ($user->guide->category->subcategory existe/non null alors les afficher)
-                        <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My interest</p>
-                        <p class="text-lg mb-2">Afficher les catégories (sous-catégories</p>-->
+                        @if (isset($categories))
+                            <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My interest</p>
+                            @foreach ($categories as $categorie)
+                                <p class="text-lg mb-2 text-first font-bold">{{ $categorie->name }}</p>   
+                            @endforeach
+                        @endif
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My definition of travel</p>
                         <p class="text-lg mb-2">{{ $user->guide->travel_definition }}</p>
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">What I can propose you ?</p>
                         <p class="text-lg mb-2">{{ $user->guide->offering }}</p>
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">Comments</p>
-                        <!-- if ($user->guide->category->subcategory existe/non null alors les afficher)
+                        <!-- COMMENT GUIDE/REVIEW
                         <p class="text-lg mb-2">Afficher les commentaires addressés au guide (review)</p>
                         sinon écrire No comments for this guide ! (ça veut dire qu'il n'a pas encore été sollicité par des voyageurs 
                         car comment obligatoire après la visite-->

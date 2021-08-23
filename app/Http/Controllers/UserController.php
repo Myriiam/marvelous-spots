@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Guide;
+use App\Models\Category;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -39,16 +42,36 @@ class UserController extends Controller
      */
     public function showProfile($id)
     {
-        $user = User::find($id);
-        //dd($user);
-        //dd($user->birthdate);
+        $user = User::find($id); //dd($user->id); //2
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
-        //dd($birthdate);
-        return view('profiles.show',[
-            'user' => $user,
-            'resource' => 'User Profile',
-            'birthdate' => $birthdate,
-        ]);
+        $userAuth= auth()->user()->id; //Id of the authenticated user 
+
+        if ($user->role === 'Guide') {
+            $guideId = $user->guide->id; // dd($guideId);//1
+            $categories = $user->guide->categories;
+            
+            //To know if the authenticated user has already or not mark the guide as favorite
+            $likedGuide = DB::table('favorite_guides')->join('users', 'users.id', '=', 'favorite_guides.user_id')
+            ->select('users.firstname', 'favorite_guides.id')
+            ->where(['favorite_guides.guide_id'=>$guideId])
+            ->where(['favorite_guides.user_id'=>$userAuth])
+            ->first();
+            
+            return view('profiles.show',[
+                'user' => $user,
+                'resource' => 'User Profile',
+                'birthdate' => $birthdate,
+                'likedGuide' => $likedGuide,
+                'guideId' => $guideId,
+                'categories' => $categories,
+            ]);
+        } else {
+            return view('profiles.show',[
+                'user' => $user,
+                'resource' => 'User Profile',
+                'birthdate' => $birthdate,
+            ]);
+        }
     }
 
     /**
@@ -75,24 +98,22 @@ class UserController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-       
-     //  if (auth()->user()->id == $id) {
-           //$user = User::find($id);
-            $languages = Language::all(); 
-            //dd($user);
-            $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
-            //$today = Carbon::today();
-
-            return view('profiles.edit',[
-                'user' => $user,
-                'resource' => 'Profile editing form',
-                'languages' => $languages,
-                'birthdate' => $birthdate,
-            ]);
-    //    }
-
-     //   $users = User::all();
-      //  return redirect()->route('welcome', ['users' => $users]);
+        $languages = Language::all();
+        $categories = Category::all();
+        $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
+        //$today = Carbon::today();
+        $selectedCat = [];
+        foreach ($user->guide->categories as $categoriesOfGuide) {
+            array_push($selectedCat, $categoriesOfGuide->id);
+        }
+        return view('profiles.edit',[
+            'user' => $user,
+            'resource' => 'Profile editing form',
+            'languages' => $languages,
+            'birthdate' => $birthdate,
+            'categories' => $categories,
+            'selectedCat' => $selectedCat,
+        ]);
     }
 
     /**
@@ -106,7 +127,7 @@ class UserController extends Controller
         //$user = User::findOrFail(auth()->id());
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-       
+       //dd($request);
          // Validation
          $request->validate([
             'picture' => 'mimes:png,jpg,jpeg|max:2048', //require lorsque l'utilisateur s'enregistre/après s'il ne veut rien uploader c ok !
@@ -117,7 +138,7 @@ class UserController extends Controller
             'definition' => 'string|min:20',       
             'offering' => 'string|min:20',
             'price' => 'digits_between:1,4',
-            //'interests' => '', VOIR COMMENT FAIRE POUR LES SOUS-CATEGORIES (CHECKBOX, not require ?)
+            'categories' => 'required|exists:categories,id|min:1',
             //'pour chaque réseau sociaux' => '', VOIR COMMENT FAIRE POUR LES RESEAUX SOCIAUX (INPUT, not require, string, min et max)
             'pauseChoice' => 'required|in:0,1', //ou in:Yes,No ?
         ]);
@@ -148,28 +169,27 @@ class UserController extends Controller
             $user->guide->languages->language = $request->input('languages');
             $user->guide->travel_definition = $request->input('definition');
             $user->guide->offering = $request->input('offering');
-            /*$user->social_media = $request->input('interests');
+            /*
             $user->social_media = $request->input('instagram');
             $user->social_medi = $request->input('facebook');
             $user->social_media = $request->input('pinterest');
             $user->social_media = $request->input('twitter');*/
-            //and interests + comments for the guide
             $user->guide->pause = $request->input('pauseChoice');
             $user->guide->price = $request->input('price');
+            $user->guide->categories()->sync($request->categories);   //To add and link categories to the article
         }   
 
         $user->save();
         if ($user->role === 'Guide') {
             $user->guide->save();
         }
-       // $userGuide = $user->guide->save();
-        //Session::flash('message', 'Votre profil a été mis à jours !');
+       
         return redirect()->route('profile', auth()->user()->id)
                 ->with('success', 'your profile has been successfully updated !');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the user permanently.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

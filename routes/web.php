@@ -32,8 +32,8 @@ Route::put('/my-profile/save', [App\Http\Controllers\UserController::class, 'upd
 //Contact
 Route::post('/profile/{id}/contact', [App\Http\Controllers\ContactController::class, 'sendMessage'])->middleware(['auth'])->name('contact');
 Route::get('/inbox', [App\Http\Controllers\ContactController::class, 'getAllMessages'])->middleware(['auth'])->name('my_inbox');
-Route::put('/inbox/status/{id}/update', [App\Http\Controllers\ContactController::class, 'changeStatusMessage'])->middleware(['auth'])->name('status_updated');//put ?
-Route::post('/inbox/message/{id}/delete', [App\Http\Controllers\ContactController::class, 'deleteMessage'])->middleware(['auth'])->name('delete_message');
+Route::put('/inbox/status/{id}/update', [App\Http\Controllers\ContactController::class, 'changeStatusMessage'])->middleware(['auth'])->name('status_updated');
+Route::post('/inbox/message/{id}/delete', [App\Http\Controllers\ContactController::class, 'deleteMessage'])->middleware(['auth'])->name('delete_message'); //delete method et pas post ?
 //Route for the answer fonction to add HERE
 //Booking
 Route::post('/{id}/book', [App\Http\Controllers\BookingController::class, 'bookVisit'])->middleware(['auth'])->name('book_visit');
@@ -42,8 +42,22 @@ Route::get('/my-bookings', [App\Http\Controllers\BookingController::class, 'getA
 Route::post('/my-bookings/{id}/accept-offer', [App\Http\Controllers\BookingController::class, 'acceptOffer'])->middleware(['auth'])->name('accept_offer');
 Route::post('/my-bookings/{id}/refuse-offer', [App\Http\Controllers\BookingController::class, 'refuseOffer'])->middleware(['auth'])->name('refuse_offer');
 //Paiement - Stripe
-//Route::get('/my-bookings/{id}/stripe-payment/form', [App\Http\Controllers\StripeController::class, 'handleGet'])->name('stripe.form');
 Route::post('/my-bookings/{id}/stripe-payment', [App\Http\Controllers\StripeController::class, 'paymentStripe'])->name('stripe_payment');
-//Route::post('/{id}/paiement', [App\Http\Controllers\BookingController::class, 'paiement'])->middleware(['auth'])->name('paiement');
+//Article
+Route::get('/add-article-form', [App\Http\Controllers\ArticleController::class, 'createArticle'])->middleware(['auth'])->name('add_article_form');
+Route::post('/add-article', [App\Http\Controllers\ArticleController::class, 'storeArticle'])->middleware(['auth'])->name('add_article');
+Route::get('/{id}/my-articles', [App\Http\Controllers\ArticleController::class, 'getAllMyArticles'])->name('my_articles');
+Route::get('/show-article/{id}', [App\Http\Controllers\ArticleController::class, 'showArticle'])->name('show_article');
+Route::get('/{id}/edit-article', [App\Http\Controllers\ArticleController::class, 'editArticle'])->middleware(['auth'])->name('edit_article');
+Route::put('/{id}/save-article', [App\Http\Controllers\ArticleController::class, 'updateArticle'])->middleware(['auth'])->name('save_article');
+//Comment
+Route::post('/{id}/comment-article', [App\Http\Controllers\ArticleController::class, 'sendComment'])->middleware(['auth'])->name('comment_article');
+//Favorite Article
+Route::get('/{id}/article/my-favorite', [App\Http\Controllers\FavoriteController::class, 'getAllMyFavorite'])->middleware(['auth'])->name('my_favorite'); //Soit on laisse l'id afin que tous les users conenctés puissent voir les favoris des autres sinon que nous -meme y avons accès et pas les autres !?
+Route::post('/{id}/article/like', [App\Http\Controllers\FavoriteController::class, 'likeArticle'])->middleware(['auth'])->name('like_article');
+Route::post('/{id}/article/dislike', [App\Http\Controllers\FavoriteController::class, 'dislikeArticle'])->middleware(['auth'])->name('dislike_article');
+//Favorite Guide
+Route::post('/{id}/guide/like', [App\Http\Controllers\FavoriteController::class, 'likeGuide'])->middleware(['auth'])->name('like_guide');
+Route::post('/{id}/guide/dislike', [App\Http\Controllers\FavoriteController::class, 'dislikeGuide'])->middleware(['auth'])->name('dislike_guide');
 
 //where('id', '[0-9]+')->

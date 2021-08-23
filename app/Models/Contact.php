@@ -41,7 +41,7 @@ class Contact extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'sender_id', 'user_id');
+        return $this->belongsTo(User::class, 'sender_id', 'receiver_id');
         //OR return $this->belongsTo('App\Models\User');
     }
 }
