@@ -22,9 +22,9 @@ class FavoriteController extends Controller
     {
         //Article
         $user = User::find($id);
-        $nbLikesAboutAuthUser = $user->guide->likes; //Les likes reçus par le user auth
+        //$nbLikesAboutAuthUser = $user->guide->likes; //Les likes reçus par le user auth
         $favoritesGuidesOfAuthUser = $user->likes;  //les guides favoris du user auth
-        $favoritesArticlesOfAuthUser = $user->favorites;  //les guides favoris du user auth
+        $favoritesArticlesOfAuthUser = $user->favorites;  //les articles favoris du user auth
         
         //Double join needed here
         //Find details about the favorites guides of the auth user

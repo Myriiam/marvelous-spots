@@ -29,7 +29,7 @@ class CreateBookingsTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')
             ->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('guide_id')->references('user_id')->on('guides') //
+            $table->foreign('guide_id')->references('id')->on('guides') //user_id
             ->onDelete('restrict')->onUpdate('cascade');
         });
     }

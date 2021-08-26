@@ -59,5 +59,8 @@ Route::post('/{id}/article/dislike', [App\Http\Controllers\FavoriteController::c
 //Favorite Guide
 Route::post('/{id}/guide/like', [App\Http\Controllers\FavoriteController::class, 'likeGuide'])->middleware(['auth'])->name('like_guide');
 Route::post('/{id}/guide/dislike', [App\Http\Controllers\FavoriteController::class, 'dislikeGuide'])->middleware(['auth'])->name('dislike_guide');
+//Search
+Route::get('/search-results/city', [App\Http\Controllers\ResearchController::class, 'getAll'])->name('all_in_city');
+
 
 //where('id', '[0-9]+')->

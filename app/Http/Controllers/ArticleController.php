@@ -181,8 +181,7 @@ class ArticleController extends Controller
         $categories = $article->categories;
         $user_id = $article->user_id;
         $author = User::find($user_id); //author of the article
-        $userAuth= auth()->user()->id; //Id of the authenticated user 
-
+        
         //Get all comments etc of the article
         //$comments = DB::table('article_comments')->where(['article_id'=>$id])->get();
         $comments = DB::table('article_comments')->join('users', 'users.id', '=', 'article_comments.user_id')
@@ -191,32 +190,46 @@ class ArticleController extends Controller
           ->where(['article_comments.article_id'=>$id])
           ->get();
         //dd($comments);
-
+           
         //Count the number of comments for this article
         $nbComments = $article->comments->count();
 
         //Count the number of like for this article
         $nbLikes = $article->favorites->count();
 
-        //To know if the authenticated user has already or not mark the post as favorite
-        $liked = DB::table('article_favorites')->join('users', 'users.id', '=', 'article_favorites.user_id')
-        ->select('users.firstname', 'users.id', 'article_favorites.id')
-        ->where(['article_favorites.article_id'=>$id])
-        ->where(['article_favorites.user_id'=>$userAuth])
-        ->first();
-        //dd($liked);
+        if (auth()->user()) {
+            $userAuth = auth()->user()->id; //Id of the authenticated user 
+            //To know if the authenticated user has already or not mark the post as favorite
+            $liked = DB::table('article_favorites')->join('users', 'users.id', '=', 'article_favorites.user_id')
+            ->select('users.firstname', 'users.id', 'article_favorites.id')
+            ->where(['article_favorites.article_id'=>$id])
+            ->where(['article_favorites.user_id'=>$userAuth])
+            ->first();
+            //dd($liked);
 
-        return view('articles.show',[
-            'article' => $article,
-            'author' => $author, 
-            'resource' => 'Article',
-            'pictures' => $pictures,
-            'categories' => $categories,
-            'comments' => $comments,
-            'nbLikes' => $nbLikes,
-            'liked' => $liked,
-            'nbComments' => $nbComments,
-        ]);
+            return view('articles.show',[
+                'article' => $article,
+                'author' => $author, 
+                'resource' => 'Article',
+                'pictures' => $pictures,
+                'categories' => $categories,
+                'comments' => $comments,
+                'nbLikes' => $nbLikes,
+                'liked' => $liked,
+                'nbComments' => $nbComments,
+            ]);
+        } else {
+            return view('articles.show',[
+                'article' => $article,
+                'author' => $author, 
+                'resource' => 'Article',
+                'pictures' => $pictures,
+                'categories' => $categories,
+                'comments' => $comments,
+                'nbLikes' => $nbLikes,
+                'nbComments' => $nbComments,
+            ]);
+        }
     }
 
     /**

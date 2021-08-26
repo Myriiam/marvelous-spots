@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Guide;
+use App\Models\Article;
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Language;
 use Illuminate\Http\Request;
@@ -44,9 +46,9 @@ class UserController extends Controller
     {
         $user = User::find($id); //dd($user->id); //2
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
-        $userAuth= auth()->user()->id; //Id of the authenticated user 
 
-        if ($user->role === 'Guide') {
+        if ($user->role === 'Guide' && !is_null(auth()->user())) {
+            $userAuth = auth()->user()->id; //Id of the authenticated user 
             $guideId = $user->guide->id; // dd($guideId);//1
             $categories = $user->guide->categories;
             

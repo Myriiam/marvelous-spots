@@ -19,7 +19,10 @@ class BookingController extends Controller
     {   
         $user_id = auth()->user()->id; //connected user (who make the booking)
        // $user = User::find($id); //user
-        $guide_id = $id;
+        $user = User::find($id);
+        $user_firstname = $user->firstname;
+        $guide_id = $user->guide->id;
+        //dd($guide_id);
         //dates when the guide is booked (the guide receive an offer)
         $booking_dates_guide = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
         ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.visit_date', 
@@ -29,10 +32,10 @@ class BookingController extends Controller
         ->get();
 
         //dates when the guide has booked another guide (the guide make a demand)
-        $booking_dates_user = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
+        $booking_dates_user = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.user_id')
         ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.visit_date', 
         'bookings.total_price','bookings.status_demand', 'bookings.status_offer')
-        ->where(['bookings.user_id'=>$guide_id])
+        ->where(['bookings.user_id'=>$user->id])
         ->whereIn('bookings.status_demand', ['paiement', 'booked', 'pending'])
         ->get();
         
@@ -86,36 +89,53 @@ class BookingController extends Controller
     public function getAllBookings()
     {
         $user_id = auth()->user()->id;
-        $user = User::find($user_id);
-      
-        $bookings = Booking::find($user);
-       //dd($bookings[0]->user->guide);
-        
-         //Réservation d'un guide par un user (traveler or guide) => user_id = personne connecté (de qui ont veut récupérer ses réservation) 
+        $user = User::find($user_id); //Auth user
+      //dd($user->bookings);
+        $bookings = Booking::all();
+      // dd($bookings[0]->guide->user->firstname); //nom du guide commandé
+      //dd($bookings[1]->user->bookings);
+    
+        //dd($guide_id);
+       /*  //Réservation d'un guide par un user (traveler or guide) => user_id = personne connecté (de qui ont veut récupérer ses réservation) 
          //et guide_id = personne à qui on fait la demande
-          $reservationsUser = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
+          $reservationsUser = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.user_id')
+          ->join('guides','guides.user_id', '=', 'bookings.user_id')
+         
+         
           ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
            'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price',
            'bookings.status_demand', 'bookings.status_offer')
           ->where(['bookings.user_id'=>$user_id])
+         
           ->get();
-        //dd($reservationsUser);
+        dd($reservationsUser);*/
 
-          //Offres reçues par un guide d'un user (taveler or guide)
+        if ($user->role === 'Guide') {
+            $guide_id = $user->guide->id;
+           
+          //Offres reçues par un guide d'un user (traveler or guide)
           $offersGuide = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.user_id')
           ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
            'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price', 
            'bookings.status_demand', 'bookings.status_offer')
-          ->where(['bookings.guide_id'=>$user_id])
+          ->where(['bookings.guide_id'=> $guide_id])
           ->get();
           //dd($offersGuide);
 
-        return view('bookings.index',[
+          return view('bookings.index',[
             'user' => $user,
             'resource' => 'My bookings',
-            'reservationsUser' => $reservationsUser,
+            //'reservationsUser' => $reservationsUser,
             'offersGuide' => $offersGuide,
         ]);
+
+        } else {
+            return view('bookings.index',[
+                'user' => $user,
+                'resource' => 'My bookings',
+                //'reservationsUser' => $reservationsUser,
+            ]);
+        }
     }
 
     /**
