@@ -24,7 +24,7 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 //Home
-Route::get('/', [App\Http\Controllers\UserController::class, 'welcome'])->name('welcome');
+Route::get('/', [App\Http\Controllers\UserController::class, 'welcome'])->name('welcome'); //
 //Profile
 Route::get('/profile/{id}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('profile');
 Route::get('/my-profile/edit', [App\Http\Controllers\UserController::class, 'editProfile'])->middleware(['auth'])->name('edit_my_profile');

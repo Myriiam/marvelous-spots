@@ -31,8 +31,9 @@
                 <div class="text-center">
                     <form action="{{ route('all_in_city') }}" method="GET">
                         @csrf
-                        <input name="search-home" type="text" class="rounded-md bg-gray-lighter" placeholder="Enter a city name...">
-                        <button type="submit" class="border-2">Search</button>
+                        <input name="search-input" type="text" class="rounded-md bg-gray-lighter" placeholder="Enter a city name...">
+                        <button type="submit" value="guides" name="btnSearch" class="border-2">guides</button>
+                        <button type="submit" value="articles" name="btnSearch" class="border-2">articles</button>
                     </form>
                 </div>
             </div>

@@ -14,24 +14,46 @@
                 <form action="{{ route('all_in_city') }}" method="GET">
                     @csrf
                     <input name="search-home" type="text" class="rounded-md bg-gray-lighter" placeholder="Enter a city name...">
-                    <button type="submit" class="border-2">Search</button>
+                    <button type="submit" class="border-2 px-2 py-2">Search</button><br>
                     <!-- Filtres -->
-                    <button>Button toggle = filtre qui fait apparaitre ou disparaitre la div filtre</button>
+                    <!-- Button toggle = filtre qui fait apparaitre ou disparaitre la div filtre -->
+                    <button class="border-first bg-first text-white font-semibold px-2 py-2">Filters</button>
                     <div id="filter">
                         <div>
-                            <p>Filtrer par categories</p>
-                            <input type="checkbox">
                             <!-- foreach de toutes les categories -->
+                            <label for="categories" class="text-first font-semibold">Filter by categories</label><br>
+                            @foreach ($categories as $category)   
+                                <input type="checkbox" name="categories" id="categories" value="{{ $category->id }}" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
+                                {{ $category->name }}
+                            @endforeach
+                            </select>
                         </div>
                         <div>
-                            <p>Filtrer par articles</p>
+                            <p class="text-first font-semibold">Filtrer par articles</p>
                             <input type="checkbox"> <!-- yes si coché, no si pas coché -->
                         </div>
                         <div>
-                            <p>Filtrer par guide</p>
-                            <input type="checkbox"> <!-- yes si coché, no si pas coché -->
-                            <input type="checkbox"> <!-- si yes coché LANGUE-->
-                            <input type="checkbox"> <!-- si yes coché SEXE-->
+                            <label for="guide" class="text-first font-semibold">Filter by guides</label><br>
+                            <input type="checkbox" name="guide">
+                            <div>
+                                <p class="text-last">Languages</p>
+                                <label for="english" >English</label>
+                                <input type="checkbox" name="english" value="English"/>
+                                <label for="french" >French</label>
+                                <input type="checkbox" value="French" nem="french"/>
+                                <label for="arabic">Arabic</label>
+                                <input type="checkbox" value="Arabic" name="arabic"/>
+                                <label for="italian">Italian</label>
+                                <input type="checkbox" value="Italian" name="italian"/>
+                                <label for="spanish">Spanish</label>
+                                <input type="checkbox" value="Spanish" name="spanish"/>
+                       
+                                <p class="text-last">sexe</p>
+                                <label for="F">women</label>
+                                <input type="checkbox" name="F" value="F"> 
+                                <label for="M">man</label>
+                                <input type="checkbox" name="M" value="M"> 
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -40,32 +62,7 @@
     <main class="bg-pink-200 my-5">
         <!-- RESULTATS DE LA RECHERCHE-->
         <div class="bg-gray-lighter py-6">
-            <!-- DISPLAY CARDS ARTICLES -->
-            <div>
-                <h1 class="text-gray-dark text-3xl font-extrabold text-center">Enjoy the best tips in Copenhagen</h1>
-                <div class="flex mx-7">
-                   <!-- Foreach of articles that match the query + mettre lien sur la photo de l'article->show article/auteur de l'auteur->show profil -->
-                    <div class="max-w-sm py-16">
-                        <div class="bg-white relative shadow-lg hover:shadow-xl transition duration-500 rounded-lg">
-                            <img class="rounded-t-lg" src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80" alt="" />
-                            <div class="pb-6 pt-4 px-8 rounded-lg bg-white">
-                                <p class="text-gray-light font-bold">les catégories ICI</p>
-                                <p class="text-black font-bold tracking-wide pl-7 pt-2">Titre</p>
-                                <p class="text-gray-darker font-bold tracking-wide pl-7">Sous-titre</p>
-                                <hr class="border border-gray-lighter">
-                                <div class="flex pt-3">
-                                    <div>
-                                        <img class="bg-cover bg-center bg-gray-700 w-10 h-10 rounded-full mr-3" src="#" alt="picture of the article's author">
-                                    </div>
-                                    <div>
-                                        <p class="text-gray-light font-bold pt-3 pl-3">Nom de l'auteur de l'article</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <!-- EXPLAINATION -->
             <div class="bg-yellow-200 text-center py-7">
                 <h1 class="text-gray-darker text-3xl font-extrabold mb-10">How to hire a guide service ?</h1>
@@ -88,20 +85,24 @@
             </div>
             <!-- DISPLAY CARDS GUIDE -->
             <div class="mt-7">
-                <h1 class="text-gray-dark text-3xl font-extrabold text-center">Explore Copenhagen with the guide of your choice</h1>
+                <h1 class="text-gray-dark text-3xl font-extrabold text-center">Explore {{ $city }} with the guide of your choice</h1>
                 <div class="flex mx-7">
                    <!-- Foreach of guides that match the query + mettre lien sur la photo du guide->show profil -->
-                    <div class="max-w-sm py-16">
-                        <div class="bg-white relative shadow-lg hover:shadow-xl transition duration-500 rounded-lg">
-                            <img class="rounded-t-lg" src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80" alt="" />
-                            <div class="pb-6 pt-4 px-8 rounded-lg bg-white">
-                                <p class="text-xl text-gray-darker font-semibold text-center">Nom du guide</p>
-                            </div>
-                            <div class="absolute top-2 right-2 py-2 px-4 bg-white rounded-lg">
-                                <span class="text-md">stars review</span>
+                   @forelse ($guides as $guide)
+                        <div class="max-w-sm py-16">
+                            <div class="bg-white relative shadow-lg hover:shadow-xl transition duration-500 rounded-lg">
+                                <img class="rounded-t-lg" src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80" alt="" />
+                                <div class="pb-6 pt-4 px-8 rounded-lg bg-white">
+                                    <p class="text-xl text-gray-darker font-semibold text-center">{{ $guide->firstname }}</p> <!-- mettre lien pour redirection sho.guide-->
+                                </div>
+                                <div class="absolute top-2 right-2 py-2 px-4 bg-white rounded-lg">
+                                    <span class="text-md">stars review</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        @empty
+                            <p>No results</p>
+                    @endforelse
                 </div>
             </div>
         </div>

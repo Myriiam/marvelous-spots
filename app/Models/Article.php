@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
 {
@@ -86,4 +87,5 @@ class Article extends Model
         return $this->hasMany(ArticleFavorite::class);
         //OR return $this->hasMany('App\Models\ArticleFavorite');
     }
+
 }
