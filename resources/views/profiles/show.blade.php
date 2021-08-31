@@ -84,8 +84,8 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12">
             <div class="bg-red-400 col-span-4 sm:col-span-3 md:col-span-4 lg:col-span-3">
-                <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-2/5 flex-shrink items-center z-10 transform -translate-y-0 md:-translate-y-24 md:w-4/5 lg:w-9/12">
-                    <img class="object-cover" src="{{ asset($user->picture) }}" alt="picture of the user">
+                <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-2/5 h-2/5 flex-shrink items-center z-10 transform -translate-y-0 md:-translate-y-24 md:w-4/5 lg:w-9/12">
+                    <img class="rounded-full object-cover min-w-full min-h-full h-full" src="{{ asset($user->picture) }}" alt="picture of the user">
                 </div>
                 @if ($user->role === 'Guide' && ($user->guide->pause === 1))
                     <div class="transform -translate-y-0 md:-translate-y-24">
@@ -210,7 +210,7 @@
                 @auth
                     @if (auth()->user()->id === $user->id)
                         @if ($user->role !== 'Guide')
-                            <a href="#" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                            <a href="{{ route('become_guide_form', auth()->user()->id) }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Becoming a guide
                             </a>
                         @endif

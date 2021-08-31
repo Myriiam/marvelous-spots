@@ -31,11 +31,10 @@ axios({
             let aTag = document.getElementsByClassName("link-slider-booking")[i];
             let imgTag = document.createElement("img");
             imgTag.src = allBookings[i].guide.picture;
-            //console.log(img.src);
-            //console.log(divSelected[i]);
+            imgTag.setAttribute('class', 'rounded-full');
             aTag.appendChild(imgTag);
        }
-    
+
  //   });
 
 })

@@ -88,4 +88,27 @@ class Article extends Model
         //OR return $this->hasMany('App\Models\ArticleFavorite');
     }
 
+     /**
+     * Search the articles after a city search by an user
+     * 
+     * @param string $city
+     * @return LengthAwarePaginator
+     */
+    public static function researchArticles($city) {
+ 
+        $articles = DB::table('articles as art')
+        ->select('art.id', 'art.title', 'art.subtitle', 'art.user_id', 'art.status', 'u.firstname', 'u.picture', 'u.city', 'pic.path')
+        ->join('users as u', 'u.id', '=', 'art.user_id')
+        ->join('pictures as pic', 'pic.article_id', '=', 'art.id')
+        ->groupBy('art.id')
+        ->having('u.city', 'LIKE', "%{$city}%")
+        ->having('art.status', '=', 'published');
+
+        foreach ($articles as $article) {
+            $article->categories = DB::table('categories as cat')->select('cat.name')
+                ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
+                ->where('artcat.article_id', '=', '$article->id');
+        }
+        return $articles;
+     }
 }

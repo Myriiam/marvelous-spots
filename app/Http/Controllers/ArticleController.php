@@ -86,8 +86,8 @@ class ArticleController extends Controller
             $article->user_id = $user_id;
            // 'latitude' => $latitude,
            // 'longitude' => $longitude,
-           $article->title = $title;
-           $article->subtitle = $subtitle;
+            $article->title = $title;
+            $article->subtitle = $subtitle;
             $article->description = $description;
             $article->phone_place = $phone;
             $article->website_place = $website;

@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
+    {   
         return view('auth.register');
     }
 
@@ -32,12 +32,17 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
-    {
+    {   
         $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'birthdate' => 'required|date',
+            'gender' => 'required|in:Female,Male,Other|not_in:0',
+            'country' => 'required',
+            'city' => 'required',
+            'picture' => 'required|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         $user = User::create([
@@ -45,7 +50,28 @@ class RegisteredUserController extends Controller
             'lastname' => $request->firstname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'birthdate' => $request->birthdate,
+            'gender' => $request->gender,
+            'country' => $request->country,
+            'city' => $request->city,
         ]);
+
+        if($request->hasFile('picture')) {
+            $file = $request->file('picture');
+            $filename = $file->getClientOriginalName();
+
+            // File upload location
+            $location = 'storage/app/public/uploads/users';
+            $folder = $location .'/'. $user->id .'/avatar/';
+
+            if(!file_exists($folder) && !is_dir($folder)){
+                 mkdir($folder, 0777, true);
+            }
+            // Upload file
+             $file->move($folder,$filename);
+             $picture = $folder . $filename;
+             $user->update(['picture' => $picture]);
+        }
 
         event(new Registered($user));
 

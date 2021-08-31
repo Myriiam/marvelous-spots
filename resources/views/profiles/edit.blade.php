@@ -21,29 +21,31 @@
             </div>        
             <div>
                 <label for="firstname">Firstname</label> <!-- require - pas de champs vide -->
-                <input type="text" id="firstname" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->firstname }}" disabled>
+                <input type="text" id="firstname" name="firstname" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->firstname }}" disabled>
             </div>        
             <div>
                 <label for="lastname">Lastname</label> <!-- require - pas de champs vide -->
-                <input type="text" id="lastname" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->lastname }}" disabled>
+                <input type="text" id="lastname" name="lastname" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->lastname }}" disabled>
             </div>        
             <div>
                 <label for="email">Email</label> <!-- require - pas de champs vide -->
-                <input type="email" id="email" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->email }}" disabled>
+                <input type="email" id="email" name="email" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $user->email }}" disabled>
             </div>        
             <div>
                 <label for="birthdate">Birthdate</label> <!-- require - pas de champs vide -->
-                <input type="text" id="birthdate" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $birthdate }}" disabled>
+                <input type="text" id="birthdate" name="birthdate" class="lg:text-base text-gray-dark rounded-lg mt-3" value="{{ $birthdate }}" disabled>
             </div>       
             <!--MODIFIER SON MOT DE PASSE : fonctionnalité à ajouter ici en plus du form login-->
             <div>
                 <label for="country">Country where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="country" id="country" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
+                    <option value="{{ $user->country }}" selected></option>
                 </select>
             </div>        
             <div>
                 <label for="city">City where you live</label> <!-- SELECT --> <!-- require - pas de champs vide -->
                 <select name="city" id="city" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3">
+                    <option value="{{ $user->city }}" selected></option>
                 </select>
             </div> 
             @if ($user->role === 'Guide')
@@ -51,11 +53,11 @@
                     <label for="languages">The languages you speak</label> <!-- SELECT MULTI--> <!-- require - pas de champs vide -->
                     <select id="languages" name="languages[]" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3" multiple>
                         <option value="">Select language(s)</option>
-                        <option value="English"{{ $user->guide->language == 'English' ? 'selected' : '' }}>English</option>
-                        <option value="French"{{ $user->guide->language == 'French' ? 'selected' : '' }}>French</option>
-                        <option value="Arabic"{{ $user->guide->language == 'Arabic' ? 'selected' : '' }}>Arabic</option>
-                        <option value="Italian"{{ $user->guide->language == 'Italian' ? 'selected' : '' }}>Italian</option>
-                        <option value="Spanish"{{ $user->guide->language == 'Spanish' ? 'selected' : '' }}>Spanish</option>
+                        <option value="English">English</option>
+                        <option value="French">French</option>
+                        <option value="Arabic">Arabic</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Spanish">Spanish</option>
                     </select>
                     <span class="text-red-600">@error('languages') {{ $message }} @enderror</span> <!-- je met l'erreur ou sinon pas de option select language(s) mais alors la langue par défaut EN et la personne ajoute ou non 1 autre langue mais min 1 langue à choisir dans le select, l'anglais y sera selectionné par défaut !-->
                 </div>   

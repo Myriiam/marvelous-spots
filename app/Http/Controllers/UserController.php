@@ -11,7 +11,9 @@ use App\Models\Category;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+//use Symfony\Component\HttpFoundation\File\File;
 
 class UserController extends Controller
 {
@@ -104,18 +106,27 @@ class UserController extends Controller
         $categories = Category::all();
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
         //$today = Carbon::today();
-        $selectedCat = [];
-        foreach ($user->guide->categories as $categoriesOfGuide) {
-            array_push($selectedCat, $categoriesOfGuide->id);
+        if ($user->role === 'Guide') {
+            $selectedCat = [];
+            foreach ($user->guide->categories as $categoriesOfGuide) {
+                array_push($selectedCat, $categoriesOfGuide->id);
+            }
+            return view('profiles.edit',[
+                'user' => $user,
+                'resource' => 'Profile editing form',
+                'languages' => $languages,
+                'birthdate' => $birthdate,
+                'categories' => $categories,
+                'selectedCat' => $selectedCat,
+            ]);
+        } else {
+            return view('profiles.edit',[
+                'user' => $user,
+                'resource' => 'Profile editing form',
+                'languages' => $languages,
+                'birthdate' => $birthdate,
+            ]);
         }
-        return view('profiles.edit',[
-            'user' => $user,
-            'resource' => 'Profile editing form',
-            'languages' => $languages,
-            'birthdate' => $birthdate,
-            'categories' => $categories,
-            'selectedCat' => $selectedCat,
-        ]);
     }
 
     /**
@@ -129,46 +140,63 @@ class UserController extends Controller
         //$user = User::findOrFail(auth()->id());
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-       //dd($request);
-         // Validation
+        
+        if ($user->role !== 'Guide') {
+            $request->validate([
+                'picture' => 'mimes:png,jpg,jpeg|max:2048', 
+                /*'country' => 'required',  
+                'city' => 'required',*/
+                'about' => 'string|min:20',
+            ]);    
+        } else {
+            // Validation
          $request->validate([
             'picture' => 'mimes:png,jpg,jpeg|max:2048', //require lorsque l'utilisateur s'enregistre/après s'il ne veut rien uploader c ok !
             /*'country' => 'required',  
             'city' => 'required',
             'languages' => 'required',  VERIFIER VALIDATION POUR SELECT 'required|not_in:0' */
             'about' => 'required|string|min:20', //require pour un guide
-            'definition' => 'string|min:20',       
+             'definition' => 'string|min:20',       
             'offering' => 'string|min:20',
-            'price' => 'digits_between:1,4',
+            'price' => 'numeric|min:1|max:99.99|regex:/^\d+(\.\d{1,2})?$/',
             'categories' => 'required|exists:categories,id|min:1',
-            //'pour chaque réseau sociaux' => '', VOIR COMMENT FAIRE POUR LES RESEAUX SOCIAUX (INPUT, not require, string, min et max)
+           // 'pour chaque réseau sociaux' => '',
             'pauseChoice' => 'required|in:0,1', //ou in:Yes,No ?
         ]);
+        }
 
-        if($request->hasFile('picture')) {
+        if ($request->hasFile('picture')) {
+
+            $userPicture = public_path($user->picture); // get previous image from folder
+
+            if (File::exists($userPicture)) { // unlink or remove previous image from folder
+                unlink($userPicture);
+            }
+            
             $file = $request->file('picture');
-            $filename = time().'_'.$file->getClientOriginalName();
-            //dd($filename);
+            $filename = $file->getClientOriginalName();
 
             // File upload location
             $location = 'storage/app/public/uploads/users';
-            $folder = $location .'/'. $user->id .'/';
+            $folder = $location .'/'. $user->id .'/avatar/';
 
-            if(!file_exists($folder) && !is_dir($folder)){
+            if (!file_exists($folder) && !is_dir($folder)){
                  mkdir($folder, 0777, true);
             }
             // Upload file
              $file->move($folder,$filename);  
              $user->picture = $folder . $filename; 
         }
-
-        //$user = $user->update($request->all());
         
         $user->country = $request->input('country');
         $user->city = $request->input('city');
         $user->about_me = $request->input('about');
+        $user->save();
+
         if ($user->role === 'Guide') {
-            $user->guide->languages->language = $request->input('languages');
+          // dd($request->input('languages'));
+            $user->guide->languages->language = $request->languages;
+     
             $user->guide->travel_definition = $request->input('definition');
             $user->guide->offering = $request->input('offering');
             /*
@@ -179,15 +207,27 @@ class UserController extends Controller
             $user->guide->pause = $request->input('pauseChoice');
             $user->guide->price = $request->input('price');
             $user->guide->categories()->sync($request->categories);   //To add and link categories to the article
-        }   
 
-        $user->save();
-        if ($user->role === 'Guide') {
             $user->guide->save();
-        }
+        }   
        
         return redirect()->route('profile', auth()->user()->id)
                 ->with('success', 'your profile has been successfully updated !');
+    }
+
+    /**
+     * Fill the form to become a guide 
+     */
+    public function makeDemandtoBecomeGuide($id) {
+       // $user_id = auth()->user()->id;
+        $user = User::find($id);
+        $categories = Category::all();
+
+        return view('guides.becoming-guide-form',[
+            'user' => $user,
+            'resource' => 'So you would like to become a guide ...',
+            'categories' => $categories,
+        ]);
     }
 
     /**

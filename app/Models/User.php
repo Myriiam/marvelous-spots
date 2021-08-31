@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -135,6 +136,13 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public static function researchGuides($city) {
  
-       return DB::table('users')->join('guides', 'guides.user_id', '=', 'users.id')->where('role', '=', 'Guide')->where('city', 'LIKE', "%{$city}%")->paginate(5);
+       return DB::table('users')->join('guides', 'guides.user_id', '=', 'users.id')
+             ->where('role', '=', 'Guide')->where('city', 'LIKE', "%{$city}%");
     }
 }
+
+/*foreach ($guides as $guide) {
+    $guides->categories = DB::table('categories as cat')->select('cat.name')
+    ->join('category_guide as catg', 'catg.guide_id', '=', 'cat.id')
+    ->where('catg.guide_id', '=', $guide->id)->get();
+}*/
