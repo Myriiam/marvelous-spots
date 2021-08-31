@@ -52,12 +52,9 @@
                 <div>
                     <label for="languages">The languages you speak</label> <!-- SELECT MULTI--> <!-- require - pas de champs vide -->
                     <select id="languages" name="languages[]" class="py-1 text-xl lg:text-base text-gray-dark rounded-lg mt-3" multiple>
-                        <option value="">Select language(s)</option>
-                        <option value="English">English</option>
-                        <option value="French">French</option>
-                        <option value="Arabic">Arabic</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Spanish">Spanish</option>
+                    @foreach ($languages as $language)   
+                            <option value="{{ $language->id }}" {{ in_array($language->id, $selectedLang) ? "selected" : "" }}>{{ $language->language }}</option> 
+                    @endforeach
                     </select>
                     <span class="text-red-600">@error('languages') {{ $message }} @enderror</span> <!-- je met l'erreur ou sinon pas de option select language(s) mais alors la langue par défaut EN et la personne ajoute ou non 1 autre langue mais min 1 langue à choisir dans le select, l'anglais y sera selectionné par défaut !-->
                 </div>   

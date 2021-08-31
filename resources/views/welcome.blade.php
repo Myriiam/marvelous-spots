@@ -16,7 +16,6 @@
         <script src="{{ asset('js/navbar.js') }}" defer></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
         <script src="{{ asset('js/swiper.js') }}" defer></script>
-        <script src="{{ asset('js/swiper.js') }}" defer></script>
         <script src="{{ asset('js/latest-articles.js') }}" defer></script>
         <script src="{{ asset('js/latest-bookings-guides.js') }}" defer></script>
 

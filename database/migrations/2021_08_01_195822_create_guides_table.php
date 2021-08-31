@@ -17,11 +17,12 @@ class CreateGuidesTable extends Migration
             $table->id()->startingValue(1);
             $table->foreignId('user_id')->unsigned();
             $table->text('motivation');
-            $table->text('travel_definition');
+            $table->text('travel_definition')->nullable(); //mettre à nullable
             $table->text('offering');
-            $table->enum('status', ['pending', 'accepted', 'refused']);
+            $table->enum('status', ['pending', 'accepted', 'refused'])->default('pending'); //default à pending
             $table->decimal('price')->nullable();
             $table->boolean('pause')->default(false);
+            $table->timestamp('created_at');
             $table->dateTime('since_when')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')

@@ -59,12 +59,11 @@
                                         </button>
                                     </form>
                                 @elseif ($offerGuide->status_offer === 'waiting for paiement')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} waiting for paiement</span></p>
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
                                 @elseif ($offerGuide->status_offer === 'booked')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} booked</span></p>
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
                                 @elseif ($offerGuide->status_offer === 'refused')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} refused</span></p>
-                                    <!-- ADD The elseif when the visit_end is over, the the status become => visit completed -->
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
                                 @else
                                     <p>No offers</p>
                                 @endif

@@ -17,7 +17,7 @@
                 <x-input type="file" name="picture" id="pictureProfile" class="lg:text-base text-gray-dark rounded-lg mt-3" :value="old('picture')" required/>
             </div>
             <!-- Firstname -->
-            <div>
+            <div class="mt-4">
                 <x-label for="firstname" :value="__('Firstname')" />
 
                 <x-input id="firstname" class="block mt-1 w-full" type="text" name="firstname" :value="old('firstname')" required autofocus />

@@ -66,7 +66,7 @@ Route::get('/search-results/city/guides/', [App\Http\Controllers\ResearchControl
 Route::get('/search-results/city/articles/', [App\Http\Controllers\ResearchController::class, 'filterArticles'])->name('filter_articles');
 //Becoming a Guide
 Route::get('/{id}/becoming-guide-form', [App\Http\Controllers\UserController::class, 'makeDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide_form');
-Route::get('/{id}/becoming-guide', [App\Http\Controllers\UserController::class, 'sendDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide');
+Route::post('/becoming-guide', [App\Http\Controllers\UserController::class, 'sendDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide');
 
 
 //where('id', '[0-9]+')->
