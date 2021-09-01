@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('subtitle', 60);
             $table->text('description');
             $table->string('phone_place', 15)->nullable();
-            $table->string('website_place', 20)->nullable();
+            $table->string('website_place', 20)->unique()->nullable();
             $table->string('address', 60);
             $table->enum('status', ['under_review', 'published', 'unpublished'])->default('under_review');
             $table->string('map', 255)->nullable();

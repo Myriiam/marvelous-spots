@@ -27,18 +27,18 @@
                         </select>
                         <span class="text-red-600">@error('categories') {{ $message }} @enderror</span>
                     </div>       
-                    <div class="flex">
-                        <div>
-                            <label for="latitude">Latitude</label> <!-- à ajouter et changer dans la db-->
+                   <!-- <div class="flex">
+                    <div>
+                            <label for="latitude">Latitude</label> 
                             <input type="text" name="latitude" id="latitude" class="lg:text-base text-gray-dark rounded-lg mt-3">
                             <span class="text-red-600">@error('latitude') {{ $message }} @enderror</span>
                         </div>
                         <div>
-                            <label for="longitude">Longitude</label> <!-- à ajouter et changer dans la db-->
+                            <label for="longitude">Longitude</label> 
                             <input type="text" name="longitude" id="longitude" class="lg:text-base text-gray-dark rounded-lg mt-3">
                             <span class="text-red-600">@error('longitude') {{ $message }} @enderror</span>
                         </div>
-                    </div>
+                    </div>   -->
                     <div>
                         <label for="title">Title</label> 
                         <input type="text" name="title" id="title" value="{{ $article->title }}" class="lg:text-base text-gray-dark rounded-lg mt-3">
@@ -56,11 +56,11 @@
                         </textarea>
                         <span class="text-red-600">@error('description') {{ $message }} @enderror</span>
                     </div>
-                    <div>
-                        <label for="pictures">Add pictures</label> <!-- multiple -->
+                 <!--   <div>
+                        <label for="pictures">Add pictures</label> 
                         <input type="file" name="pictures[]" id="pictures" multiple class="lg:text-base text-gray-dark rounded-lg mt-3">
-                        <span class="text-red-600">@error('pictures') {{ $message }} @enderror</span>
-                    </div>
+                        <span class="text-red-600">@error('pictures') {{-- $message --}} @enderror</span>
+                    </div> -->
                     <div>
                         <div>
                             <p class="text-last text-center font-bold">{{__('Additional informations')}}</p>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="grid-cols-1 text-center py-6">
                         <button type="submit" value="submit" class="mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-white border-last bg-last rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
-                            Add the article
+                            Edit the article
                         </button>
                         </div>
                     </div>

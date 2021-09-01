@@ -102,27 +102,23 @@ class ArticleController extends Controller
         //Files pictures to add dans le dossier du user
         if($request->hasFile('pictures')) {
             $files = $request->file('pictures');
-            $allowedfileExtension  =['jpg','png','jpeg'];
 
             foreach ($files as $file) {
                // $filename = time().'_'.$file->getClientOriginalName();
                 $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
+        
                  // File upload location
-                if ($check) {
-                    $location = 'storage/app/public/uploads/users';
-                    $folder = $location .'/'. $user->id .'/articles/img/';
+                $location = 'storage/app/public/uploads/users';
+                $folder = $location .'/'. $user->id .'/articles/img/';
 
-                    if(!file_exists($folder) && !is_dir($folder)){
-                        mkdir($folder, 0777, true);
-                    }
-                    // Upload file
-                    $file->move($folder,$filename);  
-                    $article->pictures()->create([
-                        'path' => $folder . $filename,
-                    ]);
-                } 
+                if(!file_exists($folder) && !is_dir($folder)){
+                    mkdir($folder, 0777, true);
+                }
+                // Upload file
+                $file->move($folder,$filename);  
+                $article->pictures()->create([
+                    'path' => $folder . $filename,
+                ]);
             }
         }
      
@@ -189,7 +185,6 @@ class ArticleController extends Controller
            'article_comments.created_at')
           ->where(['article_comments.article_id'=>$id])
           ->get();
-        //dd($comments);
            
         //Count the number of comments for this article
         $nbComments = $article->comments->count();
@@ -322,8 +317,7 @@ class ArticleController extends Controller
         $article->categories()->sync($request->categories);
 
         //Files pictures to add in the user's folder
-        //Files pictures to add dans le dossier du user
-        if($request->hasFile('pictures')) {
+     /*   if($request->hasFile('pictures')) {
             $files = $request->file('pictures');
             $allowedfileExtension  =['jpg','png','jpeg'];
 
@@ -335,7 +329,7 @@ class ArticleController extends Controller
 
                  // File upload location
                 if ($check) {
-                    $location = 'storage/app/public/uploads/users'; // /articles/img mais à changer dans le create et vérifier s'il y a des fichiers tout court si oui, tous les supprimer et mettre les nouveaux.
+                    $location = 'storage/app/public/uploads/users'; 
                     $folder = $location .'/'. $user->id .'/articles/img/';
 
                     if(!file_exists($folder) && !is_dir($folder)){
@@ -345,6 +339,7 @@ class ArticleController extends Controller
                     if (!empty($folder)) {
                         File::cleanDirectory($folder);
                     }
+                
                     // Upload file
                     $file->move($folder,$filename);  
                     //dd($article->pictures->path);
@@ -357,7 +352,7 @@ class ArticleController extends Controller
 
                 } 
             }
-        }
+        }*/
 
         return redirect()->route('show_article', $article->id)
                 ->with('success', 'your article has been successfully updated !');

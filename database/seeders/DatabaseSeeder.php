@@ -22,6 +22,10 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LanguageSeeder::class,
             GuideLanguageSeeder::class,
+            CategoryGuideSeeder::class,
+            ArticleSeeder::class,
+            ArticleCategorySeeder::class,
+            PictureSeeder::class,
         ]);
     }
 }

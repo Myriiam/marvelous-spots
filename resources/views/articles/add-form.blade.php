@@ -26,7 +26,7 @@
                     </select>
                     <span class="text-red-600">@error('categories') {{ $message }} @enderror</span>
                 </div>       
-                <div class="flex">
+              <!--  <div class="flex">
                     <div>
                         <label for="latitude">Latitude</label> 
                         <input type="text" name="latitude" id="latitude" class="lg:text-base text-gray-dark rounded-lg mt-3">
@@ -37,7 +37,7 @@
                         <input type="text" name="longitude" id="longitude" class="lg:text-base text-gray-dark rounded-lg mt-3">
                         <span class="text-red-600">@error('longitude') {{ $message }} @enderror</span>
                     </div>
-                </div>
+                </div>-->
                 <div>
                     <label for="title">Title</label> 
                     <input type="text" name="title" id="title" class="lg:text-base text-gray-dark rounded-lg mt-3">
