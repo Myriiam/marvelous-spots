@@ -59,12 +59,11 @@
                                         </button>
                                     </form>
                                 @elseif ($offerGuide->status_offer === 'waiting for paiement')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} waiting for paiement</span></p>
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
                                 @elseif ($offerGuide->status_offer === 'booked')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} booked</span></p>
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
                                 @elseif ($offerGuide->status_offer === 'refused')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }} refused</span></p>
-                                    <!-- ADD The elseif when the visit_end is over, the the status become => visit completed -->
+                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
                                 @else
                                     <p>No offers</p>
                                 @endif
@@ -79,10 +78,10 @@
             @if (auth()->user()->id === $user->id)
                 <h2 class="font-extrabold text-3xl text-gray-darker">My bookings</h2>
                 <ul> 
-                    @foreach ($reservationsUser as $reservationUser)
+                    @foreach ($user->bookings as $reservationUser)
                         <li>
                             <div class="pb-20">
-                                <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-50 cursor-pointer">Booking TO: {{ $reservationUser->firstname }}</a>
+                                <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-50 cursor-pointer">Booking TO: {{ $reservationUser->guide->user->firstname }}</a>
                                 @if ($reservationUser->status_demand === 'paiement')
                                     <form action="{{ route('stripe_payment', $reservationUser->id) }}" method="POST" class="inline-block">
                                         @csrf
@@ -94,7 +93,7 @@
                                             data-key="{{ env('STRIPE_KEY') }}"
                                             data-amount="{{ $reservationUser->total_price * 100}}"
                                             data-name="Payment"
-                                            data-description="You want to book a visit with {{ $reservationUser->firstname }}"
+                                            data-description="You want to book a visit with {{ $reservationUser->guide->user->firstname }}"
                                             data-image="{{ asset('images/logo.png') }}"
                                             data-locale="auto"
                                             data-currency="eur">

@@ -18,4 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/guides', [App\Http\Controllers\Api\GuideApiControllers::class, 'allGuides'])->name('all.guides');
+//Latest Articles Published
+Route::get('/latest-articles', [App\Http\Controllers\Api\ArticleController::class, 'getLatestArticles'])->name('latest.articles');
+//Guides (Latest Visits/bookings)  
+Route::get('/latest-bookings/guides', [App\Http\Controllers\Api\BookingController::class, 'getLatestGuides'])->name('latest.guides');

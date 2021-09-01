@@ -84,8 +84,8 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12">
             <div class="bg-red-400 col-span-4 sm:col-span-3 md:col-span-4 lg:col-span-3">
-                <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-2/5 flex-shrink items-center z-10 transform -translate-y-0 md:-translate-y-24 md:w-4/5 lg:w-9/12">
-                    <img class="object-cover" src="{{ asset($user->picture) }}" alt="picture of the user">
+                <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-2/5 h-2/5 flex-shrink items-center z-10 transform -translate-y-0 md:-translate-y-24 md:w-4/5 lg:w-9/12">
+                    <img class="rounded-full object-cover min-w-full min-h-full h-full" src="{{ asset($user->picture) }}" alt="picture of the user">
                 </div>
                 @if ($user->role === 'Guide' && ($user->guide->pause === 1))
                     <div class="transform -translate-y-0 md:-translate-y-24">
@@ -113,10 +113,11 @@
                             @endif
                         @endauth
                         @if ($user->role === 'Guide')
+                        <!-- Lang -->
                             <p>I speak :</p>
                             <ul>
-                                @foreach ($user->guide->languages as $languages)               
-                                    <li>{{ $languages->language }}</li>                  
+                                @foreach ($languages as $language)               
+                                    <li>{{ $language->language }}</li>                  
                                 @endforeach
                             </ul>
                             @if (isset($user->guide->price))
@@ -125,7 +126,7 @@
                         @endif
                         </div>       
                 </div>
-                <div class="grid grid-cols-1 text-center auto-cols-auto transform translate-y-0 md:-translate-y-28">
+                <div class="grid grid-cols-1 text-center pb-5 auto-cols-auto transform translate-y-0 md:-translate-y-28">
                     @auth
                         @if (auth()->user()->id !== $user->id && $user->role === 'Guide')
                             @if ($user->guide->pause === 1)
@@ -167,7 +168,7 @@
                             @endif
                         @endif
                     @endauth
-                    <a href="{{ route('my_articles', $user->id) }}" class="mx-28 md:mx-8 mb-6 mt-3 w-42 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-yellow-500 border-yellow-500 rounded-lg focus:ring-2 focus:ring-last cursor-pointer hover:shadow-lg hover:text-last">
+                    <a href="{{ route('my_articles', $user->id) }}" class="mx-28 md:mx-8 mb-8 mt-3 w-42 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-white bg-yellow-500 border-yellow-500 rounded-lg focus:ring-2 focus:ring-last cursor-pointer hover:shadow-lg hover:text-last">
                         My articles
                     </a>
                 </div>
@@ -186,8 +187,13 @@
                             <p class="text-red-600 mt-3"><span class="font-bold">*</span>will not be displayed</p>
                         @endif
                     @endauth
-                    <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">About me</p>
-                    <p class="text-lg mb-2">{{ $user->about_me }}</p>
+                    @if (is_null($user->about_me)) 
+                        <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">About me</p>
+                        <p class="text-lg mb-2 text-red-600">{{ $user->firstname }} has not yet completed this part</p>
+                    @else
+                        <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">About me</p>
+                        <p class="text-lg mb-2">{{ $user->about_me }}</p>
+                    @endif
                     @if ($user->role === 'Guide')
                         @if (isset($categories))
                             <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My interest</p>
@@ -195,8 +201,15 @@
                                 <p class="text-lg mb-2 text-first font-bold">{{ $categorie->name }}</p>   
                             @endforeach
                         @endif
-                        <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My definition of travel</p>
-                        <p class="text-lg mb-2">{{ $user->guide->travel_definition }}</p>
+
+                        @if (is_null($user->guide->travel_definition)) 
+                            <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My definition of travel</p>
+                            <p class="text-lg mb-2 text-red-600">{{ $user->firstname }} has not yet completed this part</p>   
+                        @else
+                            <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">My definition of travel</p>
+                            <p class="text-lg mb-2">{{ $user->guide->travel_definition }}</p>
+                        @endif
+
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">What I can propose you ?</p>
                         <p class="text-lg mb-2">{{ $user->guide->offering }}</p>
                         <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">Comments</p>
@@ -210,7 +223,7 @@
                 @auth
                     @if (auth()->user()->id === $user->id)
                         @if ($user->role !== 'Guide')
-                            <a href="#" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                            <a href="{{ route('become_guide_form', auth()->user()->id) }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Becoming a guide
                             </a>
                         @endif
@@ -219,10 +232,10 @@
                                 Edit my profile
                             </a>
                             <form method="POST" action="#">
+                                @csrf
                                 <button type="submit" class="mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                     Delete my account
                                 </button>
-                                @csrf
                             </form>
                     @endif
                 @endauth
@@ -230,4 +243,6 @@
             </div>
         </div>
     </main>
+    <script src="{{ asset('js/modal-contact.js') }}" defer></script>
+    <script src="{{ asset('js/modal-booking.js') }}" defer></script>
 </x-app-layout>

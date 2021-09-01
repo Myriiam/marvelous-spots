@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Stripe\Charge;
 use Stripe\Stripe;
+use App\Models\User;
 use Stripe\Customer;
 use App\Models\Booking;
 use Stripe\PaymentIntent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class StripeController extends Controller
 {
@@ -18,7 +20,13 @@ class StripeController extends Controller
     {   
         try {
             Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+            $userAuth_id = auth()->user()->id;
+            $userAuth = User::find($userAuth_id);
             $booking = Booking::find($id);
+            $senderFirstname = $userAuth->firstname;  //user firstname
+            $senderEmail = $userAuth->email;  //user email
+            $receiverFirstname= $booking->guide->user->firstname; //guide firstname
+            $receiverEmail = $booking->guide->user->email; //guide email
             $total_price = $booking->total_price;
 
             $customer = Customer::create(array(
@@ -48,7 +56,7 @@ class StripeController extends Controller
                 //TODO
 
             return redirect()->route('my_bookings')
-            ->with('success', 'your reservation has been successfully registered !');
+            ->with('success', 'Your reservation has been successfully registered !');
 
         } catch (\Exception $ex) {
             return redirect()->route('my_bookings')

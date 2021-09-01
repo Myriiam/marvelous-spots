@@ -30,7 +30,7 @@ class CategorySeeder extends Seeder
                 'description'=>"About activities for people who like to go out at night.",
             ],
             [
-                'name'=>"Food",
+                'name'=>"food",
                 'description'=>"Everything related to restaurants, gastronomy, cooking, cafes and bars/pubs.",
             ],
             [

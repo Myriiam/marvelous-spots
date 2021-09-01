@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLanguagesTable extends Migration
+class CreatePivotTableGuideLanguage extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('guide_language', function (Blueprint $table) {
             $table->id()->startingValue(1);
-            $table->string('language', 60);
             $table->foreignId('guide_id')->unsigned();
-
+            $table->foreignId('language_id')->unsigned();
+            
             $table->foreign('guide_id')->references('id')->on('guides')
+            ->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('language_id')->references('id')->on('languages')
             ->onDelete('restrict')->onUpdate('cascade');
         });
     }
@@ -30,6 +32,6 @@ class CreateLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('guide_language');
     }
 }

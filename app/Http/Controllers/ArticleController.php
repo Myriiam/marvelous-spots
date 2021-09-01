@@ -86,8 +86,8 @@ class ArticleController extends Controller
             $article->user_id = $user_id;
            // 'latitude' => $latitude,
            // 'longitude' => $longitude,
-           $article->title = $title;
-           $article->subtitle = $subtitle;
+            $article->title = $title;
+            $article->subtitle = $subtitle;
             $article->description = $description;
             $article->phone_place = $phone;
             $article->website_place = $website;
@@ -102,27 +102,23 @@ class ArticleController extends Controller
         //Files pictures to add dans le dossier du user
         if($request->hasFile('pictures')) {
             $files = $request->file('pictures');
-            $allowedfileExtension  =['jpg','png','jpeg'];
 
             foreach ($files as $file) {
                // $filename = time().'_'.$file->getClientOriginalName();
                 $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
+        
                  // File upload location
-                if ($check) {
-                    $location = 'storage/app/public/uploads/users';
-                    $folder = $location .'/'. $user->id .'/articles/img/';
+                $location = 'storage/app/public/uploads/users';
+                $folder = $location .'/'. $user->id .'/articles/img/';
 
-                    if(!file_exists($folder) && !is_dir($folder)){
-                        mkdir($folder, 0777, true);
-                    }
-                    // Upload file
-                    $file->move($folder,$filename);  
-                    $article->pictures()->create([
-                        'path' => $folder . $filename,
-                    ]);
-                } 
+                if(!file_exists($folder) && !is_dir($folder)){
+                    mkdir($folder, 0777, true);
+                }
+                // Upload file
+                $file->move($folder,$filename);  
+                $article->pictures()->create([
+                    'path' => $folder . $filename,
+                ]);
             }
         }
      
@@ -181,8 +177,7 @@ class ArticleController extends Controller
         $categories = $article->categories;
         $user_id = $article->user_id;
         $author = User::find($user_id); //author of the article
-        $userAuth= auth()->user()->id; //Id of the authenticated user 
-
+        
         //Get all comments etc of the article
         //$comments = DB::table('article_comments')->where(['article_id'=>$id])->get();
         $comments = DB::table('article_comments')->join('users', 'users.id', '=', 'article_comments.user_id')
@@ -190,33 +185,46 @@ class ArticleController extends Controller
            'article_comments.created_at')
           ->where(['article_comments.article_id'=>$id])
           ->get();
-        //dd($comments);
-
+           
         //Count the number of comments for this article
         $nbComments = $article->comments->count();
 
         //Count the number of like for this article
         $nbLikes = $article->favorites->count();
 
-        //To know if the authenticated user has already or not mark the post as favorite
-        $liked = DB::table('article_favorites')->join('users', 'users.id', '=', 'article_favorites.user_id')
-        ->select('users.firstname', 'users.id', 'article_favorites.id')
-        ->where(['article_favorites.article_id'=>$id])
-        ->where(['article_favorites.user_id'=>$userAuth])
-        ->first();
-        //dd($liked);
+        if (auth()->user()) {
+            $userAuth = auth()->user()->id; //Id of the authenticated user 
+            //To know if the authenticated user has already or not mark the post as favorite
+            $liked = DB::table('article_favorites')->join('users', 'users.id', '=', 'article_favorites.user_id')
+            ->select('users.firstname', 'users.id', 'article_favorites.id')
+            ->where(['article_favorites.article_id'=>$id])
+            ->where(['article_favorites.user_id'=>$userAuth])
+            ->first();
+            //dd($liked);
 
-        return view('articles.show',[
-            'article' => $article,
-            'author' => $author, 
-            'resource' => 'Article',
-            'pictures' => $pictures,
-            'categories' => $categories,
-            'comments' => $comments,
-            'nbLikes' => $nbLikes,
-            'liked' => $liked,
-            'nbComments' => $nbComments,
-        ]);
+            return view('articles.show',[
+                'article' => $article,
+                'author' => $author, 
+                'resource' => 'Article',
+                'pictures' => $pictures,
+                'categories' => $categories,
+                'comments' => $comments,
+                'nbLikes' => $nbLikes,
+                'liked' => $liked,
+                'nbComments' => $nbComments,
+            ]);
+        } else {
+            return view('articles.show',[
+                'article' => $article,
+                'author' => $author, 
+                'resource' => 'Article',
+                'pictures' => $pictures,
+                'categories' => $categories,
+                'comments' => $comments,
+                'nbLikes' => $nbLikes,
+                'nbComments' => $nbComments,
+            ]);
+        }
     }
 
     /**
@@ -309,8 +317,7 @@ class ArticleController extends Controller
         $article->categories()->sync($request->categories);
 
         //Files pictures to add in the user's folder
-        //Files pictures to add dans le dossier du user
-        if($request->hasFile('pictures')) {
+     /*   if($request->hasFile('pictures')) {
             $files = $request->file('pictures');
             $allowedfileExtension  =['jpg','png','jpeg'];
 
@@ -322,7 +329,7 @@ class ArticleController extends Controller
 
                  // File upload location
                 if ($check) {
-                    $location = 'storage/app/public/uploads/users'; // /articles/img mais à changer dans le create et vérifier s'il y a des fichiers tout court si oui, tous les supprimer et mettre les nouveaux.
+                    $location = 'storage/app/public/uploads/users'; 
                     $folder = $location .'/'. $user->id .'/articles/img/';
 
                     if(!file_exists($folder) && !is_dir($folder)){
@@ -332,6 +339,7 @@ class ArticleController extends Controller
                     if (!empty($folder)) {
                         File::cleanDirectory($folder);
                     }
+                
                     // Upload file
                     $file->move($folder,$filename);  
                     //dd($article->pictures->path);
@@ -344,7 +352,7 @@ class ArticleController extends Controller
 
                 } 
             }
-        }
+        }*/
 
         return redirect()->route('show_article', $article->id)
                 ->with('success', 'your article has been successfully updated !');

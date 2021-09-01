@@ -15,7 +15,7 @@ class Guide extends Model
      * @var array
      */
     protected $fillable = [
-        'user-id',
+        'user_id',
         'motivation',
         'travel_definition',
         'offering',
@@ -23,6 +23,7 @@ class Guide extends Model
         'status',
         'price',
         'pause',
+        'created_at',
         'since_when',
     ];
 
@@ -50,15 +51,6 @@ class Guide extends Model
     }
 
      /**
-     * Get the spoken languages of a guide - relationship
-     */
-    public function languages()
-    {
-        return $this->hasMany(Language::class);
-        //OR return $this->hasMany('App\Models\Language');
-    }
-
-     /**
      * Get the booking of the guide (his offer from) - relationship
      */
     public function bookings()
@@ -83,5 +75,14 @@ class Guide extends Model
     {
         return $this->hasMany(FavoriteGuide::class);
         //OR return $this->hasMany('App\Models\FavoriteGuide');
+    }
+
+    /**
+     * Get the language(s) of the guide - relationship 
+     */
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class);
+        //OR return $this->belongsToMany('App\Models\Language');
     }
 }

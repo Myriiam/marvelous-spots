@@ -16,7 +16,6 @@ class Language extends Model
      */
     protected $fillable = [
         'language',
-        'user-id',
     ];
 
       /**
@@ -33,12 +32,12 @@ class Language extends Model
      */
     protected $table = 'languages';
 
-     /**
-     * Get the user linked to a language - relationship
+    /**
+     * Get the guide's infos who speak this language - relationship
      */
-    public function guide()
+    public function guides()
     {
-        return $this->belongsTo(Guide::class);
-        //OR return $this->belongsTo('App\Models\Guide');
+        return $this->belongsToMany(Guide::class);
+        //OR return $this->belongsToMany('App\Models\Guide');
     }
 }

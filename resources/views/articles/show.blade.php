@@ -113,7 +113,7 @@
                     <img class="w-6 h-6" src="{{ asset('images/location.png') }}" alt="address icon"/><p>{{ $article->address }}</p>
                     <!-- if phone and website not null -->
                     <img class="w-6 h-6" src="{{ asset('images/call.png') }}" alt="phone icon"/><p>{{ $article->phone }}</p>
-                    <img class="w-6 h-6" src="{{ asset('images/website.png') }}" alt="website icon"/><p>{{ $article->website }}</p>
+                    <img class="w-6 h-6" src="{{ asset('images/website.png') }}" alt="website icon"/><p>{{ $article->website_place }}</p>
                     </div>
                     <div>
                         <ul>

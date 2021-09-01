@@ -18,8 +18,6 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/navbar.js') }}" defer></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
-        <script src="{{ asset('js/modal-contact.js') }}" defer></script>
-        <script src="{{ asset('js/modal-booking.js') }}" defer></script>
         <script src="{{ asset('js/read-message.js') }}" defer></script>
        
         

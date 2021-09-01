@@ -19,13 +19,13 @@ class CreateUsersTable extends Migration
             $table->string('lastname');
             $table->enum('role', ['Administrator', 'Moderator', 'Traveler', 'Guide'])->default('Traveler');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at');
             $table->string('password');
             $table->date('birthdate')->nullable();
-            $table->enum('gender', ['Female', 'Male', 'Other'])->nullable();
-            $table->string('country', 60)->nullable();
-            $table->string('city', 255)->nullable();
-            $table->string('picture', 70)->default('uploads/profile/avatar.png');
+            $table->enum('gender', ['Female', 'Male', 'Other']);
+            $table->string('country', 70);  //->nullable();
+            $table->string('city', 255);  //->nullable();
+            $table->string('picture', 100); //->default('uploads/profile/avatar.png');
             $table->text('about_me')->nullable();
             $table->rememberToken();
             $table->timestamps();

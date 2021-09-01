@@ -16,8 +16,7 @@ class CreatePicturesTable extends Migration
         Schema::create('pictures', function (Blueprint $table) {
             $table->id()->startingValue(1);
             $table->foreignId('article_id')->unsigned();
-            $table->string('path', 60);
-            //$table->timestamps();
+            $table->string('path', 110);
 
             $table->foreign('article_id')->references('id')->on('articles')
             ->onDelete('restrict')->onUpdate('cascade');

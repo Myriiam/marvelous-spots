@@ -13,18 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 Route::get('/', function () {
     return view('welcome');
-})->middleware(['auth', 'verified'])->name('welcome');
+});
+
+Route::get('/home', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
 //Home
-Route::get('/', [App\Http\Controllers\UserController::class, 'welcome'])->name('welcome');
+//Route::get('/', [App\Http\Controllers\UserController::class, 'welcome'])->name('welcome'); //
 //Profile
 Route::get('/profile/{id}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('profile');
 Route::get('/my-profile/edit', [App\Http\Controllers\UserController::class, 'editProfile'])->middleware(['auth'])->name('edit_my_profile');
@@ -59,5 +59,14 @@ Route::post('/{id}/article/dislike', [App\Http\Controllers\FavoriteController::c
 //Favorite Guide
 Route::post('/{id}/guide/like', [App\Http\Controllers\FavoriteController::class, 'likeGuide'])->middleware(['auth'])->name('like_guide');
 Route::post('/{id}/guide/dislike', [App\Http\Controllers\FavoriteController::class, 'dislikeGuide'])->middleware(['auth'])->name('dislike_guide');
+//Search
+Route::get('/search-results/city', [App\Http\Controllers\ResearchController::class, 'getAll'])->name('all_in_city');
+//Search|Filters
+Route::get('/search-results/city/guides/', [App\Http\Controllers\ResearchController::class, 'filterGuides'])->name('filter_guides');
+Route::get('/search-results/city/articles/', [App\Http\Controllers\ResearchController::class, 'filterArticles'])->name('filter_articles');
+//Becoming a Guide
+Route::get('/{id}/becoming-guide-form', [App\Http\Controllers\UserController::class, 'makeDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide_form');
+Route::post('/becoming-guide', [App\Http\Controllers\UserController::class, 'sendDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide');
+
 
 //where('id', '[0-9]+')->
