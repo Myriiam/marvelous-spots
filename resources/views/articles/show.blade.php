@@ -57,7 +57,7 @@
                     @endauth
                 </div>
             </div>
-            <div class="bg-green-400 pb-11">
+            <div class="bg-green-400 pb-11 flex-shrink-1 overflow-x-hidden">
                 <div class="mt-6 w-3/5 mx-16 text-center text-gray-darker font-extrabold">
                     <p class="text-3xl">{{ $article->title }}</p>
                     <p class="text-2xl mt-6">{{ $article->subtitle }}</p>
