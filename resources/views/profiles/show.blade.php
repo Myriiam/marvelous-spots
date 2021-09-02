@@ -102,7 +102,7 @@
                         <p>Social-media:</p>
                         <p>Member since {{ $user->created_at }}</p>
                         @if ($user->role === 'Guide')
-                            <p>Guide since- date chmt rôle</p>
+                            <p>Guide since- {{ $user->guide->since_when }}</p>
                         @endif
                     </div>
                         <div class="mb-6 grid grid-cols-1">

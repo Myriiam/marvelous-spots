@@ -53,10 +53,22 @@ class StripeController extends Controller
                 ]);
             }
             //Envoyer un email de notification aux 2 membres 
-                //TODO
+                //to the guide
+            Mail::send('emails.booking-confirmation-guide', ['booking' => $booking, 'senderFirstname' => $senderFirstname],
+            function($message) use ($booking, $senderFirstname) {
+                $message->from('info@marvelous.com', 'Marvelous Info');
+                $message->to($booking->guide->user->email, $booking->guide->user->firstname)->subject('Your booking confirmation');
+            });
+                //To the user
+            Mail::send('emails.booking-confirmation-user', ['booking' => $booking, 'userAuth' => $userAuth],
+            function($message) use ($booking, $userAuth) {
+                $message->from('info@marvelous.com', 'Marvelous Info');
+                $message->to($userAuth->email, $userAuth->firstname)->subject('Your booking confirmation');
+            });
 
             return redirect()->route('my_bookings')
-            ->with('success', 'Your reservation has been successfully registered !');
+            ->with('success', 'your reservation has been successfully registered and a confirmation email have been send to you !');
+
 
         } catch (\Exception $ex) {
             return redirect()->route('my_bookings')
