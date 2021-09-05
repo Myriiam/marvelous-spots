@@ -23,8 +23,8 @@
                         <!-- foreach de toutes les categories -->
                         <p class="text-first font-semibold">Categories</p>
                             @foreach ($categories as $category)
-                            <label for="categories">{{ $category->name }}</label>
-                            <input type="checkbox" name="categories" id="categories" value="{{ $category->id }}" class="py-1 text-xl lg:text-base text-gray-dark">
+                                <label for="categories">{{ $category->name }}</label>
+                                <input type="checkbox" name="categories[]" id="categories" value="{{ $category->id }}" class="py-1 text-xl lg:text-base text-gray-dark">
                             @endforeach
                     </div>
                     <div>
@@ -44,6 +44,7 @@
                 <!-- Foreach of articles that match the query + mettre lien sur la photo de l'article->show article/auteur de l'auteur->show profil -->
                 @forelse($articles as $article)
                 <div class="max-w-sm py-16 mx-5">
+                  
                     <div class="bg-white relative shadow-lg hover:shadow-xl transition duration-500 rounded-lg">
                     <a href="{{ route('show_article', $article->id) }}">
                         <img class="rounded-t-lg h-72" src="{{ asset($article->path) }}" alt="cover picture of the article" />

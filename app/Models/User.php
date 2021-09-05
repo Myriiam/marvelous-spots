@@ -137,7 +137,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function researchGuides($city) {
  
        return DB::table('users')->join('guides', 'guides.user_id', '=', 'users.id')
-             ->where('role', '=', 'Guide')->where('city', 'LIKE', "%{$city}%");
+             ->where('role', '=', 'Guide')->where('city', 'LIKE', "%{$city}%")->distinct('users.id');
     }
 }
 

@@ -40,69 +40,112 @@
         </div>
         @auth
             @if (auth()->user()->id === $user->id && $user->role === 'Guide')
-                <h2 class="font-extrabold text-3xl text-gray-darker">My offers</h2>
+                <h2 class="font-extrabold text-3xl text-gray-darker pt-5 pl-4">My offers</h2>
                 <ul>
-                    @foreach ($offersGuide as $offerGuide)
+                    @forelse ($offersGuide as $offerGuide)
                         <!--if ($sentMessage->id === auth()->user()->id)-->
-                            <li>{{ $offerGuide->message }} -  FROM: {{ $offerGuide->firstname }} 
-                                @if ($offerGuide->status_demand === 'pending')
-                                    <form action="{{ route('accept_offer', $offerGuide->id) }}" method="POST" class="inline-block">
-                                        @csrf
-                                        <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-green-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
-                                            Accept
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('refuse_offer', $offerGuide->id) }}" method="POST" class="inline-block">
-                                        @csrf
-                                        <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-red-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
-                                            Refuse
-                                        </button>
-                                    </form>
-                                @elseif ($offerGuide->status_offer === 'waiting for paiement')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
-                                @elseif ($offerGuide->status_offer === 'booked')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
-                                @elseif ($offerGuide->status_offer === 'refused')
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
-                                @else
-                                    <p>No offers</p>
-                                @endif
+                            <li>
+                                <div class="flex space-x-80 mx-10 py-5 justify-center">
+                                    <div>
+                                        <p>Visit with <a href="{{ route('profile', $offerGuide->userId) }}" class="pr-20 font-semibold text-gray-dark underline">{{ $offerGuide->firstname }}</a> City : <span class="pr-20 font-semibold text-gray-dark">{{ $offerGuide->city }}</span> 
+                                            Received on :<span class="font-semibold text-gray-dark"> {{ Carbon\Carbon::parse($offerGuide->booked_at)->format('d/m/Y') }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex space-x-1">
+                                        <div>
+                                            <a href="" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-last hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            @if ($offerGuide->status_demand === 'pending')
+                                                <form action="{{ route('accept_offer', $offerGuide->id) }}" method="POST" class="inline-block">
+                                                    @csrf
+                                                    <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-green-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                                        Accept
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('refuse_offer', $offerGuide->id) }}" method="POST" class="inline-block">
+                                                    @csrf
+                                                    <button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-red-600 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                                        Refuse
+                                                    </button>
+                                                </form>
+                                            @elseif ($offerGuide->status_offer === 'waiting for paiement')
+                                                <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
+                                            @elseif ($offerGuide->status_offer === 'booked')
+                                                <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
+                                            @elseif ($offerGuide->status_offer === 'refused')
+                                                <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $offerGuide->status_offer }}</span></p>
+                                            
+                                            @endif
+                                        </div>   
+                                    </div>
+                                </div> 
                             </li>
-                        <!--else
-                            <p>No message</p>
-                        endif-->
-                    @endforeach
+                    @empty
+                        <p class="pt-7 font-semibold text-lg text-first mx-10">No offers for now</p>
+                    @endforelse
                 </ul>
+                <div class="px-5 flex flex-wrap justify-center py-3">
+                    {{ $offersGuide->withQueryString()->links()}}
+                </div>
                 <hr class="border border-gray-dark">
             @endif
             @if (auth()->user()->id === $user->id)
-                <h2 class="font-extrabold text-3xl text-gray-darker">My bookings</h2>
+                <h2 class="font-extrabold text-3xl text-gray-darker pt-5 pl-4">My bookings</h2>
                 <ul> 
-                    @foreach ($user->bookings as $reservationUser)
+                    @forelse ($userBookings as $reservationUser)
                         <li>
-                            <div class="pb-20">
-                                <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-50 cursor-pointer">Booking TO: {{ $reservationUser->guide->user->firstname }}</a>
-                                @if ($reservationUser->status_demand === 'paiement')
-                                    <form action="{{ route('stripe_payment', $reservationUser->id) }}" method="POST" class="inline-block">
-                                        @csrf
-                                        <!--<button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-blue-700 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
-                                            Paiement{{ $reservationUser->status_demand }}
-                                        </button>-->
-                                        <script
-                                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="{{ env('STRIPE_KEY') }}"
-                                            data-amount="{{ $reservationUser->total_price * 100}}"
-                                            data-name="Payment"
-                                            data-description="You want to book a visit with {{ $reservationUser->guide->user->firstname }}"
-                                            data-image="{{ asset('images/logo.png') }}"
-                                            data-locale="auto"
-                                            data-currency="eur">
-                                        </script>
-                                    </form>
-                                @else 
-                                    <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $reservationUser->status_demand }}</span></p>
-                                @endif
-                                <div data-class="#" class="hidden justify-center">
+                            <div class="pb-5 flex space-x-80 mx-14 py-5">
+                                <div>
+                                    <p>Visit with <a href="{{ route('profile', $reservationUser->guide->user->id) }}" class="pr-20 font-semibold text-gray-dark underline">{{ $reservationUser->guide->user->firstname }}</a> City : <span class="pr-20 font-semibold text-gray-dark">{{ $reservationUser->guide->user->city }}</span> 
+                                        Received on :<span class="font-semibold text-gray-dark"> {{ Carbon\Carbon::parse($reservationUser->booked_at)->format('d/m/Y') }}</span>
+                                    </p>
+                                    
+                                <!--    <a data-id="#" href="#" id="open-message" class="hover:bg-first hover:opacity-25 cursor-pointer pr-20 font-semibold text-gray-dark">
+                                        Visit with : {{ $reservationUser->guide->user->firstname }}
+                                    </a> -->
+                                </div>
+                                <div class="flex space-x-4">
+                                    <div>
+                                        <a data-id="#" href="#" id="open-message" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-last hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                               
+                                    @if ($reservationUser->status_demand === 'paiement')
+                                        <div>
+                                            <form action="{{ route('stripe_payment', $reservationUser->id) }}" method="POST" class="inline-block">
+                                                @csrf
+                                                <!--<button type="submit" class="inline-block font-bold text-white text-xl lg:text-base px-4 py-1 leading-none border rounded bg-blue-700 hover:text-sun hover:bg-opacity-75 mt-4 lg:mt-0">
+                                                    Paiement{{ $reservationUser->status_demand }}
+                                                </button>-->
+                                                <script
+                                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                    data-key="{{ env('STRIPE_KEY') }}"
+                                                    data-amount="{{ $reservationUser->total_price * 100}}"
+                                                    data-name="Payment"
+                                                    data-description="You want to book a visit with {{ $reservationUser->guide->user->firstname }}"
+                                                    data-image="{{ asset('images/logo.png') }}"
+                                                    data-locale="auto"
+                                                    data-currency="eur">
+                                                </script>
+                                            </form>
+                                        </div>
+                                    @else 
+                                        <div>
+                                            <p>Status : <span class="text-blue-400 font-bold text-lg">{{ $reservationUser->status_demand }}</span></p>
+                                        </div>
+                                    @endif
+                                </div>
+                             <!--   <div data-class="#" class="hidden justify-center">
                                     <div class="grid grid-cols-1 px-5 py-5">
                                         <div class="flex justify-between mb-10">
                                             <p>A booking from ... send 25/06/2021(date)</p>
@@ -123,11 +166,16 @@
                                             </div>  
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </li> 
-                    @endforeach
+                    @empty
+                        <p class="pt-5 font-semibold text-lg text-first mx-10 py-5">No bookings for now</p>
+                    @endforelse
                 </ul>
+                <div class="px-5 flex flex-wrap justify-center">
+                    {{ $userBookings->withQueryString()->links()}}
+                </div>
             @endif
         @endauth
     </main>
