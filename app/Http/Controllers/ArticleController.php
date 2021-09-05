@@ -177,7 +177,7 @@ class ArticleController extends Controller
         $categories = $article->categories;
         $user_id = $article->user_id;
         $author = User::find($user_id); //author of the article
-        
+    //    dd($author);
         //Get all comments etc of the article
         //$comments = DB::table('article_comments')->where(['article_id'=>$id])->get();
         $comments = DB::table('article_comments')->join('users', 'users.id', '=', 'article_comments.user_id')

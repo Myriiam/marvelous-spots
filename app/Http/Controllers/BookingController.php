@@ -82,7 +82,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Display a listing of the bookings of a traveler(demands)/guide(bookings) and the offer of a guide.
+     * Display a listing of the bookings of a traveler/guide(bookings) and the offer of a guide.
      *
      * @return \Illuminate\Http\Response
      */
@@ -90,7 +90,7 @@ class BookingController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::find($user_id); //Auth user
-      //dd($user->bookings);
+        $userBookings = $user->bookings()->paginate(2, ['*'], 'bookings');
         $bookings = Booking::all();
       // dd($bookings[0]->guide->user->firstname); //nom du guide commandé
       //dd($bookings[1]->user->bookings);
@@ -106,7 +106,6 @@ class BookingController extends Controller
            'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price',
            'bookings.status_demand', 'bookings.status_offer')
           ->where(['bookings.user_id'=>$user_id])
-         
           ->get();
         dd($reservationsUser);*/
 
@@ -115,15 +114,16 @@ class BookingController extends Controller
            
           //Offres reçues par un guide d'un user (traveler or guide)
           $offersGuide = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.user_id')
-          ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
+          ->select('users.firstname', 'users.id as userId', 'users.city', 'bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
            'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price', 
            'bookings.status_demand', 'bookings.status_offer')
           ->where(['bookings.guide_id'=> $guide_id])
-          ->get();
-          //dd($offersGuide);
+          ->paginate(2, ['*'], 'offers');
+         // dd($offersGuide);
 
           return view('bookings.index',[
             'user' => $user,
+            'userBookings' => $userBookings,
             'resource' => 'My bookings',
             //'reservationsUser' => $reservationsUser,
             'offersGuide' => $offersGuide,
@@ -132,6 +132,7 @@ class BookingController extends Controller
         } else {
             return view('bookings.index',[
                 'user' => $user,
+                'userBookings' => $userBookings,
                 'resource' => 'My bookings',
                 //'reservationsUser' => $reservationsUser,
             ]);

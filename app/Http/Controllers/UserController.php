@@ -71,11 +71,23 @@ class UserController extends Controller
                 'categories' => $categories,
                 'languages' => $languages,
             ]);
+        } else if ($user->role === 'Guide' && is_null(auth()->user())) {
+            $categories = $user->guide->categories;
+            $languages = $user->guide->languages;
+
+            return view('profiles.show',[
+                'user' => $user,
+                'resource' => 'User Profile',
+                'birthdate' => $birthdate,
+                'languages' => $languages,
+                'categories' => $categories,
+            ]);
         } else {
             return view('profiles.show',[
                 'user' => $user,
                 'resource' => 'User Profile',
                 'birthdate' => $birthdate,
+                
             ]);
         }
     }

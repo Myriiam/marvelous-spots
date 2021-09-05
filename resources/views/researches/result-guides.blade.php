@@ -20,36 +20,27 @@
                     <button class="border-first bg-first text-white font-semibold px-2 py-2">Filters</button>
                     <div id="filter">
                         <div>
-                            <!-- foreach de toutes les categories -->
                             <p class="text-first font-semibold">Categories<p>
                             @foreach ($categories as $category)   
-                                <label for="categories">{{ $category->name }}</label>
-                                <input type="checkbox" name="categories[]" id="categories" value="{{ $category->id }}" class="py-1 text-xl lg:text-base text-gray-dark">
+                                <label for="categories{{ $category->id }}">{{ $category->name }}</label>
+                                <input type="checkbox" name="categories[]" id="categories{{ $category->id }}" value="{{ $category->id }}" class="py-1 text-xl lg:text-base text-gray-dark">
                             @endforeach
                         </div>
                         <div>
                             <p class="text-first font-semibold">Languages</p>
-                            <label for="lang" >English</label>
-                            <input type="checkbox" value="English" name="lang[]"/>
-                            <label for="lang" >French</label>
-                            <input type="checkbox" value="French" name="lang[]"/>
-                            <label for="lang">Arabic</label>
-                            <input type="checkbox" value="Arabic" name="lang[]"/>
-                            <label for="lang">Italian</label>
-                            <input type="checkbox" value="Italian" name="lang[]"/>
-                            <label for="lang">Spanish</label>
-                            <input type="checkbox" value="Spanish" name="lang[]"/>
+                            @foreach ($languages as $language)   
+                                <label for="lang{{ $language->id }}">{{ $language->language }}</label>
+                                <input type="checkbox" name="languages[]" id="lang{{ $language->id }}" value="{{ $language->id }}" class="py-1 text-xl lg:text-base text-gray-dark">
+                            @endforeach
                         </div>
                         <div>
-                            <p class="text-first font-semibold">gender</p>
-                            <label for="gender">female</label>
-                            <input type="checkbox" name="gender[]" value="female"> 
-                            <label for="gender">male</label>
-                            <input type="checkbox" name="gender[]" value="male"> 
-                            <label for="gender">other</label>
-                            <input type="checkbox" name="gender[]" value="other"> 
-                            <label for="gender">all</label>
-                            <input type="checkbox" name="gender[]" value="all"> 
+                            <p class="text-first font-semibold">Gender</p>
+                            <label for="genderF">female</label>
+                            <input type="checkbox" name="gender[]" id="genderF" value="Female"> 
+                            <label for="genderM">male</label>
+                            <input type="checkbox" name="gender[]" id="genderM" value="Male"> 
+                            <label for="genderO">other</label>
+                            <input type="checkbox" name="gender[]" id="genderO" value="Other"> 
                         </div>
                     </div>
                 </form>

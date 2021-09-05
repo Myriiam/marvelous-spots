@@ -104,11 +104,6 @@ class Article extends Model
         ->having('u.city', 'LIKE', "%{$city}%")
         ->having('art.status', '=', 'published');
 
-        foreach ($articles as $article) {
-            $article->categories = DB::table('categories as cat')->select('cat.name')
-                ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
-                ->where('artcat.article_id', '=', '$article->id');
-        }
         return $articles;
-     }
+    }
 }

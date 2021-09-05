@@ -76,46 +76,7 @@ class ResearchController extends Controller
             if ($request->btnSubmit === 'guides')  {
             $guides = User::researchGuides($city);
             
-            if ($request->has('categories') && $request->has('languages') && $request->has('gender')) {
-                $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
-                ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
-                ->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
-                ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
-                ->when($request->categories, function ($query, $cat) {
-                return $query->whereIn('cat.id', $cat);
-                })->when($request->languages, function ($query, $languages) {
-                return $query->whereIn('lang.id', $languages);
-                })->when($request->gender, function ($query, $gender) {
-                return $query->whereIn('gender', $gender);
-                });
-
-            } else if ($request->has('categories') && $request->has('languages')) {
-                $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
-                 ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
-                 ->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
-                 ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
-                 ->when($request->categories, function ($query, $cat) {
-                 return $query->whereIn('cat.id', $cat);
-                 })->when($request->languages, function ($query, $languages) {
-                 return $query->whereIn('lang.id', $languages);
-                 });
-            } else if ($request->has('gender') && $request->has('languages')) {
-                 $guides->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
-                 ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
-                 ->when($request->languages, function ($query, $languages) {
-                 return $query->whereIn('lang.id', $languages);
-                 })->when($request->gender, function ($query, $gender) {
-                 return $query->whereIn('gender', $gender);
-                 });
-            } else if ($request->has('gender') && $request->has('categories')) {
-                 $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
-                 ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
-                 ->when($request->categories, function ($query, $cat) {
-                 return $query->whereIn('cat.id', $cat);
-                 })->when($request->gender, function ($query, $gender) {
-                 return $query->whereIn('gender', $gender);
-                 });
-            } else if ($request->has('categories')) {
+            if ($request->has('categories')) {
                 $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
                 ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
                 ->when($request->categories, function ($query, $cat) {
@@ -125,14 +86,51 @@ class ResearchController extends Controller
                 $guides->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
                 ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
                 ->when($request->languages, function ($query, $languages) {
-                return $query->whereIn('lang.id', $languages);
+                return $query->where('lang.id', $languages);
                 });
             } else if ($request->has('gender')) {
                 $guides->when($request->gender, function ($query, $gender) {
-                    return $query->whereIn('gender', $gender);
+                    return $query->where('gender', $gender);
                 });
-            
-            }
+            } else if ($request->has('categories') && $request->has('languages')) {
+                $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
+                 ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
+                 ->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
+                 ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
+                 ->when($request->categories, function ($query, $cat) {
+                 return $query->where('cat.id', $cat);
+                 })->when($request->languages, function ($query, $languages) {
+                 return $query->where('lang.id', $languages);
+                 });
+            } else if ($request->has('gender') && $request->has('languages')) {
+                 $guides->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
+                 ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
+                 ->when($request->languages, function ($query, $languages) {
+                 return $query->where('lang.id', $languages);
+                 })->when($request->gender, function ($query, $gender) {
+                 return $query->where('gender', $gender);
+                 });
+            } else if ($request->has('gender') && $request->has('categories')) {
+                 $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
+                 ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
+                 ->when($request->categories, function ($query, $cat) {
+                 return $query->where('cat.id', $cat);
+                 })->when($request->gender, function ($query, $gender) {
+                 return $query->where('gender', $gender);
+                 });
+             } else if ($request->has('categories') && $request->has('languages') && $request->has('gender')) {
+                $guides->join('category_guide as catg', 'catg.guide_id', '=', 'guides.id')
+                ->join('categories as cat', 'catg.category_id', '=', 'cat.id')
+                ->join('guide_language as langui', 'langui.guide_id', '=', 'guides.id')            
+                ->join('languages as lang', 'lang.id', '=', 'langui.language_id')
+                ->when($request->categories, function ($query, $cat) {
+                return $query->where('cat.id', $cat);
+                })->when($request->languages, function ($query, $languages) {
+                return $query->where('lang.id', $languages);
+                })->when($request->gender, function ($query, $gender) {
+                return $query->where('gender', $gender);
+                });
+            } 
 
             $guides = $guides->paginate(2);
                
@@ -169,49 +167,19 @@ class ResearchController extends Controller
                     }
                 }
                 if ($request->has('categories')) {
-                    $cat = $request->categories;
                     $articles = Article::researchArticles($city)->paginate(3);
-
+                    $cat = $request->categories;
                     foreach ($articles as $article) {
-                        $article->categories = DB::table('categories as cat')->select('cat.name')
-                            ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
-                            ->where('artcat.article_id', '=', $article->id)
-                            ->whereIn('cat.id', $cat)->get();
-                    }
-                 
-                  /* $articles = $articles->when($cat, function ($query, $cat) {
-                        return $query->whereIn('cat.id', $cat);
-                    })->paginate(3); */
-
-                  //  $articles = $articles->paginate(3);
-
-                 /*   foreach ($articles as $article) {
                         $article->categories = DB::table('categories as cat')->select('cat.name')
                             ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
                             ->when($cat, function ($query, $cat) use ($article) {
                                 return $query->where('artcat.article_id', '=', $article->id)
                                 ->whereIn('cat.id', $cat);
                             })->get();
-                    }*/
-                 /*   $articles = DB::table('articles as art')
-                    ->select('art.id', 'art.title', 'art.subtitle', 'art.user_id', 'art.status', 'u.firstname', 'u.picture', 'u.city', 'pic.path', 'cat.name')
-                    ->join('users as u', 'u.id', '=', 'art.user_id')
-                    ->join('pictures as pic', 'pic.article_id', '=', 'art.id')
-                    ->join('article_category as artcat', 'artcat.article_id','=', 'art.id')
-                    ->join('categories as cat', 'cat.id','=', 'artcat.category_id')
-                    ->whereIn('cat.id', $cat)
-                    ->groupBy('art.id', 'cat.name')
-                    ->having('u.city', 'LIKE', "%{$city}%")
-                    ->having('art.status', '=', 'published')
-                    ->paginate(3);
-                    //dd($articles);*/
-                /*    $articles->when($cat, function ($query, $cat) {
-                        return $query->whereIn('cat.id', $cat);
-                    })->paginate(3);*/
-                
+                    }
                 }
                 
-                //$articles = $articles->get();
+              //  $articles = $articles->get();
 
                 return view('researches.result-articles', [
                     'articles' => $articles,
