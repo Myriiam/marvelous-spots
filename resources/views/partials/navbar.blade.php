@@ -9,12 +9,15 @@
   <div id='menu' class="w-full h-screen flex-grow lg:flex lg:items-center sm:h-auto lg:w-auto hidden lg:block">
     @auth
     <div class="text-xl lg:text-base text-white text-center pl-7 lg:flex-grow ">
+    <a href="{{ route('dashboard') }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
+        Home
+    </a>
     @else
     <div class="text-xl lg:text-base text-white text-center pl-7 lg:flex-grow lg:pl-20">
+    <a href="{{ route('welcome') }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
+        Home
+    </a>
     @endauth
-        <a href="{{ route('dashboard') }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
-            Home
-        </a>
         <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
             About us
         </a>
@@ -22,9 +25,15 @@
             Blog
         </a>
         <!-- Logo -->
-        <a href="{{ route('dashboard') }}" class="lg:inline-block lg:mt-0 hidden lg:block mr-8">
-            <img class="w-20" src="{{ asset('images/logo.png') }}" alt="logo de Marvelous Spots">    
-        </a>
+        @auth
+            <a href="{{ route('dashboard') }}" class="lg:inline-block lg:mt-0 hidden lg:block mr-8">
+                <img class="w-20" src="{{ asset('images/logo.png') }}" alt="logo de Marvelous Spots">    
+            </a>
+        @else
+            <a href="{{ route('welcome') }}" class="lg:inline-block lg:mt-0 hidden lg:block mr-8">
+                <img class="w-20" src="{{ asset('images/logo.png') }}" alt="logo de Marvelous Spots">    
+            </a>
+        @endauth
         <!-- -->
         <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
             Resources
