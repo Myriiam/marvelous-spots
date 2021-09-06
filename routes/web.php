@@ -68,5 +68,13 @@ Route::get('/search-results/city/articles/', [App\Http\Controllers\ResearchContr
 Route::get('/{id}/becoming-guide-form', [App\Http\Controllers\UserController::class, 'makeDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide_form');
 Route::post('/becoming-guide', [App\Http\Controllers\UserController::class, 'sendDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide');
 
+//Admin
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/dashboard', function() {
+        return view('admin.dashboard');
+    })->name('admin_dashboard');
+    Route::get('/guide-application', [App\Http\Controllers\Admin\GuideController::class, 'getAllRequests'])->name('guide_application');
+    Route::get('/article-to-approve', [App\Http\Controllers\Admin\ArticleController::class, 'getAllNewArticles'])->name('new_article');
+});
 
 //where('id', '[0-9]+')->

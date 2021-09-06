@@ -22,7 +22,7 @@
             About us
         </a>
         <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
-            Blog
+            Resources
         </a>
         <!-- Logo -->
         @auth
@@ -36,15 +36,17 @@
         @endauth
         <!-- -->
         <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
-            Resources
-        </a>
-        <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
             Contact
         </a>
         @auth
             <a href="{{ route('profile', auth()->user()->id) }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
                 My profile
             </a>
+            @if (auth()->user()->role === 'Administrator')
+                <a href="{{ route('admin_dashboard') }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
+                    Admin
+                </a>
+            @endif
             <a href="{{ route('add_article_form') }}" class="py-4 lg:py-0 lg:mb-2.5 inline-block mr-8 mr-16 lg:mr-8 transform hover:scale-110 motion-reduce:transform-none">
                 <img src="{{ asset('images/article.png') }}" class="lg:h-8 lg:w-9 h-10 w-11">
             </a>
