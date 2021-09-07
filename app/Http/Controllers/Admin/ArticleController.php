@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -16,80 +17,56 @@ class ArticleController extends Controller
     {
         //afficher la liste des nouveaux articles créés par les users
         //afficher les boutons pour accepter ou refuser
-        //Si refuser, supprimer les photos de l'article (table picture) et les catégories (table article_category) + l'article en 
-        //lui-même de la table article et changer status en rejected.
-        //Si accepter, changer le status de l'article.
+        $newArticles = DB::table('articles as art')
+        ->select('art.id', 'art.title', 'art.user_id', 'art.status', 'u.firstname', 'u.lastname', 'u.city', 'art.created_at')
+        ->join('users as u', 'u.id', '=', 'art.user_id')
+        ->where('art.status', '=', 'under_review')
+        ->get();
 
-        return view('admin.new-article',[
+        return view('admin.articles.new-article',[
        
             'resource' => 'New articles to approve',
+            'newArticles' => $newArticles,
           
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Published the submitted article of a user.
      *
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function acceptArticle($id)
     {
-        //
+        //Si accepter, changer le status de l'article.
+        //Envoyer un email
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Unpublished the submitted article of a user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function refuseArticle($id)
     {
-        //
+         //Si refuser, supprimer les photos de l'article (table picture) et les catégories (table article_category) + changer le status de 
+        //l'article en unpublished.
+        //Envoyer un email si ok et si refus (pour prévenir le user)
+        
     }
 
     /**
-     * Display the specified resource.
+     * Display the details of the submitted article.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showArticle($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

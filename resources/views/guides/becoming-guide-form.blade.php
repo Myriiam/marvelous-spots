@@ -32,7 +32,7 @@
                                     <label for="languages" class="block mb-2 text-sm font-bold text-gray-700">
                                         Languages
                                     </label>
-                                    <select id="languages" name="languages" form-multiselect multiple class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+                                    <select id="languages" name="languages[]" form-multiselect multiple class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                                         @foreach ($languages as $language)   
                                             <option value="{{ $language->id }}">{{ $language->language }}</option> 
                                         @endforeach
@@ -43,7 +43,7 @@
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="categories">
                                         Your interests
                                     </label>
-                                    <select id="categories" name="categories" form-multiselect multiple class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+                                    <select id="categories" name="categories[]" form-multiselect multiple class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                                         @foreach ($categories as $category)   
                                             <option value="{{ $category->id }}">{{ $category->name }}</option> 
                                         @endforeach

@@ -73,8 +73,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     Route::get('/dashboard', function() {
         return view('admin.dashboard');
     })->name('admin_dashboard');
+    //guide
     Route::get('/guide-application', [App\Http\Controllers\Admin\GuideController::class, 'getAllRequests'])->name('guide_application');
+    Route::get('/{id}/show/guide-application', [App\Http\Controllers\Admin\GuideController::class, 'showRequest'])->name('show_application');
+    Route::post('/{id}/guide-application-approved', [App\Http\Controllers\Admin\GuideController::class, 'acceptRequest'])->name('application_approved');
+    Route::post('/{id}/guide-application-rejected', [App\Http\Controllers\Admin\GuideController::class, 'refuseRequest'])->name('application_rejected');
+    //article
     Route::get('/article-to-approve', [App\Http\Controllers\Admin\ArticleController::class, 'getAllNewArticles'])->name('new_article');
+    Route::get('/{id}/show/article-to-approve', [App\Http\Controllers\Admin\ArticleController::class, 'showArticle'])->name('show_new_article');
+    Route::post('/{id}/article-approved', [App\Http\Controllers\Admin\ArticleController::class, 'acceptArticle'])->name('article_approved');
+    Route::post('/{id}/article-rejected', [App\Http\Controllers\Admin\ArticleController::class, 'refuseArticle'])->name('article_rejected');
 });
 
 //where('id', '[0-9]+')->

@@ -95,4 +95,6 @@
                     </div>
                 </div>
             </header>
+            @include('partials.flash-message')
+
   
