@@ -29,7 +29,13 @@
                             Applicant Information
                             </h3>
                             <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                            Send on {{ Carbon\Carbon::parse($guide->created_at)->format('d/m/Y') }}
+                            Send on {{ Carbon\Carbon::parse($guide->created_at)->format('d/m/Y') }} 
+                            @if($guide->status === 'refused')
+                            , rejected on {{ Carbon\Carbon::parse($guide->since_when)->format('d/m/Y') }}
+                            @endif
+                            @if($guide->status === 'accepted')
+                            , accepted on {{ Carbon\Carbon::parse($guide->since_when)->format('d/m/Y') }}
+                            @endif
                             </p>
                         </div>
                         <div class="border-t border-gray-200">

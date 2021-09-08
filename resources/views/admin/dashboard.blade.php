@@ -17,6 +17,9 @@
     </head>
     <body>
        @include('partials.admin-sidebar')
+       <div>
+           <h1 class="text-center text-3xl text-last pt-24">Welcome on the Admin Dashboard <span class="font-bold">{{ auth()->user()->firstname }} {{ auth()->user()->lastname }}</span></h1>
+       </div>
     </body>
 
    
