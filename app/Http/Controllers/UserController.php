@@ -261,7 +261,6 @@ class UserController extends Controller
     public function sendDemandtoBecomeGuide(Request $request) {
        
         $request->validate([
-            //'lang' => 'required',
             'categories' => 'required|exists:categories,id|min:1',
             'languages' => 'required|exists:languages,id|min:1',
             'offers' => 'required|string|min:20',

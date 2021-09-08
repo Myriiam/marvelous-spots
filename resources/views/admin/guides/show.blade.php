@@ -34,6 +34,14 @@
                         </div>
                         <div class="border-t border-gray-200">
                             <dl>
+                                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                    Guide_id
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{ $guide->id }}
+                                    </dd>
+                                </div>
                                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500">
                                     User_id
@@ -130,20 +138,22 @@
                                         {{ $reviewArticles }}
                                     </dd>
                                 </div>
-                                <div class="flex justify-center space-x-20 my-8">
-                                    <div>
-                                        <form method="POST" action="{{ route('application_approved', $guide->id) }}">
-                                            @csrf
-                                            <button class="rounded bg-green-600 py-3 px-7 text-basic font-bold text-white">Accept</button>
-                                        </form>
+                                @if($guide->status === 'pending')
+                                    <div class="flex justify-center space-x-20 my-8">
+                                        <div>
+                                            <form method="POST" action="{{ route('application_approved', $guide->id) }}">
+                                                @csrf
+                                                <button class="rounded bg-green-600 py-3 px-7 text-basic font-bold text-white">Accept</button>
+                                            </form>
+                                        </div>
+                                        <div>
+                                            <form method="POST" action="{{ route('application_rejected', $guide->id) }}">
+                                                @csrf
+                                                <button class="rounded bg-red-400 py-3 px-7 text-basic font-bold text-white">Refuse</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <form method="POST" action="{{ route('application_rejected', $guide->id) }}">
-                                            @csrf
-                                            <button class="rounded bg-red-400 py-3 px-7 text-basic font-bold text-white">Refuse</button>
-                                        </form>
-                                    </div>
-                                </div>
+                                @endif
                             </dl>
                         </div>
                     </div>

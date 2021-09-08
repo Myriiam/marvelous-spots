@@ -23,11 +23,25 @@ class GuideController extends Controller
                 ->select('gu.id', 'gu.user_id', 'gu.status', 'gu.created_at', 'u.firstname', 'u.lastname', 'u.city')
                 ->join('guides as gu', 'gu.user_id', '=', 'u.id')
                 ->where ('gu.status', '=', 'pending')
-                ->get();
+                ->paginate(3, ['*'], 'pending');
+
+        $guides = DB::table('users as u')
+                ->select('gu.id', 'gu.user_id', 'gu.status', 'gu.created_at', 'u.firstname', 'u.lastname', 'u.city')
+                ->join('guides as gu', 'gu.user_id', '=', 'u.id')
+                ->where ('gu.status', '=', 'accepted')
+                ->paginate(3, ['*'], 'accepted');
+
+        $rejectedGuides = DB::table('users as u')
+                ->select('gu.id', 'gu.user_id', 'gu.status', 'gu.created_at', 'u.firstname', 'u.lastname', 'u.city')
+                ->join('guides as gu', 'gu.user_id', '=', 'u.id')
+                ->where ('gu.status', '=', 'refused')
+                ->paginate(3, ['*'], 'refused');
        
         return view('admin.guides.guide-application',[
             'resource' => 'Users Requests',
             'newGuides' => $newGuides,
+            'guides' => $guides,
+            'rejectedGuides' => $rejectedGuides,
         ]);
     }
 
