@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class ArticleController extends Controller
 {
@@ -39,8 +41,24 @@ class ArticleController extends Controller
      */
     public function acceptArticle($id)
     {
+        $article = Article::find($id);
         //Si accepter, changer le status de l'article.
-        //Envoyer un email
+        if ($article->status === 'under_review') {
+            $article->update([
+                'status' => 'published',
+            ]);
+      
+            //Envoyer un email
+            Mail::send('admin.articles.email-acceptance', ['article' => $article],
+            function($message) use ($article) {
+                $message->from('info@marvelous.com', 'Marvelous Info');
+                $message->to($article->user->email, $article->user->firstname)->subject('Your submitted article :'. $article->title);
+            });
+
+            return redirect()->route('new_article')
+            ->with('success', 'Your have approved the article and an email has been sent to ' .$article->user->firstname. ' !');
+        }
+
     }
 
     /**
@@ -54,7 +72,7 @@ class ArticleController extends Controller
          //Si refuser, supprimer les photos de l'article (table picture) et les catégories (table article_category) + changer le status de 
         //l'article en unpublished.
         //Envoyer un email si ok et si refus (pour prévenir le user)
-        
+
     }
 
     /**

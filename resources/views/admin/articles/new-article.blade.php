@@ -64,12 +64,14 @@
                                         <div class="flex justify-center space-x-2">
                                             <a href="#" class="rounded bg-blue-500 py-1 px-3 text-xs font-bold text-white">Show</a>
                                             <div>
-                                                <form method="POST" action="#">
+                                                <form method="POST" action="{{ route('article_approved', $newArticle->id) }}">
+                                                    @csrf
                                                     <button class="rounded bg-green-600 py-1 px-3 text-xs font-bold text-white">Accept</button>
                                                 </form>
                                             </div>
                                             <div>
-                                                <form method="POST" action="#">
+                                                <form method="POST" action="{{ route('article_rejected', $newArticle->id) }}">
+                                                    @csrf
                                                     <button class="rounded bg-red-400 py-1 px-3 text-xs font-bold text-white">Refuse</button>
                                                 </form>
                                             </div>
