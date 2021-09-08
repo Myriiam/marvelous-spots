@@ -100,9 +100,9 @@
                         </div>
                         <p>Gender: {{ $user->gender }}</p>
                         <p>Social-media:</p>
-                        <p>Member since {{ $user->created_at }}</p>
+                        <p>Member since : {{ Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}</p>
                         @if ($user->role === 'Guide')
-                            <p>Guide since- {{ $user->guide->since_when }}</p>
+                            <p>Guide since : {{ Carbon\Carbon::parse($user->guide->since_when)->format('d/m/Y') }}</p>
                         @endif
                     </div>
                         <div class="mb-6 grid grid-cols-1">
@@ -222,7 +222,7 @@
                 <div class="mb-6 md:flex text-center md:justify-evenly">
                 @auth
                     @if (auth()->user()->id === $user->id)
-                        @if ($user->role !== 'Guide')
+                        @if (is_null($user->guide) || ($user->guide->status === 'refused'))
                             <a href="{{ route('become_guide_form', auth()->user()->id) }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Becoming a guide
                             </a>
