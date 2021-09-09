@@ -95,7 +95,6 @@ class BookingController extends Controller
         $bookings = Booking::all();
       // dd($bookings[0]->guide->user->firstname); //nom du guide commandé
       //dd($bookings[1]->user->bookings);
-    
         //dd($guide_id);
        /*  //Réservation d'un guide par un user (traveler or guide) => user_id = personne connecté (de qui ont veut récupérer ses réservation) 
          //et guide_id = personne à qui on fait la demande
@@ -173,7 +172,6 @@ class BookingController extends Controller
         //change the status pending to rejected in the status_demand
         //and the status null to refused in the status_offer
         $booking = Booking::find($id);
-        //dd($booking);
          if ($booking->status_demand === 'pending') {
             $booking->update([
                   'status_demand' => 'rejected',
@@ -217,7 +215,7 @@ class BookingController extends Controller
         $user = User::find($user_id);
         $booking = Booking::find($id);
         $message = decrypt($booking->message);
-       // dd($booking->guide->user->firstname);
+       
         return view('bookings.show-booking',[
             'message' => $message,
             'booking' => $booking,

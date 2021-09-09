@@ -9,15 +9,14 @@
                 <h2 class="text-yellow-700 max-w-3xl transform translate-y-5 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{{ ucfirst($city) }}</h2>
             </div>
         </div>
-        <!-- Form search/filtre -->
+        <!-- FORM SEARCH/FILTRES -->
         <div class="text-center">
             <form action="{{ route('filter_articles') }}" method="GET">
                 @csrf
                 <input name="searchArticles" type="text" class="rounded-md bg-gray-lighter" value="{{ ucfirst($city) }}" placeholder="Enter a city name...">
                 <button type="submit" name="btnSubmit" value="articles" class="border-2 px-2 py-2">Search</button><br>
                 <!-- Filtres -->
-                <!-- Button toggle = filtre qui fait apparaitre ou disparaitre la div filtre -->
-                <button class="border-first bg-first text-white font-semibold px-2 py-2">Filters</button>
+               <!-- <button class="border-first bg-first text-white font-semibold px-2 py-2">Filters</button>-->
                 <div id="filter">
                     <div>
                         <!-- foreach de toutes les categories -->
