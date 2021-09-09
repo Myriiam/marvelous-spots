@@ -99,7 +99,6 @@
                             <p class="ml-3">{{ $user->email }}</p>
                         </div>
                         <p>Gender: {{ $user->gender }}</p>
-                        <p>Social-media:</p>
                         <p>Member since : {{ Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}</p>
                         @if ($user->role === 'Guide')
                             <p>Guide since : {{ Carbon\Carbon::parse($user->guide->since_when)->format('d/m/Y') }}</p>
