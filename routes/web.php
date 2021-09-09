@@ -26,8 +26,6 @@ require __DIR__.'/auth.php';
 //Home
 //Route::get('/', [App\Http\Controllers\UserController::class, 'welcome'])->name('welcome'); //
 //Profile
-Route::get('/search-results/city/articles/', [App\Http\Controllers\ResearchController::class, 'filterArticles'])->name('filter_articles');
-
 Route::get('/profile/{id}', [App\Http\Controllers\UserController::class, 'showProfile'])->name('profile');
 Route::get('/my-profile/edit', [App\Http\Controllers\UserController::class, 'editProfile'])->middleware(['auth'])->name('edit_my_profile');
 Route::put('/my-profile/save', [App\Http\Controllers\UserController::class, 'updateProfile'])->middleware(['auth'])->name('update_my_profile');
@@ -66,6 +64,7 @@ Route::post('/{id}/guide/dislike', [App\Http\Controllers\FavoriteController::cla
 Route::get('/search-results/city', [App\Http\Controllers\ResearchController::class, 'getAll'])->name('all_in_city');
 //Search|Filters
 Route::get('/search-results/city/guides/', [App\Http\Controllers\ResearchController::class, 'filterGuides'])->name('filter_guides');
+Route::get('/search-results/city/articles/', [App\Http\Controllers\ResearchController::class, 'filterArticles'])->name('filter_articles');
 //Becoming a Guide
 Route::get('/{id}/becoming-guide-form', [App\Http\Controllers\UserController::class, 'makeDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide_form');
 Route::post('/becoming-guide', [App\Http\Controllers\UserController::class, 'sendDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide');
