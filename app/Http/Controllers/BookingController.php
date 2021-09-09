@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class BookingController extends Controller
 {
@@ -22,7 +23,7 @@ class BookingController extends Controller
         $user = User::find($id);
         $user_firstname = $user->firstname;
         $guide_id = $user->guide->id;
-        //dd($guide_id);
+       
         //dates when the guide is booked (the guide receive an offer)
         $booking_dates_guide = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.guide_id')
         ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.visit_date', 
@@ -56,7 +57,7 @@ class BookingController extends Controller
          $request->validate([
             'visit_date' => 'required|date|not_in:' . implode(',', $allNotAvailableDates),
             'nb_person' => 'required|numeric|min:1|max:10',
-            'message_booking' => 'required|string|min:20',
+            'message_booking' => 'required|string',
         ], ['visit_date.not_in' => "The guide isn't available that day, choose another date"]);
 
         $price_guide = User::find($id)->guide->price;
@@ -64,7 +65,7 @@ class BookingController extends Controller
         $visit_date = $request->input('visit_date');
         $nb_hours = $request->input('nb_hours');
         $nb_person = $request->input('nb_person');
-        $message_booking = $request->input('message_booking');
+        $message_booking = encrypt($request->input('message_booking'));
         $total_price = $nb_person * $price_guide * $nb_hours;
         
             DB::table('bookings')->insert([
@@ -94,7 +95,6 @@ class BookingController extends Controller
         $bookings = Booking::all();
       // dd($bookings[0]->guide->user->firstname); //nom du guide commandé
       //dd($bookings[1]->user->bookings);
-    
         //dd($guide_id);
        /*  //Réservation d'un guide par un user (traveler or guide) => user_id = personne connecté (de qui ont veut récupérer ses réservation) 
          //et guide_id = personne à qui on fait la demande
@@ -119,7 +119,6 @@ class BookingController extends Controller
            'bookings.status_demand', 'bookings.status_offer')
           ->where(['bookings.guide_id'=> $guide_id])
           ->paginate(2, ['*'], 'offers');
-         // dd($offersGuide);
 
           return view('bookings.index',[
             'user' => $user,
@@ -150,7 +149,7 @@ class BookingController extends Controller
         //change the status pending to paiement in the status_demand 
         //and the status null to (accepted)->waiting for paiement in the status_offer
          $booking = Booking::find($id);
-        //dd($booking);
+
          if ($booking->status_demand === 'pending') {
             $booking->update([
                   'status_demand' => 'paiement',
@@ -173,7 +172,6 @@ class BookingController extends Controller
         //change the status pending to rejected in the status_demand
         //and the status null to refused in the status_offer
         $booking = Booking::find($id);
-        //dd($booking);
          if ($booking->status_demand === 'pending') {
             $booking->update([
                   'status_demand' => 'rejected',
@@ -183,5 +181,45 @@ class BookingController extends Controller
           return redirect()->route('my_bookings')
           ->with('success', 'Your negative reply has been sent to the recipient !');
          } 
+    }
+
+    /**
+     * Show the details of an offer
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showOffer($id)
+    {   
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $booking = Booking::find($id);
+        $message = decrypt($booking->message);
+        
+        return view('bookings.show-offer',[
+            'message' => $message,
+            'booking' => $booking,
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Show the details of a booking
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showBooking($id)
+    {   
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $booking = Booking::find($id);
+        $message = decrypt($booking->message);
+       
+        return view('bookings.show-booking',[
+            'message' => $message,
+            'booking' => $booking,
+            'user' => $user,
+        ]);
     }
 }

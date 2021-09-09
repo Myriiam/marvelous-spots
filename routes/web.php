@@ -38,7 +38,8 @@ Route::post('/inbox/message/{id}/delete', [App\Http\Controllers\ContactControlle
 //Booking
 Route::post('/{id}/book', [App\Http\Controllers\BookingController::class, 'bookVisit'])->middleware(['auth'])->name('book_visit');
 Route::get('/my-bookings', [App\Http\Controllers\BookingController::class, 'getAllBookings'])->middleware(['auth'])->name('my_bookings');
-//Route::get('/my-bookings/{id}/show', [App\Http\Controllers\BookingController::class, 'showBooking'])->middleware(['auth'])->name('show_booking');
+Route::get('/my-bookings/{id}/show-offer', [App\Http\Controllers\BookingController::class, 'showOffer'])->middleware(['auth'])->name('show_offer');
+Route::get('/my-bookings/{id}/show-booking', [App\Http\Controllers\BookingController::class, 'showBooking'])->middleware(['auth'])->name('show_booking');
 Route::post('/my-bookings/{id}/accept-offer', [App\Http\Controllers\BookingController::class, 'acceptOffer'])->middleware(['auth'])->name('accept_offer');
 Route::post('/my-bookings/{id}/refuse-offer', [App\Http\Controllers\BookingController::class, 'refuseOffer'])->middleware(['auth'])->name('refuse_offer');
 //Paiement - Stripe
