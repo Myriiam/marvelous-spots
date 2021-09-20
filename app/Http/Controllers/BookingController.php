@@ -215,7 +215,7 @@ class BookingController extends Controller
         $user = User::find($user_id);
         $booking = Booking::find($id);
         $message = decrypt($booking->message);
-       
+       // dd($booking->guide->user->firstname);
         return view('bookings.show-booking',[
             'message' => $message,
             'booking' => $booking,

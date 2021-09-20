@@ -21,7 +21,7 @@ class CreateGuidesTable extends Migration
             $table->text('offering');
             $table->enum('status', ['pending', 'accepted', 'refused'])->default('pending'); //default à pending
             $table->decimal('price')->nullable();
-            $table->boolean('pause')->default(false);
+            $table->boolean('pause')->default(0);  //c'était false avant
             $table->timestamp('created_at');
             $table->dateTime('since_when')->nullable();
 

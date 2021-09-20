@@ -102,7 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Get the comment(s) of the user - relationship
+     * Get the article comment(s) of the user - relationship
      */
     public function comments()
     {
@@ -140,9 +140,3 @@ class User extends Authenticatable implements MustVerifyEmail
              ->where('role', '=', 'Guide')->where('city', 'LIKE', "%{$city}%")->distinct('users.id');
     }
 }
-
-/*foreach ($guides as $guide) {
-    $guides->categories = DB::table('categories as cat')->select('cat.name')
-    ->join('category_guide as catg', 'catg.guide_id', '=', 'cat.id')
-    ->where('catg.guide_id', '=', $guide->id)->get();
-}*/

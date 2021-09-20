@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\EncryptCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,5 +60,14 @@ class Booking extends Model
     {
         return $this->belongsTo(Guide::class);
         //OR return $this->belongsTo('App\Models\Guide');
+    }
+
+     /**
+     * Get the comment of this/these visit(s) - relationship 
+     */
+    public function comment()
+    {
+        return $this->hasOne(CommentGuide::class);
+        //OR return $this->hasOne('App\Models\CommentGuide');
     }
 }

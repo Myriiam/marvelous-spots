@@ -19,7 +19,6 @@ class Guide extends Model
         'motivation',
         'travel_definition',
         'offering',
-        //'living_time',
         'status',
         'price',
         'pause',

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             ArticleCategorySeeder::class,
             PictureSeeder::class,
+            BookingSeeder::class,
         ]);
     }
 }

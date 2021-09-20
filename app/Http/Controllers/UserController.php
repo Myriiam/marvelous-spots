@@ -9,6 +9,7 @@ use App\Models\Article;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Language;
+use App\Models\CommentGuide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -17,27 +18,7 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
+    
     /**
      * Display a specified resource (the profile of all user).
      *
@@ -45,23 +26,69 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showProfile($id)
-    {
+    {   
         $user = User::find($id); //dd($user->id); //2
         $birthdate = Carbon::parse($user->birthdate)->format('d/m/Y');
+        $today = Carbon::now();
+        $booking = null;
 
-        if ($user->role === 'Guide' && !is_null(auth()->user())) {
+        if ($user->role !== 'Administrator') {
+            $allGuideComments = DB::table('bookings')
+            ->select('users.firstname', 'users.picture', 'bookings.id', 'bookings.user_id as user_id', 'bookings.guide_id as guide_id', 'cmg.created_at', 'cmg.comment')
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->join('guides', 'guides.user_id', '=', 'users.id')
+            ->join('comment_guides as cmg', 'cmg.booking_id', '=', 'bookings.id')
+            ->where('bookings.guide_id', "=", $user->guide->id)
+            ->get();
+            //dd($allGuideComments);
+        }
+
+
+    if ($user->role === 'Guide' && !is_null(auth()->user())) {
             $userAuth = auth()->user()->id; //Id of the authenticated user 
             $guideId = $user->guide->id; // dd($guideId);//1
             $categories = $user->guide->categories;
             $languages = $user->guide->languages;
-            
+    
+
             //To know if the authenticated user has already or not mark the guide as favorite
             $likedGuide = DB::table('favorite_guides')->join('users', 'users.id', '=', 'favorite_guides.user_id')
             ->select('users.firstname', 'favorite_guides.id')
             ->where(['favorite_guides.guide_id'=>$guideId])
             ->where(['favorite_guides.user_id'=>$userAuth])
             ->first();
-            
+
+             //to know if the user has had a visit with the profile guide
+            $userBookings = DB::table('bookings')
+            ->select('users.firstname', 'bookings.id', 'bookings.user_id as user_id', 'bookings.guide_id as guide_id')
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->join('guides', 'guides.user_id', '=', 'users.id')
+        // ->join('comment_guides as cmg', 'cmg.booking_id', '=', 'bookings.id')
+            ->where('bookings.visit_date', "<", Carbon::parse($today)->format('Y/m/d'))
+            ->where('bookings.user_id', "=", auth()->user()->id)
+            ->where('bookings.guide_id', "=", $user->guide->id)
+            ->orderBy('bookings.visit_date', 'desc')
+            ->get()->toArray();
+
+            //dd($userBookings);
+            $idBooking = []; //id de la visite
+            $idGuideBooking = []; //id du guide de la visite
+            $idUserBooking = [];  //id du user qui a réservé la visite
+            // $comment = [];
+
+            foreach ($userBookings as $booking) {
+                array_push($idBooking, $booking->id);
+                array_push($idGuideBooking, $booking->guide_id);
+                array_push($idUserBooking, $booking->user_id);
+                // array_push($comment, $booking->comment);
+                //dd($booking->comment);
+            }
+
+            if (!empty($idBooking)) {
+                $booking = Booking::find($idBooking[0]);
+               // dd($booking->comment);
+            }
+
             return view('profiles.show',[
                 'user' => $user,
                 'resource' => 'User Profile',
@@ -70,6 +97,12 @@ class UserController extends Controller
                 'guideId' => $guideId,
                 'categories' => $categories,
                 'languages' => $languages,
+                'today' => $today,
+                'idBooking' => $idBooking,
+                'idGuideBooking' => $idGuideBooking,
+                'idUserBooking' => $idUserBooking,
+                'booking' => $booking,
+                'allGuideComments' => $allGuideComments,
             ]);
         } else if ($user->role === 'Guide' && is_null(auth()->user())) {
             $categories = $user->guide->categories;
@@ -81,13 +114,24 @@ class UserController extends Controller
                 'birthdate' => $birthdate,
                 'languages' => $languages,
                 'categories' => $categories,
+                'today' => $today,
+                'allGuideComments' => $allGuideComments,
+
+            ]);
+        } else if ($user->role === 'Administrator') {
+            return view('profiles.show',[
+                'user' => $user,
+                'resource' => 'User Profile',
+                'birthdate' => $birthdate,
+                'today' => $today,
             ]);
         } else {
             return view('profiles.show',[
                 'user' => $user,
                 'resource' => 'User Profile',
                 'birthdate' => $birthdate,
-                
+                'today' => $today,
+                'allGuideComments' => $allGuideComments,
             ]);
         }
     }
@@ -181,7 +225,6 @@ class UserController extends Controller
             'offering' => 'required|string|min:20',
             'price' => 'numeric|min:1|max:99.99|regex:/^\d+(\.\d{1,2})?$/',
             'categories' => 'required|exists:categories,id|min:1',
-           // 'pour chaque réseau sociaux' => '',
             'pauseChoice' => 'required|in:0,1',
         ]);
         }
@@ -217,10 +260,6 @@ class UserController extends Controller
         if ($user->role === 'Guide') {
             $user->guide->travel_definition = $request->input('definition');
             $user->guide->offering = $request->input('offering');
-        /*  $user->social_media = $request->input('instagram');
-            $user->social_medi = $request->input('facebook');
-            $user->social_media = $request->input('pinterest');
-            $user->social_media = $request->input('twitter'); */
             $user->guide->pause = $request->input('pauseChoice');
             $user->guide->price = $request->input('price');
             $user->guide->categories()->sync($request->categories);   //To add and link categories to the guide
@@ -236,7 +275,7 @@ class UserController extends Controller
     /**
      * Fill the form to become a guide 
      *
-     * @param int $id
+     * @param int $id id du user connecté qui a fait la demande
      * @return void
      */
     public function makeDemandtoBecomeGuide($id) {
@@ -252,6 +291,7 @@ class UserController extends Controller
             'languages' => $languages,
         ]);
     }
+
     /**
      * Send the form (your request) to become a guide 
      *
@@ -293,6 +333,34 @@ class UserController extends Controller
         return redirect()->route('profile', $user_id) 
                 ->with('success', 'Your demand has been send successfully to the administrator.');
     }
+
+     /**
+     * Comment a specific guide after a visit with him.
+     *
+     * @param Request $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sendComment(Request $request, $id)
+    {
+        $booking = Booking::find($id);
+        $bookingId = $booking->id; //Id of the visit
+        $guide = $booking->guide->user->id;
+       //dd($guide);
+        $authorId = $booking->user_id; //id of the user who booked the visit
+        $authorFirstname = User::find($authorId); //the user who booked the visit
+        $userId = auth()->user()->id; //Id of the authenticated user
+        $user = User::find($userId); //authenticated user
+
+        CommentGuide::create([
+            'booking_id' => $bookingId,
+            'comment' => $request->input('comment'),
+        ]);
+
+        return redirect()->route('profile', $guide)
+        ->with('success', 'Your comment has been successfully registered !');
+    }
+
 
     /**
      * Remove the user permanently.
