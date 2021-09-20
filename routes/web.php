@@ -51,7 +51,7 @@ Route::get('/{id}/my-articles', [App\Http\Controllers\ArticleController::class, 
 Route::get('/show-article/{id}', [App\Http\Controllers\ArticleController::class, 'showArticle'])->name('show_article');
 Route::get('/{id}/edit-article', [App\Http\Controllers\ArticleController::class, 'editArticle'])->middleware(['auth'])->name('edit_article');
 Route::put('/{id}/save-article', [App\Http\Controllers\ArticleController::class, 'updateArticle'])->middleware(['auth'])->name('save_article');
-//Comment
+//Comment Article
 Route::post('/{id}/comment-article', [App\Http\Controllers\ArticleController::class, 'sendComment'])->middleware(['auth'])->name('comment_article');
 //Favorite Article
 Route::get('/{id}/article/my-favorite', [App\Http\Controllers\FavoriteController::class, 'getAllMyFavorite'])->middleware(['auth'])->name('my_favorite'); //Soit on laisse l'id afin que tous les users conenctés puissent voir les favoris des autres sinon que nous -meme y avons accès et pas les autres !?
@@ -68,6 +68,8 @@ Route::get('/search-results/city/articles/', [App\Http\Controllers\ResearchContr
 //Becoming a Guide
 Route::get('/{id}/becoming-guide-form', [App\Http\Controllers\UserController::class, 'makeDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide_form');
 Route::post('/becoming-guide', [App\Http\Controllers\UserController::class, 'sendDemandtoBecomeGuide'])->middleware(['auth'])->name('become_guide');
+//Comment Visit/Guide
+Route::post('/{id}/comment-guide', [App\Http\Controllers\UserController::class, 'sendComment'])->middleware(['auth'])->name('comment_guide');
 
 //Admin
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function () {
