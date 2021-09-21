@@ -1,63 +1,47 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+# Marvelous Spots
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Marvelous Spots is a web platform that connects people around the world who share a passion for travel.
+It aims to redefine the concept of travel, promote a more ethical and social way of travelling and
+to offer a unique experience to each member. To do this, the site allows
+its community to benefit from the services of a guide wherever they are.
+Marvelous Spots is both a blog where registered and logged-in users can publish articles but also 
+a marketplace as they can also book a guide to visit specific places.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+From now on, **travelers** and **guides** have the possibility to create and modify an article (publication is subject to verification), reserve a guide for a certain date, search for a guide or an article and filter them according to criteria, manage their favorites, send messages and much more. 
+Of course, the **guide** is rewarded for his services.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Technologies and requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The project is built with the PHP Laravel 8.x framework (Breeze for authentication).<br>
+Tailwind is the CSS framework used.<br>
+Payments are supported by **[Stripe](https://stripe.com/)**.<br>
+Node js and PHP version 7.4 < 8. are require.<br>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## How to run the project
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. Install the project in your work environment : download or clone it from the github repository<br>
+2. Launch the project from your terminal and install the following dependency managers :<br>
+ <code>composer install</code><br>
+ <code>npm install</code> completed by <code>npm run dev</code><br>
 
-### Premium Partners
+3. For the .env file :<br>
++ Add the Stripe keys 
++ Configure The smtp (for emails)
+4. Configure your database and execute the following commands :<br>
+<code>php artisan migrate</code><br>
+<code>php artisan db:seed</code><br>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+5. For images : <br>
+<code>php artisan storage:link</code>
 
-## Contributing
+6. Run the project in your local server<br>
+<code>php artisan serve</code>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# marvelous-spots" 
+Marvelous Spots is licensed under the [MIT license](https://opensource.org/licenses/MIT). 
