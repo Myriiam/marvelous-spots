@@ -7,6 +7,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -155,7 +156,13 @@ class BookingController extends Controller
                   'status_demand' => 'paiement',
                   'status_offer' => 'waiting for paiement',
               ]);
-              
+
+              Mail::send('emails.booking-acceptance', ['booking' => $booking],
+              function($message) use ($booking) {
+                  $message->from('info@marvelous.com', 'Marvelous Info');
+                  $message->to($booking->user->email, $booking->user->firstname)->subject('Visit accepted');
+              });
+
           return redirect()->route('my_bookings')
           ->with('success', 'Your positive reply has been sent to the recipient !');
          } 

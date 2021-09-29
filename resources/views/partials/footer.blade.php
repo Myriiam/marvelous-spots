@@ -16,7 +16,9 @@
             </div>
             <div class="px-5 py-2 grid grid-cols-1 gap-3.5 md:gap-0 lg:gap-0 text-center mb-10 lg:mb-0">
                 <p class="text-2xl lg:text-lg font-semibold text-gray-darker">Informations</p>
-                <a href="{{ route('register') }}" class="text-xl lg:text-base text-white hover:text-sun">Join the community</a>
+                @auth
+                    <a href="{{ route('register') }}" class="text-xl lg:text-base text-white hover:text-sun">Join the community</a>
+                @endauth
                 <a href="#" class="text-xl lg:text-base text-white hover:text-sun">FAQ</a>
                 <a href="#" class="text-xl lg:text-base text-white hover:text-sun">Partners</a>
                 <a href="#" class="text-xl lg:text-base text-white hover:text-sun">General terms and conditions</a>
