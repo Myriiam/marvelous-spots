@@ -32,7 +32,7 @@ class UserController extends Controller
         $today = Carbon::now();
         $booking = null;
 
-        if ($user->role !== 'Administrator') {
+        if ($user->role !== 'Administrator' && $user->role === 'Guide') {
             $allGuideComments = DB::table('bookings')
             ->select('users.firstname', 'users.picture', 'bookings.id', 'bookings.user_id as user_id', 'bookings.guide_id as guide_id', 'cmg.created_at', 'cmg.comment')
             ->join('users', 'users.id', '=', 'bookings.user_id')
@@ -131,7 +131,7 @@ class UserController extends Controller
                 'resource' => 'User Profile',
                 'birthdate' => $birthdate,
                 'today' => $today,
-                'allGuideComments' => $allGuideComments,
+               // 'allGuideComments' => $allGuideComments,
             ]);
         }
     }

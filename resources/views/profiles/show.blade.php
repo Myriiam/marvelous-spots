@@ -96,7 +96,13 @@
                     <div class="mb-5 mt-6">
                         <div class="flex justify-center">
                             <img class="w-7 h-7 " src="{{ asset('images/check.png') }}" alt="verified email icon">
-                            <p class="ml-3">{{ $user->email }}</p>
+                            @auth
+                                @if (auth()->user()->id === $user->id)
+                                    <p class="ml-3">{{ $user->email }}</p>
+                                @else 
+                                    <p class="ml-3">Veified email</p>
+                                @endif
+                            @endauth
                         </div>
                         <p>Gender: {{ $user->gender }}</p>
                         <p>Member since : {{ Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}</p>
