@@ -1,34 +1,31 @@
-//Modal answer in inbox (to answer to a message from an other guide or a traveller)
-/*const openMessage = document.querySelector('#open-message');
-const contentMessage = document.querySelector('#content-message');
-const closeContent = document.querySelector('#close-content');
+//Lire messages envoyés
+const openSentMessage = document.querySelectorAll("a[data-sent]");
+const contentSentMessage = document.querySelectorAll("div[data-sent]");
 
-
-const openAndCloseMessage = () => {
-    console.log('ok!');
-    contentMessage.classList.toggle('hidden');
-    contentMessage.classList.toggle('flex');
+for (var i = 0 ; i < openSentMessage.length; i++) {
+    openSentMessage[i].addEventListener('click', (e) => {
+        for (var y = 0 ; y < contentSentMessage.length; y++) {
+            if (contentSentMessage.item(y).dataset.sent === e.target.dataset.sent) {
+                contentSentMessage.item(y).classList.toggle('hidden');
+                contentSentMessage.item(y).classList.toggle('flex');
+            } 
+        }
+    });
 }
 
-openMessage.addEventListener('click', openAndCloseMessage);
-closeContent.addEventListener('click', openAndCloseMessage);*/
+//Lire messages reçus
+const openMessage = document.querySelectorAll("a[data-id]");
+const contentMessage = document.querySelectorAll("div[data-id]");
 
-    const openMessage = document.querySelectorAll("a[data-id]");
-    const contentMessage = document.querySelectorAll("div[data-class]");
-   //console.log(openMessage);
-   
-    //console.log(contentMessage);
-   
-    for (var i = 0 ; i < openMessage.length; i++) {
-        openMessage[i].addEventListener('click', (e) => {
-            console.log(e.target);
-            for (var y = 0 ; y < contentMessage.length; y++) {
-                //if (contentMessage[y].getAttribute("div[data-class]") === openMessage[i].getAttribute("div[data-id]")) {
-                    contentMessage[y].classList.toggle('hidden');
-                    contentMessage[y].classList.toggle('flex');
-               // 
-            }
-        });
-    }
+for (var i = 0 ; i < openMessage.length; i++) {
+    openMessage[i].addEventListener('click', (e) => {
+        for (var y = 0 ; y < contentMessage.length; y++) {
+            if (contentMessage.item(y).dataset.id === e.target.dataset.id) {
+                contentMessage.item(y).classList.toggle('hidden');
+                contentMessage.item(y).classList.toggle('flex');
+            } 
+        }
+    });
+}
 
     

@@ -59,7 +59,7 @@ fetch("https://api.countrystatecity.in/v1/countries", requestOptions)
 
     const index = this.selectedIndex;
     const selectedIso = this.options[index].id;
-    //console.log(selectedIso)
+    
     let url = "https://api.countrystatecity.in/v1/countries/"+ selectedIso +"/cities";
 
     var headers = new Headers();
