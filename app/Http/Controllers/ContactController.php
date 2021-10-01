@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Crypt;
 
 class ContactController extends Controller
 {
@@ -30,13 +31,13 @@ class ContactController extends Controller
 
           // Messages reçus : Name of the sender (received Messages by $user_id - to know the name of the sender)
           $receivedMessages = DB::table('contacts')->join('users', 'users.id', '=', 'contacts.sender_id')
-          ->select('users.firstname', 'users.id','contacts.id', 'contacts.receiver_id', 'contacts.sender_id', 'contacts.subject', 'contacts.message', 'contacts.status')
+          ->select('users.firstname', 'users.id','contacts.id', 'contacts.receiver_id', 'contacts.sender_id', 'contacts.subject', 'contacts.message', 'contacts.status', 'contacts.date')
           ->where(['contacts.receiver_id'=>$user_id])
           ->get();
-     
+      
           // Messages envoyés : Name of the receiver (sent Messages by $user_id - to know the name of the receiver)
           $sentMessages = DB::table('contacts')->join('users', 'users.id', '=', 'contacts.receiver_id')
-          ->select('users.firstname', 'users.id', 'contacts.id','contacts.receiver_id', 'contacts.sender_id', 'contacts.subject', 'contacts.message', 'contacts.status')
+          ->select('users.firstname', 'users.id', 'contacts.id','contacts.receiver_id', 'contacts.sender_id', 'contacts.subject', 'contacts.message', 'contacts.status', 'contacts.date')
           ->where(['contacts.sender_id'=>$user_id])
           ->get();
           
@@ -60,8 +61,8 @@ class ContactController extends Controller
     {
         // Validation 
         $request->validate([
-            'subject' => 'required|string|min:10|max:50',
-            'message' => 'required|string|min:20',
+            'subject' => 'required|string|max:50',
+            'message' => 'required|string',
         ]);
 
         $sender_id = auth()->user()->id;
@@ -77,8 +78,6 @@ class ContactController extends Controller
             'message' => $message,
         ]);
 
-       /* Session::flash('message', 'Your message has been sent successfully !');
-        return redirect()->route('profile', $id);*/
         return redirect()->route('profile', $id)
         ->with('success', 'Your message has been sent successfully to ' .$receiver_firstname. ' !');
     }
@@ -113,10 +112,10 @@ class ContactController extends Controller
     }
 
     /**
-     * Undocumented function
+     * Answer to a message
      *
      * @param Request $request
-     * @param [type] $id
+     * @param int $id
      * @return void
      */
     public function answerMessage(Request $request, $id)
@@ -125,12 +124,15 @@ class ContactController extends Controller
         //Appeler la fonction dans le bouton du form dans contactc/index.blade.php
         //Faire la fonction dans le controller en indiquant le receiver sera direct la personne qui a envoyé le message donc 
         //ce n'est pas la meme fonction que sendMessage.
+        $request->validate([
+            'subject' => 'required|string|max:50',
+            'message' => 'required|string',
+        ]);
+      
         $sender_id = auth()->user()->id;
-        //$sender = User::find($sender_id);
-
         $receiver_id = $id;
         $receiver_firstname = User::find($id)->firstname;
-        //dd($receiver_firstname);
+ 
         $subject = $request->input('subject');
         $message = $request->input('message');
 
@@ -141,7 +143,7 @@ class ContactController extends Controller
             'message' => $message
         ]);
 
-        return redirect()->route('profile', $id)
+        return redirect()->route('my_inbox', $sender_id)
         ->with('success', 'Your message has been sent successfully to ' .$receiver_firstname. ' !');
     }
 

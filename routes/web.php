@@ -34,6 +34,8 @@ Route::post('/profile/{id}/contact', [App\Http\Controllers\ContactController::cl
 Route::get('/inbox', [App\Http\Controllers\ContactController::class, 'getAllMessages'])->middleware(['auth'])->name('my_inbox');
 Route::put('/inbox/status/{id}/update', [App\Http\Controllers\ContactController::class, 'changeStatusMessage'])->middleware(['auth'])->name('status_updated');
 Route::post('/inbox/message/{id}/delete', [App\Http\Controllers\ContactController::class, 'deleteMessage'])->middleware(['auth'])->name('delete_message'); //delete method et pas post ?
+Route::post('/inbox/{id}/answer', [App\Http\Controllers\ContactController::class, 'answerMessage'])->middleware(['auth'])->name('answer');
+
 //Route for the answer fonction to add HERE
 //Booking
 Route::post('/{id}/book', [App\Http\Controllers\BookingController::class, 'bookVisit'])->middleware(['auth'])->name('book_visit');
