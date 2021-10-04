@@ -40,9 +40,8 @@ class UserController extends Controller
             ->join('comment_guides as cmg', 'cmg.booking_id', '=', 'bookings.id')
             ->where('bookings.guide_id', "=", $user->guide->id)
             ->get();
-            //dd($allGuideComments);
+            //dd($allGuideComments->count());
         }
-
 
     if ($user->role === 'Guide' && !is_null(auth()->user())) {
             $userAuth = auth()->user()->id; //Id of the authenticated user 
@@ -209,21 +208,21 @@ class UserController extends Controller
         if ($user->role !== 'Guide') {
             $request->validate([
                 'picture' => 'mimes:png,jpg,jpeg|max:2048', 
-                /*'country' => 'required',  
-                'city' => 'required',*/
+                'country' => 'required',  
+                'city' => 'required',
                 'about' => 'string|min:20',
             ]);    
         } else {
             // Validation
          $request->validate([
             'picture' => 'mimes:png,jpg,jpeg|max:2048', //require lorsque l'utilisateur s'enregistre/après s'il ne veut rien uploader c ok !
-            /*'country' => 'required',  
-            'city' => 'required',*/
+            'country' => 'required',  
+            'city' => 'required',
             'languages' => 'required|exists:languages,id|min:1',
             'about' => 'required|string|min:20', //require pour un guide
-             'definition' => 'string|min:20',       
+            'definition' => 'string|min:20',       
             'offering' => 'required|string|min:20',
-            'price' => 'numeric|min:1|max:99.99|regex:/^\d+(\.\d{1,2})?$/',
+            'price' => 'numeric|min:1|max:29.99|regex:/^\d+(\.\d{1,2})?$/',
             'categories' => 'required|exists:categories,id|min:1',
             'pauseChoice' => 'required|in:0,1',
         ]);

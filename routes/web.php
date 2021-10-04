@@ -36,7 +36,6 @@ Route::put('/inbox/status/{id}/update', [App\Http\Controllers\ContactController:
 Route::post('/inbox/message/{id}/delete', [App\Http\Controllers\ContactController::class, 'deleteMessage'])->middleware(['auth'])->name('delete_message'); //delete method et pas post ?
 Route::post('/inbox/{id}/answer', [App\Http\Controllers\ContactController::class, 'answerMessage'])->middleware(['auth'])->name('answer');
 
-//Route for the answer fonction to add HERE
 //Booking
 Route::post('/{id}/book', [App\Http\Controllers\BookingController::class, 'bookVisit'])->middleware(['auth'])->name('book_visit');
 Route::get('/my-bookings', [App\Http\Controllers\BookingController::class, 'getAllBookings'])->middleware(['auth'])->name('my_bookings');
@@ -56,7 +55,7 @@ Route::put('/{id}/save-article', [App\Http\Controllers\ArticleController::class,
 //Comment Article
 Route::post('/{id}/comment-article', [App\Http\Controllers\ArticleController::class, 'sendComment'])->middleware(['auth'])->name('comment_article');
 //Favorite Article
-Route::get('/{id}/article/my-favorite', [App\Http\Controllers\FavoriteController::class, 'getAllMyFavorite'])->middleware(['auth'])->name('my_favorite'); //Soit on laisse l'id afin que tous les users conenctés puissent voir les favoris des autres sinon que nous -meme y avons accès et pas les autres !?
+Route::get('/my-favorite', [App\Http\Controllers\FavoriteController::class, 'getAllMyFavorites'])->middleware(['auth'])->name('my_favorite'); //Soit on laisse l'id afin que tous les users conenctés puissent voir les favoris des autres sinon que nous -meme y avons accès et pas les autres !?
 Route::post('/{id}/article/like', [App\Http\Controllers\FavoriteController::class, 'likeArticle'])->middleware(['auth'])->name('like_article');
 Route::post('/{id}/article/dislike', [App\Http\Controllers\FavoriteController::class, 'dislikeArticle'])->middleware(['auth'])->name('dislike_article');
 //Favorite Guide

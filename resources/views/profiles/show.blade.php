@@ -100,7 +100,7 @@
                                 @if (auth()->user()->id === $user->id)
                                     <p class="ml-3">{{ $user->email }}</p>
                                 @else 
-                                    <p class="ml-3">Veified email</p>
+                                    <p class="ml-3">Verified email</p>
                                 @endif
                             @endauth
                         </div>
@@ -113,7 +113,7 @@
                         <div class="mb-6 grid grid-cols-1">
                         @auth
                             @if (auth()->user()->id === $user->id)
-                                <a href="{{ route('my_favorite', auth()->user()->id) }}" class="hover:text-sun">My favorites</a>
+                                <a href="{{ route('my_favorite') }}" class="hover:text-sun">My favorites</a>
                                 <a href="{{ route('my_bookings') }}" class="hover:text-sun">My bookings</a>
                             @endif
                         @endauth
@@ -223,7 +223,7 @@
                         car comment obligatoire après la visite   $user->guide->bookings === $user->id -->
                         @auth
                             @if(in_array(auth()->user()->id, $idUserBooking) && in_array($user->guide->id, $idGuideBooking) && is_null($booking->comment))
-                                <p class="text-gray-dark font-bold text-2xl">How was your visit with </p>
+                                <p class="text-gray-dark font-bold text-2xl mt-12">How was your visit with </p>
                                 <form class="mx-40" action="{{ route('comment_guide', $idBooking[0]) }}" method="POST">
                                     @csrf
                                     @method('POST') 
@@ -234,20 +234,22 @@
                                         Send
                                     </button>
                                 </form>
-                                <hr class="border border-gray-dark">
+                                <hr class="border border-gray-dark mt-3">
                             @endif
                         @endauth
-                        <p class="text-xl text-gray-dark font-bold ml-6 mt-6 mb-2">Comments</p>
-                        @foreach($allGuideComments as $comment)
-                            <div class="my-5 border border-gray-dark rounded-md bg-gray-200 w-4/5 mx-24 py-6 px-6">
-                                <div><img class="w-10 h-10 object-cover" src="{{ asset($comment->picture) }}" alt="the photo of the comment's author">
-                                </div>
+                        @if($allGuideComments->count() > 0)
+                            <p class="text-xl text-gray-dark font-bold ml-6 mt-12 mb-2">Comments</p>
+                            @foreach($allGuideComments as $comment)
+                                <div class="my-5 border border-gray-dark rounded-md bg-gray-200 w-4/5 mx-24 py-6 px-6">
+                                    <div><img class="w-10 h-10 object-cover" src="{{ asset($comment->picture) }}" alt="the photo of the comment's author">
+                                    </div>
 
-                                <a href="{{ route('profile', $comment->user_id) }}" class="text-last font-bold text-lg">{{ $comment->firstname }}</a> 
-                                <p>{{ $comment->comment }}</p>
-                                <p class="text-first font-bold text-right">{{ $comment->created_at }}</p>
-                            </div>
-                        @endforeach
+                                    <a href="{{ route('profile', $comment->user_id) }}" class="text-last font-bold text-lg">{{ $comment->firstname }}</a> 
+                                    <p>{{ $comment->comment }}</p>
+                                    <p class="text-first font-bold text-right">{{ $comment->created_at }}</p>
+                                </div>
+                            @endforeach
+                        @endif
                     @endif
                 </div>
                 <div class="mb-6 md:flex text-center md:justify-evenly">
@@ -261,7 +263,7 @@
                             <a href="{{ route('edit_my_profile') }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Edit my profile
                             </a>
-                            <form method="POST" action="#">
+                            <form method="#" action="#">
                                 @csrf
                                 <button type="submit" class="mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                     Delete my account
