@@ -1,0 +1,12 @@
+.rounded-md {
+    height: 500px;
+    width: 100%;
+    object-fit: cover;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .rounded-md {
+        height: 300px;
+    }
+  }

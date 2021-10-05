@@ -21,7 +21,7 @@ class CreateBookingsTable extends Migration
             $table->integer('nb_hours');
             $table->integer('nb_person');
             $table->text('message')->encrypt(); 
-            $table->timestamp('booked_at');
+            $table->dateTime('booked_at');
             $table->decimal('total_price');
             $table->enum('status_demand', ['pending', 'paiement', 'rejected', 'booked'])->default('pending');
             $table->enum('status_offer', ['refused', 'waiting for paiement', 'booked'])->nullable();
