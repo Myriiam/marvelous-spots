@@ -14,14 +14,15 @@ use Illuminate\Support\Facades\DB;
 class FavoriteController extends Controller
 {
     /**
-     * Display a listing of the favorites (articles or guides).
-     *
-     * @return \Illuminate\Http\Response
+     * Display a listing of the favorites (articles and guides).
+     * 
+     * @param int $id
+     * @return void
      */
-    public function getAllMyFavorite($id)
+    public function getAllMyFavorites()
     {
         //Article
-        $user = User::find($id);
+        $user = User::find(auth()->user()->id);
         //$nbLikesAboutAuthUser = $user->guide->likes; //Les likes reçus par le user auth
         $favoritesGuidesOfAuthUser = $user->likes;  //les guides favoris du user auth
         $favoritesArticlesOfAuthUser = $user->favorites;  //les articles favoris du user auth

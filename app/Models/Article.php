@@ -24,7 +24,6 @@ class Article extends Model
         'website_place',
         'address', 
         'status',
-        'map',
         'created_at',
         'updated_at',
     ];

@@ -28,7 +28,6 @@ class ArticleSeeder extends Seeder
                 'website_place'=>'',
                 'address'=>'In the centrum of London',
                 'status'=>'under_review',
-                'map'=>'',
                 'created_at' =>'2021-06-30 15:40:05'
             ],
             [
@@ -44,7 +43,6 @@ class ArticleSeeder extends Seeder
                 'website_place'=>'www.copen-aqua.com',
                 'address'=>'Tuborg Havnepark 15, 2900 Hellerup, Danemark',
                 'status'=>'published',
-                'map'=>'',
                 'created_at' =>'2021-08-25 11:30:55'
             ],
             [
@@ -61,7 +59,6 @@ class ArticleSeeder extends Seeder
                 'website_place'=>'www.thegood.com',
                 'address'=>'Plouggårdsvej 16, 4653 Copenhagen',
                 'status'=>'published',
-                'map'=>'',
                 'created_at' =>'2021-06-29 20:05:52'
             ],
             [
@@ -78,7 +75,6 @@ class ArticleSeeder extends Seeder
                 'website_place'=>'www.shopwithmartha.com',
                 'address'=>'41 Marlborough Crescent EX20 7GP',
                 'status'=>'published',
-                'map'=>'',
                 'created_at' =>'2020-01-29 14:30:55'
             ],
         ];
@@ -95,7 +91,6 @@ class ArticleSeeder extends Seeder
                 'website_place' => $data['website_place'],
                 'address' => $data['address'],
                 'status' => $data['status'],
-                'map' => $data['map'],
                 'created_at' => $data['created_at'],
             ]);
         }

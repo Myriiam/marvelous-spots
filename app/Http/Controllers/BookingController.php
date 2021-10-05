@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 
 class BookingController extends Controller
 {
@@ -68,6 +69,7 @@ class BookingController extends Controller
         $nb_person = $request->input('nb_person');
         $message_booking = encrypt($request->input('message_booking'));
         $total_price = $nb_person * $price_guide * $nb_hours;
+        $booked_at = Carbon::now();
         
             DB::table('bookings')->insert([
                 'user_id' => $user_id,
@@ -77,9 +79,10 @@ class BookingController extends Controller
                 'nb_person' => $nb_person, 
                 'message' => $message_booking,
                 'total_price' => $total_price,
+                'booked_at' => $booked_at,
             ]);
 
-            return redirect()->route('profile', $id)  //Faire plus tard une redirection vers "mes réservations -> mes demandes"
+            return redirect()->route('my_bookings')  //Faire plus tard une redirection vers "mes réservations -> mes demandes"
             ->with('success', 'Your reservation has been registered, we are waiting for the answer from your guide : ' . $guide_firstname);
     }
 
@@ -94,21 +97,6 @@ class BookingController extends Controller
         $user = User::find($user_id); //Auth user
         $userBookings = $user->bookings()->paginate(2, ['*'], 'bookings');
         $bookings = Booking::all();
-      // dd($bookings[0]->guide->user->firstname); //nom du guide commandé
-      //dd($bookings[1]->user->bookings);
-        //dd($guide_id);
-       /*  //Réservation d'un guide par un user (traveler or guide) => user_id = personne connecté (de qui ont veut récupérer ses réservation) 
-         //et guide_id = personne à qui on fait la demande
-          $reservationsUser = DB::table('bookings')->join('users', 'users.id', '=', 'bookings.user_id')
-          ->join('guides','guides.user_id', '=', 'bookings.user_id')
-         
-         
-          ->select('users.firstname', 'users.id','bookings.id', 'bookings.user_id', 'bookings.guide_id', 'bookings.message',
-           'bookings.nb_person', 'bookings.booked_at', 'bookings.visit_date', 'bookings.nb_hours', 'bookings.total_price',
-           'bookings.status_demand', 'bookings.status_offer')
-          ->where(['bookings.user_id'=>$user_id])
-          ->get();
-        dd($reservationsUser);*/
 
         if ($user->role === 'Guide') {
             $guide_id = $user->guide->id;

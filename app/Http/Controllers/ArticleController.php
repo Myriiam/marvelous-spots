@@ -56,12 +56,10 @@ class ArticleController extends Controller
             'title' => 'required|string|min:15|max:60',
             'subtitle' => 'required|string|min:15|max:60',
             'description' => 'required|string|min:80',
-            //'latitude' => '',
-            //'longitude' => '',
             'pictures' => 'required|min:2|max:6',
            // 'pictures.*' => 'array|mimes:png,jpg,jpeg',
             'website' => 'nullable|string|max:20',
-            'phone' => 'nullable|string|max:15',
+            'phone' => 'nullable|digits_between:10,15',
             'address' => 'required|string|max:60',
             'categories' => 'required|exists:categories,id|min:1',
            // 'categories.*' => 'required|exists:categories,id',
@@ -72,8 +70,6 @@ class ArticleController extends Controller
         $user = User::find($user_id);
 
         $article = new Article();
-       // $latitude = $request->input('latitude');
-       // $longitude = $request->input('longitude');
         $title = $request->input('title');
         $subtitle = $request->input('subtitle');
         $description = $request->input('description');
@@ -84,8 +80,6 @@ class ArticleController extends Controller
         //Enregistrer les datas dans la BDD
        // Article::create([
             $article->user_id = $user_id;
-           // 'latitude' => $latitude,
-           // 'longitude' => $longitude,
             $article->title = $title;
             $article->subtitle = $subtitle;
             $article->description = $description;
@@ -271,27 +265,20 @@ class ArticleController extends Controller
         $user = User::find($user_id);
         $article = Article::find($id);
     
-       // Validation 
-   /*    $request->validate([
+      // Validation 
+      $request->validate([
         'title' => 'required|string|min:15|max:60',
         'subtitle' => 'required|string|min:15|max:60',
         'description' => 'required|string|min:80',
-        //'latitude' => '',
-        //'longitude' => '',
-        'pictures' => 'required|min:2|max:6',
-       // 'pictures.*' => 'array|mimes:png,jpg,jpeg',
+       // 'pictures' => 'required|min:2|max:6',
         'website' => 'nullable|string|max:20',
-        'phone' => 'nullable|string|max:15',
+        'phone' => 'nullable|digits_between:10,15',
         'address' => 'required|string|max:60',
-        'categories' => 'required|exists:categories,id|min:1',
-       // 'categories.*' => 'required|exists:categories,id',
-        ], ['pictures.min' => 'At least 2 pictures are required', 'pictures.max' => 'You can upload 6 pictures maximum',
-        'categories.min' => 'You must choose 1 category at least']);*/
+       // 'categories' => 'required|exists:categories,id|min:1',
+     ], [/*'pictures.min' => 'At least 2 pictures are required', 'pictures.max' => 'You can upload 6 pictures maximum',*/
+        'categories.min' => 'You must choose 1 category at least']);
 
         //Get the value of requests
-
-       // $latitude = $request->input('latitude');
-       // $longitude = $request->input('longitude');
        $title = $request->input('title');
        $subtitle = $request->input('subtitle');
        $description = $request->input('description');
@@ -300,10 +287,7 @@ class ArticleController extends Controller
        $address = $request->input('address');
 
         //Save new value in the database
-
         $article->user_id = $user_id;
-        // 'latitude' => $latitude,
-        // 'longitude' => $longitude,
         $article->title = $title;
         $article->subtitle = $subtitle;
         $article->description = $description;
