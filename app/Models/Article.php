@@ -102,7 +102,7 @@ class Article extends Model
         ->groupBy('art.id')
         ->having('u.city', 'LIKE', "%{$city}%")
         ->having('art.status', '=', 'published');
-
+        
         return $articles;
     }
 }

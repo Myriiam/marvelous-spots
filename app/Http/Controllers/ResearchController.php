@@ -8,10 +8,11 @@ use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+//use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ResearchController extends Controller
@@ -29,7 +30,7 @@ class ResearchController extends Controller
         $languages = Language::all();
         if ($request->btnSearch === 'guides') {  //mettre d'abord  if !is_null et puis les btn et puis le else si city is_null
             if (!is_null($city)) {
-                $guides = User::researchGuides($city)->paginate(2);
+                $guides = User::researchGuides($city)->paginate(6);
 
                 return view('researches.result-guides', [
                     'guides' => $guides,
@@ -40,13 +41,22 @@ class ResearchController extends Controller
             }
         } else if ($request->btnSearch === 'articles') {
             if (!is_null($city)) {
-                $articles = Article::researchArticles($city)->paginate(3);
+             /*   $articles = Article::researchArticles($city)->paginate(3);
 
                 foreach ($articles as $article) {
                     $article->categories = DB::table('categories as cat')->select('cat.name')
                         ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
                         ->where('artcat.article_id', '=', $article->id)->get();
-                }
+                }*/
+
+                 $userIds = DB::table('users')->where('city', '=', $city)->get();
+                 $articles = new Collection();
+                 foreach ($userIds as $userId) {
+                     //dd($articleId);
+                    $articles = $articles->concat(
+                      Article::where('status', '=', 'published')->where('user_id', '=', $userId->id)->get()
+                    );
+                 }
 
                 return view('researches.result-articles', [
                     'articles' => $articles,
@@ -134,7 +144,7 @@ class ResearchController extends Controller
             
             }
 
-            $guides = $guides->paginate(2);
+            $guides = $guides->paginate(6);
                
             return view('researches.result-guides', [
                 'guides' => $guides,
@@ -157,61 +167,38 @@ class ResearchController extends Controller
         $city = $request->input('searchArticles', null);
         $categories = Category::all();
         if ($request->btnSubmit === 'articles') {
-          
             if (!is_null($city)) {
                 if (!$request->has('categories')) {
-                    $articles = Article::researchArticles($city)->paginate(3);
-                    
-                    foreach ($articles as $article) {
-                        $article->categories = DB::table('categories as cat')->select('cat.name')
-                            ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
-                            ->where('artcat.article_id', '=', $article->id)->get();
+                    $userIds = DB::table('users')->where('city', '=', $city)->get();
+                    $articles = new Collection();
+                    foreach ($userIds as $userId) {
+                        //dd($articleId);
+                       $articles = $articles->concat(
+                         Article::where('status', '=', 'published')->where('user_id', '=', $userId->id)->get()
+                       );
                     }
                 }
+
                 if ($request->has('categories')) {
-                    $cat = $request->categories;
-                    $articles = Article::researchArticles($city)->paginate(3);
+                /*    $articles = Article::researchArticles($city)->paginate(3);
 
                     foreach ($articles as $article) {
                         $article->categories = DB::table('categories as cat')->select('cat.name')
                             ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
                             ->where('artcat.article_id', '=', $article->id)
                             ->whereIn('cat.id', $cat)->get();
+                           // dd($article);
+                    } */
+                    $articleIds = DB::table('article_category')->whereIn('category_id', $request->categories)->get();
+                    //dd($articleIds);
+                    $articles = new Collection();
+                    foreach ($articleIds as $articleId) {
+                        $articles = $articles->concat(
+                        Article::where('status', '=', 'published')->where('id', '=', $articleId->article_id)->get()
+                        );
                     }
-                 
-                  /* $articles = $articles->when($cat, function ($query, $cat) {
-                        return $query->whereIn('cat.id', $cat);
-                    })->paginate(3); */
 
-                  //  $articles = $articles->paginate(3);
-
-                 /*   foreach ($articles as $article) {
-                        $article->categories = DB::table('categories as cat')->select('cat.name')
-                            ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
-                            ->when($cat, function ($query, $cat) use ($article) {
-                                return $query->where('artcat.article_id', '=', $article->id)
-                                ->whereIn('cat.id', $cat);
-                            })->get();
-                    }*/
-                 /*   $articles = DB::table('articles as art')
-                    ->select('art.id', 'art.title', 'art.subtitle', 'art.user_id', 'art.status', 'u.firstname', 'u.picture', 'u.city', 'pic.path', 'cat.name')
-                    ->join('users as u', 'u.id', '=', 'art.user_id')
-                    ->join('pictures as pic', 'pic.article_id', '=', 'art.id')
-                    ->join('article_category as artcat', 'artcat.article_id','=', 'art.id')
-                    ->join('categories as cat', 'cat.id','=', 'artcat.category_id')
-                    ->whereIn('cat.id', $cat)
-                    ->groupBy('art.id', 'cat.name')
-                    ->having('u.city', 'LIKE', "%{$city}%")
-                    ->having('art.status', '=', 'published')
-                    ->paginate(3);
-                    //dd($articles);*/
-                /*    $articles->when($cat, function ($query, $cat) {
-                        return $query->whereIn('cat.id', $cat);
-                    })->paginate(3);*/
-                
                 }
-                
-                //$articles = $articles->get();
 
                 return view('researches.result-articles', [
                     'articles' => $articles,
@@ -220,16 +207,5 @@ class ResearchController extends Controller
                 ]);
             }
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 }
