@@ -85,7 +85,7 @@
         <div class="grid grid-cols-1 md:grid-cols-12">
             <div class="bg-red-400 col-span-4 sm:col-span-3 md:col-span-4 lg:col-span-3">
                 <div class="mt-4 md:mt-0 mx-auto bg-white border-4 border-gray-dark rounded-full w-2/5 h-2/5 flex-shrink items-center z-10 transform -translate-y-0 md:-translate-y-24 md:w-4/5 lg:w-9/12">
-                    <img class="rounded-full object-cover min-w-full min-h-full h-full" src="{{ asset($user->picture) }}" alt="picture of the user">
+                    <img class="rounded-full object-cover min-w-full h-full" src="{{ asset($user->picture) }}" alt="picture of the user">
                 </div>
                 @if ($user->role === 'Guide' && ($user->guide->pause === 1))
                     <div class="transform -translate-y-0 md:-translate-y-24">
