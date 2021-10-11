@@ -68,11 +68,13 @@
                                 </a>
                             </div>
                         @endif
-                        <div class="grid grid-cols-1 place-items-center">
-                            <a href="#modal-booking" id="btn-booking" class="w-48 mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-first border-2 text-white border-first rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
-                                Book a visit with {{ $author->firstname }}
-                            </a>
-                        </div>
+                        @if(auth()->user()->id !== $author->id)
+                            <div class="grid grid-cols-1 place-items-center">
+                                <a href="#modal-booking" id="btn-booking" class="w-48 mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-first border-2 text-white border-first rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                    Book a visit with {{ $author->firstname }}
+                                </a>
+                            </div>
+                        @endif
                         @if(auth()->user()->id !== $author->id)
                             @if(is_null($liked))
                                 <form action="{{ route('like_article', $article->id) }}" method="POST">
@@ -111,7 +113,7 @@
                     <p class="text-2xl mt-6">{{ $article->subtitle }}</p>
                     <div class="grid grid-cols-3">
                         @foreach ($categories as $categorie)
-                            <div class="text-first font-bold">{{ $categorie->name }}</div>
+                            <div class="text-first font-bold text-center">{{ $categorie->name }}</div>
                         @endforeach
                     </div>
                 </div>

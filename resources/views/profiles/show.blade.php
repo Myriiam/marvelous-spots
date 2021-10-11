@@ -12,7 +12,7 @@
                 </div>
             </div>
     </x-slot>
-    <main class="bg-pink-200">
+    <main>
         <!-- Modal Contact -->
         @if ($errors->has('subject') || $errors->has('message'))
             <div id="modal-contact" class="bg-black bg-opacity-50 absolute inset-0 z-50 flex justify-center items-center">
