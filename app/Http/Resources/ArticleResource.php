@@ -18,6 +18,7 @@ class ArticleResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'picture' => PictureResource::make($this->pictures),
+            'user' => UserResource::make($this->user),
             //'created_at' => $this->created_at,
         ];
 

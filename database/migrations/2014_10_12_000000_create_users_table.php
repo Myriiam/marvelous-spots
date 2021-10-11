@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('lastname', 60);
             $table->enum('role', ['Administrator', 'Moderator', 'Traveler', 'Guide'])->default('Traveler');
             $table->string('email', 40)->unique();
-            $table->timestamp('email_verified_at');
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->date('birthdate'); 
             $table->enum('gender', ['Female', 'Male', 'Other']);
@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('picture', 100); //->default('uploads/profile/avatar.png');
             $table->text('about_me')->nullable();
             $table->rememberToken();
+            $table->boolean('terms');
             $table->timestamps();
         });
     }

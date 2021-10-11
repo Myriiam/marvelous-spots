@@ -38,6 +38,8 @@ module.exports = {
         extend: {
             opacity: ['active'],
             animation: ['motion-safe'],
+            textColor: ['responsive', 'hover', 'focus','active'],
+            backgroundColor: ['responsive', 'hover', 'focus','active']
         },
     },
 

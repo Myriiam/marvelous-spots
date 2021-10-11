@@ -4,16 +4,6 @@ axios({
 })
 .then(function(response) {
     let allArticles = response.data.data;
-    /*console.log(allArticles[1].picture);*/
- //   allArticles.forEach(data => {
-      /*  let divSwiper = document.createElement("div");
-        divSwiper.setAttribute("class", "swiper-slide");
-        let swiperSlider = document.getElementById("slider");
-       // console.log(swiperSlider);
-        swiperSlider.appendChild(divSwiper);
-        //divSwiper.innerHTML = data.picture[0].path;
-
-        let divSelected = document.getElementsByClassName("swiper-slide")[0];*/
 
         for (let i = 0; i < allArticles.length; i++) {
             let divSwiper = document.createElement("div");
@@ -31,13 +21,14 @@ axios({
             let img = document.createElement("img");
             img.src = allArticles[i].picture[0].path;
             img.setAttribute("class", "rounded-md");
-            //console.log(img.src);
-            //console.log(divSelected[i]);
             a.appendChild(img);
+            let title = document.createElement("div");
+            title.setAttribute("class", "title-slider");
+            divSelected.appendChild(title);
+            title.innerHTML = allArticles[i].title.substring(0, 25) + "...";
+           // title.innerHTML = allArticles[i].title.substring(0, 25) + "..." + "<p class='city-article'>" + allArticles[i].user.city + "</p>";
+            console.log(title);
        }
-    
- //   });
-
 })
 
 .catch(function(error) {
