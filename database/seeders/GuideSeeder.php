@@ -99,6 +99,138 @@ class GuideSeeder extends Seeder
                 'created_at'=>'2021-06-26 22:30:55',
                 'since_when'=>'2021-07-01 10:40:42'
             ],
+            [
+                'user_id'=>16,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>11.5,
+                'pause'=>false,
+                'created_at'=>'2021-10-01 20:26:25',
+                'since_when'=>'2021-10-11 12:40:25'
+            ],
+            [
+                'user_id'=>17,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>13.0,
+                'pause'=>false,
+                'created_at'=>'2021-10-01 21:30:20',
+                'since_when'=>'2021-10-10 09:30:02'
+            ],
+            [
+                'user_id'=>18,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>14.5,
+                'pause'=>false,
+                'created_at'=>'2021-07-01 21:33:20',
+                'since_when'=>'2021-08-02 09:15:30'
+            ],
+            [
+                'user_id'=>19,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>12.0,
+                'pause'=>true,
+                'created_at'=>'2021-10-03 12:35:55',
+                'since_when'=>'2021-10-09 10:36:30'
+            ],
+            [
+                'user_id'=>20,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>11.5,
+                'pause'=>false,
+                'created_at'=>'2021-10-03 13:32:07',
+                'since_when'=>'2021-10-09 10:50:55'
+            ],
+            [
+                'user_id'=>21,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>12.0,
+                'pause'=>false,
+                'created_at'=>'2021-10-03 22:13:16',
+                'since_when'=>'2021-10-10 11:00:55'
+            ],
+            [
+                'user_id'=>22,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>13.5,
+                'pause'=>false,
+                'created_at'=>'2021-10-02 20:20:58',
+                'since_when'=>'2021-10-10 11:20:55'
+            ],
+            [
+                'user_id'=>23,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>12.5,
+                'pause'=>false,
+                'created_at'=>'2021-08-01 21:52:58',
+                'since_when'=>'2021-08-20 11:15:05'
+            ],
+            [
+                'user_id'=>24,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>12.5,
+                'pause'=>false,
+                'created_at'=>'2021-08-01 21:45:58',
+                'since_when'=>'2021-08-20 11:23:56'
+            ],
+            [
+                'user_id'=>27,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>11.5,
+                'pause'=>false,
+                'created_at'=>'2021-08-22 19:30:05',
+                'since_when'=>'2021-08-31 13:50:05'
+            ],
+            [
+                'user_id'=>28,
+                'motivation'=>"I'm passionate by travelling. I\m born here in London so I know every little secrets places that a few poeple know. 
+                                I'm sociable and I would like to share my knowledge...",
+                'travel_definition'=>"For me, travel mean discovering the world and meeting new people.",
+                'offering'=>"I can show you all the places where the fun is guarented !",
+                'status'=>"accepted",
+                'price'=>10.5,
+                'pause'=>false,
+                'created_at'=>'2021-04-10 19:00:05',
+                'since_when'=>'2021-04-25 13:15:36'
+            ],
            
         ];
 

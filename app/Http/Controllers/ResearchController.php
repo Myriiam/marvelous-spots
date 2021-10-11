@@ -10,7 +10,6 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-//use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -28,7 +27,7 @@ class ResearchController extends Controller
         $city = $request->input('searchInput', null);
         $categories = Category::all();
         $languages = Language::all();
-        if ($request->btnSearch === 'guides') {  //mettre d'abord  if !is_null et puis les btn et puis le else si city is_null
+        if ($request->btnSearch === 'guides') { 
             if (!is_null($city)) {
                 $guides = User::researchGuides($city)->paginate(6);
 
