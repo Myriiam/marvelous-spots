@@ -29,7 +29,7 @@ class ResearchController extends Controller
         $languages = Language::all();
         if ($request->btnSearch === 'guides') { 
             if (!is_null($city)) {
-                $guides = User::researchGuides($city)->paginate(6);
+                $guides = User::researchGuides($city)->paginate(4);
 
                 return view('researches.result-guides', [
                     'guides' => $guides,

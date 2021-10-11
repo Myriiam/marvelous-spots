@@ -3,7 +3,6 @@
             <div class="relative h-32">
                 <div class="absolute inset-x-0 top-0 h-32">
                     <img class="w-full h-full object-cover" src="{{ asset('images/header-article.jpg') }}" alt="header for article pages">
-                   <!-- <div class="backdrop-filter backdrop-blur-xs absolute inset-0 bg-gray-400 bg-opacity-50 mix-blend-multiply" aria-hidden="true"></div>-->
                 </div>
                 <div class="text-center relative max-w-7xl ml-2 lg:ml-40 xl:ml-72">
                     <h2 class="text-yellow-700 max-w-3xl text-center transform translate-y-10 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
@@ -21,6 +20,46 @@
                 <div class="text-center grid grid-cols-1">
                     <a href="{{ route('profile', $author->id) }}" class="text-2xl text-gray-darker font-extrabold">{{ $author->firstname }}</a>
                     <p class="text-lg text-first font-bold">{{ $author->role }}</p>
+                    <!-- Modal booking -->
+                    <div class ="text-left pt-5">
+                        @if ($errors->has('visit_date') || $errors->has('nb_hours') || $errors->has('nb_person') || $errors->has('message_booking'))
+                            <div id="modal-booking" class="bg-black bg-opacity-50 absolute inset-0 z-50 flex justify-center items-center">
+                        @else 
+                            <div id="modal-booking" class="bg-black bg-opacity-50 absolute inset-0 z-50 hidden justify-center items-center">
+                        @endif
+                            <div class="bg-white rounded-lg py-3 px-4">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-xl font-bold text-first mx-5">Book a visit with {{ $author->firstname }}</h3>
+                                    <svg id="close-modal-booking" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" 
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+                                        clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <form action="{{ route('book_visit', $author->id) }}" method="POST" class="grid grid-cols-1">
+                                        @csrf
+                                        <label for="visit_date">The date of the visit</label>
+                                        <input type="date" name="visit_date" id="day" class="bg-yellow-200 border-1 border-yellow-200 text-gray-dark mx-5 mt-5 rounded-md">
+                                        <span class="text-red-600">@error('visit_date') {{ $message }} @enderror</span>
+                                        <label for="nb_hours">Duration of the visit (hours)</label>
+                                        <input type="number" name="nb_hours" id="hours" min="1" max="12" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md">
+                                        <span class="text-red-600">@error('nb_hours') {{ $message }} @enderror</span>
+                                        <label for="nb_person">Number of person</label>
+                                        <input type="number" name="nb_person" id="person" min="1" max="10" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md">
+                                        <span class="text-red-600">@error('nb_person') {{ $message }} @enderror</span>
+                                        <textarea name="message_booking" id="message_booking" cols="70" rows="10" placeholder="Message" class="bg-yellow-200 border-1 border-yellow-200 mx-5 my-5 text-gray-dark rounded-md"></textarea>
+                                        <span class="text-red-600">@error('message_booking') {{ $message }} @enderror</span>
+                                        <div class="flex justify-center">
+                                            <button type="submit" class="mx-8 mt-6 px-7 py-2 text-xl md:mt-0 lg:text-base align-middle font-semibold border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @auth
                         @if(auth()->user()->id === $author->id)
                             <div class="grid grid-cols-1 place-items-center">
@@ -29,6 +68,11 @@
                                 </a>
                             </div>
                         @endif
+                        <div class="grid grid-cols-1 place-items-center">
+                            <a href="#modal-booking" id="btn-booking" class="w-48 mx-28 mt-6 mb-3 md:mx-8 px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider bg-first border-2 text-white border-first rounded-lg focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
+                                Book a visit with {{ $author->firstname }}
+                            </a>
+                        </div>
                         @if(auth()->user()->id !== $author->id)
                             @if(is_null($liked))
                                 <form action="{{ route('like_article', $article->id) }}" method="POST">
@@ -53,7 +97,7 @@
                                             <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd">
                                             </path>
                                         </svg>
-                                        <p>{{ $nbLikes }}</p>
+                                        <p class="mt-2">{{ $nbLikes }} like(s) for this article</p>
                                     </button>
                                 </form>
                             @endif
@@ -139,4 +183,5 @@
             </div>
         </div>
     </main>
+    <script src="{{ asset('js/modal-booking.js') }}" defer></script>
 </x-app-layout>

@@ -255,7 +255,7 @@
                 <div class="mb-6 md:flex text-center md:justify-evenly">
                 @auth
                     @if (auth()->user()->id === $user->id)
-                        @if (is_null($user->guide) || ($user->guide->status === 'refused'))
+                        @if ((is_null($user->guide) || ($user->guide->status === 'refused')) && (auth()->user()->role !== 'Administrator'))
                             <a href="{{ route('become_guide_form', auth()->user()->id) }}" class="px-7 py-2 text-xl lg:text-base align-middle font-semibold tracking-wider border-2 text-gray-darker border-gray-darker rounded-full focus:ring-2 focus:ring-sun cursor-pointer hover:shadow-lg hover:text-sun">
                                 Becoming a guide
                             </a>

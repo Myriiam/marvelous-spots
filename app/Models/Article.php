@@ -88,20 +88,17 @@ class Article extends Model
     }
 
      /**
-     * Search the articles after a city search by an user
-     * 
-     * @param string $city
+     * Display the articles of a user
+     *
      * @return LengthAwarePaginator
      */
-    public static function researchArticles($city) {
+    public static function displayArticles() {
  
         $articles = DB::table('articles as art')
         ->select('art.id', 'art.title', 'art.subtitle', 'art.user_id', 'art.status', 'u.firstname', 'u.picture', 'u.city', 'pic.path')
         ->join('users as u', 'u.id', '=', 'art.user_id')
         ->join('pictures as pic', 'pic.article_id', '=', 'art.id')
-        ->groupBy('art.id')
-        ->having('u.city', 'LIKE', "%{$city}%")
-        ->having('art.status', '=', 'published');
+        ->groupBy('art.id');
         
         return $articles;
     }

@@ -10,17 +10,19 @@
             </div>
         </div>
         <!-- FORM SEARCH/FILTRES -->
-        <div class="text-center">
+        <div class="text-center mt-3">
             <form action="{{ route('filter_articles') }}" method="GET">
                 @csrf
-                <input name="searchArticles" type="text" class="rounded-md bg-gray-lighter" value="{{ ucfirst($city) }}" placeholder="Enter a city name...">
-                <button type="submit" name="btnSubmit" value="articles" class="border-2 px-2 py-2">Search</button><br>
+                <input name="searchArticles" type="text" class="rounded-md bg-gray-lighter w-2/4 lg:w-1/4" value="{{ ucfirst($city) }}" placeholder="Enter a city name...">
+                <button type="submit" name="btnSubmit" value="articles" class="px-5 py-2 text-xl lg:text-base align-middle font-bold tracking-wider bg-first b border-2 text-white border-first rounded-lg focus:ring-1">
+                    Search
+                </button><br>
                 <!-- Filtres -->
                <!-- <button class="border-first bg-first text-white font-semibold px-2 py-2">Filters</button>-->
                 <div id="filter">
                     <div class="mx-5 lg:mx-0">
                         <!-- foreach de toutes les categories -->
-                        <p class="text-first font-semibold">Categories</p>
+                        <p class="text-first font-bold text-lg mt-3">Categories</p>
                             @foreach ($categories as $category)
                                 <label for="categories">{{ $category->name }}</label>
                                 <input type="checkbox" name="categories[]" id="categories" value="{{ $category->id }}" class="py-1 text-xl lg:text-base text-gray-dark">
@@ -28,8 +30,6 @@
                     </div>
                     <div>
                         <!-- sort by date of publication new/old-->
-                        <label for="sort"></label>
-                        <input type="text">
                     </div>
                 </div>
             </form>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="pb-6 pt-4 px-8 rounded-lg bg-white">
                                     @foreach($article->categories as $category)
-                                        <p class="text-gray-light font-bold">{{ $category->name }}</p>
+                                        <p class="text-gray-light font-bold text-my-orange-light">{{ $category->name }}</p>
                                     @endforeach
                                     <a href="{{ route('show_article', $article->id) }}" class="text-black font-bold tracking-wide pl-7 pt-2">{{ $article->title }}</a><br>
                                     <a href="{{ route('show_article', $article->id) }}" class="text-gray-darker font-bold tracking-wide pl-7">{{ ucfirst(Str::limit($article->subtitle,30))}}</a>

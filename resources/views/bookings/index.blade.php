@@ -12,9 +12,9 @@
                 </div>
             </div>
     </x-slot>
-    <main class="bg-pink-200">  
+    <main>  
         @auth
-            @if (auth()->user()->id === $user->id && $user->role === 'Guide')
+            @if (auth()->user()->id === $user->id && ($user->role === 'Guide' || $user->role === 'Administrator'))
                 <h2 class="font-extrabold text-3xl text-gray-darker pt-10 pl-4 pb-7">My offers</h2>
                 <table class="border-collapse w-full mb-7">
                     <thead>

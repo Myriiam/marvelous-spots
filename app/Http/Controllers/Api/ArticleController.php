@@ -16,7 +16,7 @@ class ArticleController extends Controller
      */
     public function getLatestArticles()
     {
-        $articles = Article::orderBy('created_at', 'DESC')->take(5)->get();
+        $articles = Article::where('status', "=", 'published')->orderBy('created_at', 'DESC')->take(5)->get();
         return ArticleResource::collection($articles);
     }
 
