@@ -9,7 +9,7 @@
   <div id='menu' class="w-full h-screen flex-grow lg:flex lg:items-center sm:h-auto lg:w-auto hidden lg:block">
         @auth
             <div class="text-xl lg:text-lg text-white text-center pl-7 lg:flex-grow lg:pl-36 {{ request()->is('dashboard') ? 'active' : ''}}">
-                <a href="{{ route('dashboard') }}" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
+                <a href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">
                     Home
                 </a>
                 <a href="#responsive-header" class="block mt-4 transform hover:scale-110 motion-reduce:transform-none transform -translate-y-5 lg:inline-block lg:mt-0 hover:text-sun mr-8">

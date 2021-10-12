@@ -185,5 +185,5 @@
             </div>
         </div>
     </main>
-    <script src="{{ asset('js/modal-booking.js') }}" defer></script>
+    <script src="{{ asset('js/modal-booking.min.js') }}" defer></script>
 </x-app-layout>

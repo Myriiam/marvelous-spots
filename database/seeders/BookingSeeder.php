@@ -119,16 +119,76 @@ class BookingSeeder extends Seeder
                 'payed_at'=>null,
             ],
             [
-                'user_id'=>7,
-                'guide_id'=>3,
-                'visit_date'=>'2021-10-10',
+                'user_id'=>26,
+                'guide_id'=>15,
+                'visit_date'=>'2021-10-23',
+                'nb_hours'=>3,
+                'nb_person'=>2,
+                'message'=>"I would like to know if you available to show me the area and the place to go to meet new people.
+                            I would like to see the places still intact, not touristy. 
+                            I am interested in the history of your city, especially for a personal project.",
+                'booked_at'=>"2021-09-23 16:30:50",
+                'total_price'=>75.00,
+                'status_demand'=>"pending",
+                'status_offer'=>null,
+                'payed_at'=>null,
+            ],
+            [
+                'user_id'=>9,
+                'guide_id'=>10,
+                'visit_date'=>'2021-10-12',
+                'nb_hours'=>3,
+                'nb_person'=>1,
+                'message'=>"I would like to know if you available to show me the area and the place to go to meet new people.
+                            I would like to see the places still intact, not touristy. 
+                            I am interested in the history of your city, especially for a personal project.",
+                'booked_at'=>"2021-09-29 17:23:22",
+                'total_price'=>43.50,
+                'status_demand'=>"paiement",
+                'status_offer'=>"waiting for paiement",
+                'payed_at'=>null,
+            ],
+            [
+                'user_id'=>13,
+                'guide_id'=>4,
+                'visit_date'=>'2021-10-24',
                 'nb_hours'=>2,
+                'nb_person'=>1,
+                'message'=>"I would like to know if you available to show me the area and the place to go to meet new people.
+                            I would like to see the places still intact, not touristy. 
+                            I am interested in the history of your city, especially for a personal project.",
+                'booked_at'=>"2021-10-07 19:26:04",
+                'total_price'=>29.00,
+                'status_demand'=>"pending",
+                'status_offer'=>null,
+                'payed_at'=>null,
+            ],
+            [
+                'user_id'=>13,
+                'guide_id'=>4,
+                'visit_date'=>'2021-10-17',
+                'nb_hours'=>4,
                 'nb_person'=>2,
                 'message'=>"I would like to know if you available to show me the area and the place to go to meet new people.
                             I would like to see the places still intact, not touristy. 
                             I am interested in the history of your city, especially for a personal project.",
                 'booked_at'=>"2021-09-12 14:45:22",
-                'total_price'=>54.00,
+                'total_price'=>116.00,
+                'status_demand'=>"paiement",
+                'status_offer'=>"waiting for paiement",
+                'payed_at'=>null,
+            ],
+            [
+                'user_id'=>6,
+                'guide_id'=>8,
+                'visit_date'=>'2021-10-24',
+                'nb_hours'=>3,
+                'nb_person'=>1,
+                'message'=>"I would like to know if you available to show me the area and the place to go to meet new people.
+                            I would like to see the places still intact, not touristy. 
+                            I am interested in the history of your city, especially for a personal project.",
+                'booked_at'=>"2021-09-12 14:45:22",
+                'total_price'=>34.50,
                 'status_demand'=>"pending",
                 'status_offer'=>null,
                 'payed_at'=>null,

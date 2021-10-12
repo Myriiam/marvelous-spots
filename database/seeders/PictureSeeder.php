@@ -47,6 +47,42 @@ class PictureSeeder extends Seeder
                 'article_id'=>4,
                 'path'=>'storage/app/public/uploads/users/5/articles/img/shop2.jpg',
             ],
+            [
+                'article_id'=>5,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/cpresto.jpg',
+            ],
+            [
+                'article_id'=>5,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/cpresto2.jpg',
+            ],
+            [
+                'article_id'=>5,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/cpresto3.jpg',
+            ],
+            [
+                'article_id'=>6,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/kayak1.jpg',
+            ],
+            [
+                'article_id'=>6,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/kayak2.jpg',
+            ],
+            [
+                'article_id'=>7,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/hills1.jpg',
+            ],
+            [
+                'article_id'=>7,
+                'path'=>'storage/app/public/uploads/users/9/articles/img/hills2.jpg',
+            ],
+            [
+                'article_id'=>8,
+                'path'=>'storage/app/public/uploads/users/5/articles/img/roof1.jpg',
+            ],
+            [
+                'article_id'=>8,
+                'path'=>'storage/app/public/uploads/users/5/articles/img/roof2.jpg',
+            ],
         ];
 
         //Insert data in the table

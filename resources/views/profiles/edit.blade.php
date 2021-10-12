@@ -121,5 +121,5 @@
             </div>
         </div>
     </main>
-    <script src="{{ asset('js/country-city.js') }}" defer></script>
+    <script src="{{ asset('js/country-city.min.js') }}" defer></script>
 </x-app-layout>

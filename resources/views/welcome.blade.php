@@ -8,17 +8,17 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
         <!-- CSS -->
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="{{ asset('css/swiper.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/swiper.min.css') }}">
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}"></script>
-        <script src="{{ asset('js/navbar.js') }}" defer></script>
+        <script src="{{ asset('js/app.min.js') }}"></script>
+        <script src="{{ asset('js/navbar.min.js') }}" defer></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
-        <script src="{{ asset('js/swiper.js') }}" defer></script>
-        <script src="{{ asset('js/latest-articles.js') }}" defer></script>
-        <script src="{{ asset('js/latest-bookings-guides.js') }}" defer></script>
+        <script src="{{ asset('js/swiper.min.js') }}" defer></script>
+        <script src="{{ asset('js/latest-articles.min.js') }}" defer></script>
+        <script src="{{ asset('js/latest-bookings-guides.min.js') }}" defer></script>
 
     </head>
     <body class="antialiased">
@@ -109,20 +109,7 @@
             <div class="swiper-container slider2 mb-10 px-10">
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper" id="slider-booking">
-                    <!-- Slides -->
-                    <!--<div class="swiper-slide">Slide 1</div>
-                    <div class="swiper-slide">Slide 2</div>
-                    <div class="swiper-slide">Slide 3</div>-->
                 </div>
-                <!-- If we need pagination -->
-              <!--  <div class="swiper-pagination"></div>-->
-
-                <!-- If we need navigation buttons -->
-              <!--  <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>-->
-
-                <!-- If we need scrollbar -->
-               <!-- <div class="swiper-scrollbar"></div>-->
             </div>
         </main>
         <!-- Footer -->
