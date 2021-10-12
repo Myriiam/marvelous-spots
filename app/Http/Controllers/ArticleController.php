@@ -15,16 +15,6 @@ use Illuminate\Support\Facades\File;
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new article.
      *
      * @return \Illuminate\Http\Response
@@ -147,17 +137,35 @@ class ArticleController extends Controller
      */
     public function getAllMyArticles($id)
     {
-       //$user_id = auth()->user()->id;
         $user = User::find($id);
-        $articles = $user->articles;
+       // $articles = $user->articles;
+
+        $articles = Article::displayArticles() ->having('art.user_id', '=', $user->id)
+        ->having('art.status', '=', 'published')->paginate(1, ['*'], 'articles_published');
+
+        foreach ($articles as $article) {
+            $article->categories = DB::table('categories as cat')->select('cat.name')
+                ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
+                ->where('artcat.article_id', '=', $article->id)->get();
+        }
+
+        $articlesReview = Article::displayArticles()->having('art.user_id', '=', $user->id)
+        ->having('art.status', '=', 'under_review')->paginate(3, ['*'], 'articles_under_review');
+
+        foreach ($articlesReview as $articleReview) {
+            $articleReview->categories = DB::table('categories as cat')->select('cat.name')
+                ->join('article_category as artcat', 'artcat.category_id', '=', 'cat.id')
+                ->where('artcat.article_id', '=', $articleReview->id)->get();
+        }
       
         return view('articles.index',[
             'articles' => $articles,
             'user' => $user,
             'resource' => 'My Articles',
+            'articlesReview' => $articlesReview,
         ]);
     }
-
+    
     /**
      * Display the specified article.
      *

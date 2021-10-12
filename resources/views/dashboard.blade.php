@@ -8,18 +8,17 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.min.css') }}" rel="stylesheet">
         <!-- CDN -->
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="{{ asset('css/swiper.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/swiper.min.css') }}">
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}"></script>
-        <script src="{{ asset('js/navbar.js') }}" defer></script>
+        <script src="{{ asset('js/app.min.js') }}"></script>
+        <script src="{{ asset('js/navbar.min.js') }}" defer></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
-        <script src="{{ asset('js/swiper.js') }}" defer></script>
-        <script src="{{ asset('js/swiper.js') }}" defer></script>
-        <script src="{{ asset('js/latest-articles.js') }}" defer></script>
-        <script src="{{ asset('js/latest-bookings-guides.js') }}" defer></script>
+        <script src="{{ asset('js/swiper.min.js') }}" defer></script>
+        <script src="{{ asset('js/latest-articles.min.js') }}" defer></script>
+        <script src="{{ asset('js/latest-bookings-guides.min.js') }}" defer></script>
 
     </head>
     <body class="antialiased">

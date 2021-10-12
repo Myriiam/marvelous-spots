@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-//use Symfony\Component\HttpFoundation\File\File;
 
 class UserController extends Controller
 {
@@ -40,7 +39,6 @@ class UserController extends Controller
             ->join('comment_guides as cmg', 'cmg.booking_id', '=', 'bookings.id')
             ->where('bookings.guide_id', "=", $user->guide->id)
             ->get();
-            //dd($allGuideComments->count());
         }
 
     if ($user->role === 'Guide' && !is_null(auth()->user())) {
@@ -69,23 +67,18 @@ class UserController extends Controller
             ->orderBy('bookings.visit_date', 'desc')
             ->get()->toArray();
 
-            //dd($userBookings);
             $idBooking = []; //id de la visite
             $idGuideBooking = []; //id du guide de la visite
             $idUserBooking = [];  //id du user qui a réservé la visite
-            // $comment = [];
 
             foreach ($userBookings as $booking) {
                 array_push($idBooking, $booking->id);
                 array_push($idGuideBooking, $booking->guide_id);
                 array_push($idUserBooking, $booking->user_id);
-                // array_push($comment, $booking->comment);
-                //dd($booking->comment);
             }
 
             if (!empty($idBooking)) {
                 $booking = Booking::find($idBooking[0]);
-               // dd($booking->comment);
             }
 
             return view('profiles.show',[
@@ -278,7 +271,6 @@ class UserController extends Controller
      * @return void
      */
     public function makeDemandtoBecomeGuide($id) {
-       // $user_id = auth()->user()->id;
         $user = User::find($id);
         $categories = Category::all();
         $languages = Language::all();
@@ -345,7 +337,7 @@ class UserController extends Controller
         $booking = Booking::find($id);
         $bookingId = $booking->id; //Id of the visit
         $guide = $booking->guide->user->id;
-       //dd($guide);
+       
         $authorId = $booking->user_id; //id of the user who booked the visit
         $authorFirstname = User::find($authorId); //the user who booked the visit
         $userId = auth()->user()->id; //Id of the authenticated user

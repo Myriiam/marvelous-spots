@@ -13,33 +13,33 @@
             @csrf
             <!-- Profile Picture -->
             <div>
-                <x-label for="pictureProfile" :value="__('Picture')" />  
+                <x-label for="pictureProfile" :value="__('Picture*')" />  
                 <x-input type="file" name="picture" id="pictureProfile" class="lg:text-base text-gray-dark rounded-lg mt-3" :value="old('picture')" required/>
             </div>
             <!-- Firstname -->
             <div class="mt-4">
-                <x-label for="firstname" :value="__('Firstname')" />
+                <x-label for="firstname" :value="__('Firstname*')" />
 
                 <x-input id="firstname" class="block mt-1 w-full" type="text" name="firstname" :value="old('firstname')" required autofocus />
             </div>
 
              <!-- Lastname -->
              <div class="mt-4">
-                <x-label for="lastname" :value="__('Lastname')" />
+                <x-label for="lastname" :value="__('Lastname*')" />
 
                 <x-input id="lastname" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')" required autofocus />
             </div>
 
             <!-- Email Address -->
             <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
+                <x-label for="email" :value="__('Email*')" />
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                <x-label for="password" :value="__('Password*')" />
 
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
@@ -49,7 +49,7 @@
 
             <!-- Confirm Password -->
             <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+                <x-label for="password_confirmation" :value="__('Confirm Password*')" />
 
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
@@ -58,14 +58,14 @@
 
              <!-- Birthdate ------------------------------------------------------------------------------------- -->
              <div class="mt-4">
-                <x-label for="birthdate" :value="__('Birthdate')" />
+                <x-label for="birthdate" :value="__('Birthdate*')" />
 
                 <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required />
             </div>
          
              <!-- Gender ------------------------------------------------------------------------------------- -->
              <div class="mt-4">
-                <x-label for="gender" :value="__('Gender')" />
+                <x-label for="gender" :value="__('Gender*')" />
                 <select id="gender" class="block mt-1 w-full" type="text" name="gender" :value="old('gender')" required>
                     <option value=""></option> 
                     <option value="Female">Female</option> 
@@ -75,15 +75,19 @@
                 </div>
              <!-- Country ------------------------------------------------------------------------------------- -->
              <div class="mt-4">
-                <x-label for="country" :value="__('Country')" />
+                <x-label for="country" :value="__('Country*')" />
                 <select id="country" class="block mt-1 w-full" type="text" name="country" :value="old('country')" required>
                 </select>
             </div>
              <!-- City ------------------------------------------------------------------------------------- -->
              <div class="mt-4">
-                <x-label for="city" :value="__('City')" />
+                <x-label for="city" :value="__('City*')" />
                 <select id="city" class="block mt-1 w-full" type="text" name="city" :value="old('city')" required>
                 </select>
+            </div>
+            <div class="mt-3">
+                <input type="checkbox" id="condition" name="condition" value=1>
+                <label for="condition"> I agree to the <a href="#" class="text-last underline">Terms and Conditions*</a></label><br>
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -97,5 +101,5 @@
             </div>
         </form>
     </x-auth-card>
-    <script src="{{ asset('js/country-city.js') }}" defer></script>
+    <script src="{{ asset('js/country-city.min.js') }}" defer></script>
 </x-guest-layout>

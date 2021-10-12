@@ -11,14 +11,14 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.min.css') }}">
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-        <script src="{{ asset('js/navbar.js') }}" defer></script>
+        <script src="{{ asset('js/app.min.js') }}" defer></script>
+        <script src="{{ asset('js/navbar.min.js') }}" defer></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
-        <script src="{{ asset('js/read-message.js') }}" defer></script>
+        <script src="{{ asset('js/read-message.min.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">

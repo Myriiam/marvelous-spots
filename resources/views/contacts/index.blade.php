@@ -160,5 +160,5 @@
             @endauth
         </ul>
     </main>
-    <script src="{{ asset('js/answer-message.js') }}" defer></script>
+    <script src="{{ asset('js/answer-message.min.js') }}" defer></script>
 </x-app-layout>

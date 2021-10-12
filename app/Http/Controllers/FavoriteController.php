@@ -11,6 +11,7 @@ use App\Models\FavoriteGuide;
 use App\Models\ArticleFavorite;
 use Illuminate\Support\Facades\DB;
 
+
 class FavoriteController extends Controller
 {
     /**
@@ -21,33 +22,16 @@ class FavoriteController extends Controller
      */
     public function getAllMyFavorites()
     {
-        //Article
         $user = User::find(auth()->user()->id);
         //$nbLikesAboutAuthUser = $user->guide->likes; //Les likes reçus par le user auth
         $favoritesGuidesOfAuthUser = $user->likes;  //les guides favoris du user auth
         $favoritesArticlesOfAuthUser = $user->favorites;  //les articles favoris du user auth
         
-        //Double join needed here
-        //Find details about the favorites guides of the auth user
-       /* $favoritesGuidesOfAuthUser = DB::table('favorite_guides')->join('guide', 'guide.id', '=', 'article_comments.guide_id')
-        ->select('users.firstname', 'users.id','users.picture', 'article_comments.comment', 'article_comments.article_id',
-         'article_comments.created_at')
-        ->where(['article_comments.article_id'=>$id])
-        ->get();*/
-
-        //For articles
-       /* $favoritesGuidesOfAuthUser = DB::table('favorite_guides')->join('guide', 'guide.id', '=', 'article_comments.guide_id')
-        ->select('users.firstname', 'users.id','users.picture', 'article_comments.comment', 'article_comments.article_id',
-         'article_comments.created_at')
-        ->where(['article_comments.article_id'=>$id])
-        ->get();*/
-
         return view('favorites.index',[
             'user' => $user,
             'favoritesGuidesOfAuthUser' => $favoritesGuidesOfAuthUser,
             'favoritesArticlesOfAuthUser' => $favoritesArticlesOfAuthUser,
         ]);
-
     }
 
     /**

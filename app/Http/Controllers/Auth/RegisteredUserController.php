@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {   
+        //dd($request->condition);
         $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
@@ -43,7 +44,8 @@ class RegisteredUserController extends Controller
             'country' => 'required',
             'city' => 'required',
             'picture' => 'required|mimes:png,jpg,jpeg|max:2048',
-        ]);
+            'condition' => 'required|in:1'
+        ], ['condition.required' => 'You must agree to Terms and Conditions to be registered']);
 
         $user = User::create([
             'firstname' => $request->firstname,
@@ -54,6 +56,7 @@ class RegisteredUserController extends Controller
             'gender' => $request->gender,
             'country' => $request->country,
             'city' => $request->city,
+            'condition' => $request->terms,
         ]);
 
         if($request->hasFile('picture')) {

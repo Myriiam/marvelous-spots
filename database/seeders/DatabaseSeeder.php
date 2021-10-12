@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\ArticleComment;
 use App\Models\Category;
+use App\Models\FavoriteGuide;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +29,9 @@ class DatabaseSeeder extends Seeder
             ArticleCategorySeeder::class,
             PictureSeeder::class,
             BookingSeeder::class,
+            CommentGuideSeeder::class,
+            FavoriteGuideSeeder::class,
+            ArticleCommentSeeder::class,
         ]);
     }
 }
