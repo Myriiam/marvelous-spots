@@ -193,6 +193,21 @@ class BookingSeeder extends Seeder
                 'status_offer'=>null,
                 'payed_at'=>null,
             ],
+            [
+                'user_id'=>3,
+                'guide_id'=>14,
+                'visit_date'=>'2021-10-24',
+                'nb_hours'=>3,
+                'nb_person'=>1,
+                'message'=>"I would like to know if you available to show me the area and the place to go to meet new people.
+                            I would like to see the places still intact, not touristy. 
+                            I am interested in the history of your city, especially for a personal project.",
+                'booked_at'=>"2021-10-05 23:20:22",
+                'total_price'=>43.50,
+                'status_demand'=>"booked",
+                'status_offer'=>'booked',
+                'payed_at'=>"2021-10-08 20:37:10",
+            ],
         ];
 
         //Insert data in the table
